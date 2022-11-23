@@ -1,0 +1,54 @@
+{ Program 'TQPXTIDS' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 05/19/88 14:380 }
+
+
+PROC main =
+    CLEAR $6;
+    SUBSTR $3, $9, '1', '1';
+    SUBSTR $3, $8, '3', '1';
+    SUBSTR $3, $6, '4', '2';
+    SUBSTR $3, $10, '6', '1';
+    SUBSTR $3, $11, '7', '1';
+    SUBSTR $6, P7, '1', '1';
+    SUBSTR $6, P6, '2', '1';
+    MOVE P7, I3, ABS;
+    MOVE P6, I5, ABS;
+    DIVIDE '16', I3, I4;
+    DIVIDE '16', I5, I6;
+    MOVE '3', I8;
+  label_4:
+    CJGE I8, '7', label_1;
+    CJGE I1(I8), '10', label_2;
+    ADD '48', I1(I8);
+    JUMP label_3;
+  label_2:
+    ADD '55', I1(I8);
+  label_3:
+    MOVE I1(I8), P1(I8), ABS;
+    SUBSTR P1(I8), P1(I8), '2', '1';
+    ADD '1', I8;
+    JUMP label_4;
+  label_1:
+    STRING $7, P5, P6, P3, P4;
+    MOVE $9, I7, ABS;
+    ADD '1', I7;
+    LENGTH $3, I8;
+    SUBSTR $3, $4, I7, I8;
+    CJNE $8, '\x01', label_5;
+    STRING $12, 'TQ00', $7, 'MAP\x00\x04';
+    JUMP label_6;
+  label_5:
+    CJNE $8, '\x06', label_7;
+    CJNE $59, '1', label_8;
+    STRING $13, 'TQ00', $7, 'WND\x00\x0e';
+    JUMP label_9;
+  label_8:
+    STRING $12, 'TQ00', $7, 'MAP\x00\x04';
+    MOVE '\x01', $8;
+  label_9:
+    JUMP label_6;
+  label_7:
+    STRING $14, 'TQ00', $7, 'D  \x01\x0c';
+  label_6:
+    RETURN ;
+END_PROC;

@@ -1,0 +1,104 @@
+{ Program 'XTG0099S' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 10/05/89 14:120 }
+
+
+PROC main =
+    SET_FUNCTION VIEWPATH, DISABLE;
+    SET_FUNCTION GUIDE, DISABLE;
+    SET_FUNCTION UNDO, DISABLE;
+    SET_FUNCTION INDEX, DISABLE;
+    SET_FUNCTION PREVIOUS_MENU, DISABLE;
+    SET_FUNCTION PATH, DISABLE;
+    SET_FUNCTION JUMP, DISABLE;
+    SET_FUNCTION HELP, DISABLE;
+    SET_FUNCTION NEXT, DISABLE;
+    SET_FUNCTION BACK, DISABLE;
+    MOVE 'XTG000P1PG \x01\x04', &101;
+    OPEN 'XTG00010.DAT', 'r';
+    CJEQ SYS_RETURN_CODE, '0', label_1;
+    JUMP label_2;
+  label_1:
+    CLOSE 'XTG00010.DAT';
+    CJEQ SYS_RETURN_CODE, '0', label_3;
+    JUMP label_2;
+  label_3:
+    OPEN 'XTG00010.DAT', 'r+';
+    CJEQ SYS_RETURN_CODE, '0', label_4;
+    JUMP label_2;
+  label_4:
+    READ 'XTG00010.DAT', P8, '1';
+    CJEQ SYS_RETURN_CODE, '0', label_5;
+    JUMP label_2;
+  label_5:
+    MOVE '16', P6;
+    POINT 'XTG00010.DAT', P6;
+    READ 'XTG00010.DAT', SYS_LOGON_CHOICE, '3';
+    CJEQ SYS_RETURN_CODE, '0', label_6;
+    JUMP label_2;
+  label_6:
+    UPPER SYS_LOGON_CHOICE;
+    SUBSTR SYS_LOGON_CHOICE, $33, '2', '2';
+    SUBSTR SYS_LOGON_CHOICE, SYS_LOGON_CHOICE, '1', '1';
+    MOVE '513', P6;
+    POINT 'XTG00010.DAT', P6;
+    READ 'XTG00010.DAT', SYS_DRIVERS_AVAIL, '154';
+    CJEQ SYS_RETURN_CODE, '0', label_7;
+    JUMP label_2;
+  label_7:
+    OPEN 'LOGIN.IN', 'r';
+    CJNE SYS_RETURN_CODE, '0', label_8;
+    CLOSE 'LOGIN.IN';
+    MOVE '6', SYS_SURROGATE;
+    CJNE P8, '\x01', label_9;
+    MOVE '\x00', P8;
+    MOVE '1', P6;
+    POINT 'XTG00010.DAT', P6;
+    CJEQ SYS_RETURN_CODE, '0', label_10;
+    JUMP label_2;
+  label_10:
+    WRITE 'XTG00010.DAT', P8, '1';
+    CJEQ SYS_RETURN_CODE, '0', label_11;
+    JUMP label_2;
+  label_11:
+    CJNE $33, '01', label_12;
+    MOVE 'XTG0LOGLPG \x01\x04', &101;
+    JUMP label_13;
+  label_12:
+    MOVE 'XTG0LOGHPG \x01\x04', &101;
+  label_13:
+    JUMP label_14;
+  label_9:
+    CJNE SYS_LOGON_CHOICE, 'A', label_15;
+    MOVE 'XTG0TLOTPG \x01\x04', &101;
+    JUMP label_14;
+  label_15:
+    MOVE 'TLOT0010PG \x01\x04', &101;
+  label_14:
+    JUMP label_16;
+  label_8:
+    CJNE P8, '\x01', label_17;
+    CJNE SYS_LOGON_CHOICE, 'A', label_18;
+    MOVE 'XTG000A1PG \x01\x04', &101;
+    JUMP label_19;
+  label_18:
+    MOVE 'XTG000P1PG \x01\x04', &101;
+  label_19:
+    JUMP label_16;
+  label_17:
+    CJNE P8, '\x00', label_16;
+    CJNE SYS_LOGON_CHOICE, 'A', label_20;
+    MOVE 'XTG000A8PG \x01\x04', &101;
+    JUMP label_16;
+  label_20:
+    MOVE 'XTG000P8PG \x01\x04', &101;
+  label_16:
+    CLOSE 'XTG00010.DAT';
+    CJEQ SYS_RETURN_CODE, '0', label_21;
+    JUMP label_2;
+  label_21:
+    NAV &101;
+  label_2:
+    SOUND '440', '10';
+    TRIGGER_FUNCTION BYE;
+    RETURN ;
+END_PROC;

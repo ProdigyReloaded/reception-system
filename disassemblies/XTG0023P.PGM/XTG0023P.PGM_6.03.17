@@ -1,0 +1,56 @@
+{ Program 'XTG0023P' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/06/89 11:310 }
+
+
+PROC main =
+    CJNE SYS_CURRENT_CURSOR_POS, '12', label_1;
+    CLOSE_WINDOW ;
+  label_1:
+    CJNE SYS_CURRENT_CURSOR_POS, '10', label_2;
+    JUMP label_3;
+  label_2:
+    CJEQ SYS_CURRENT_CURSOR_POS, '11', label_3;
+    EXIT ;
+  label_3:
+    LENGTH &10, I8;
+    CJNE I8, '0', label_4;
+    LINK 'XXOPMSGSPGM\x00\x0c', '1', '\xc4\xf0';
+  label_4:
+    CJGE &10, '0', label_5;
+    JUMP label_6;
+  label_5:
+    CJLE &10, '6', label_7;
+  label_6:
+    LINK 'XXOPMSGSPGM\x00\x0c', '1', '\xc4\xed';
+  label_7:
+    MOVE '1', &103;
+    MOVE '0', &102;
+  label_11:
+    CJGT &103, '6', label_8;
+    SUBSTR $26, P8, &103, '1';
+    CJNE P8, '1', label_9;
+    ADD '1', &102;
+  label_9:
+    CJNE &102, &10, label_10;
+    MOVE '8', &103;
+  label_10:
+    ADD '1', &103;
+    JUMP label_11;
+  label_8:
+    CJGE &103, '9', label_12;
+    LINK 'XXOPMSGSPGM\x00\x0c', '1', '\xc4\xee';
+  label_12:
+    CJNE SYS_CURRENT_CURSOR_POS, '10', label_13;
+    SET_CURSOR '11';
+    RETURN ;
+  label_13:
+    PUSH &102;
+    CJNE SYS_WINDOW_ID, 'XTG00002WND\x00\x0e', label_14;
+    CLOSE_OPEN_WINDOW 'XTG00004WND\x00\x0e';
+  label_14:
+    CJNE SYS_WINDOW_ID, 'XTG00001WND\x00\x0e', label_15;
+    CLOSE_OPEN_WINDOW 'XTG00007WND\x00\x0e';
+  label_15:
+    RETURN ;
+    RETURN ;
+END_PROC;

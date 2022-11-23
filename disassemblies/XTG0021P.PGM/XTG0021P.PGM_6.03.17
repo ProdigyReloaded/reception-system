@@ -1,0 +1,26 @@
+{ Program 'XTG0021P' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/05/89 15:410 }
+
+
+PROC main =
+    CJNE SYS_CURRENT_CURSOR_POS, '16', label_1;
+    OPEN_WINDOW 'XTG00005WND\x00\x0e';
+    JUMP label_2;
+  label_1:
+    CJNE SYS_CURRENT_CURSOR_POS, '18', label_3;
+    OPEN_WINDOW 'XTG00001WND\x00\x0e';
+    JUMP label_2;
+  label_3:
+    CJNE SYS_CURRENT_CURSOR_POS, '17', label_4;
+    OPEN_WINDOW 'XTG00002WND\x00\x0e';
+    JUMP label_2;
+  label_4:
+    CJNE SYS_CURRENT_CURSOR_POS, '99', label_2;
+    RESTORE 'xtg0', P1;
+    RELEASE 'xtg0';
+    PUSH P1;
+    OPEN_WINDOW 'XTG00003WND\x00\x0e';
+  label_2:
+    RETURN ;
+    RETURN ;
+END_PROC;

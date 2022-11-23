@@ -1,0 +1,14 @@
+{ Program 'QAPHFITB' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 01/26/88 14:000 }
+
+
+PROC main =
+    MOVE '1.0.19', P8;
+    MOVE SYS_CURRENT_CURSOR_POS, I8;
+    CJLT I8, &220, label_1;
+    TRANSFER $34, $17, '\x13\x89';
+  label_1:
+    ADD $17, I8;
+    SET_CURSOR I8;
+    RETURN ;
+END_PROC;

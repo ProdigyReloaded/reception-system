@@ -1,0 +1,71 @@
+{ Program 'FLPX0100' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/12/89 16:150 }
+
+
+PROC main =
+    SUBSTR $59, P7, '1', '1';
+    STRING P8, 'FLOT1000MEN', '\x00\x04';
+    CJEQ SYS_BASE_OBJ_ID, P8, label_1;
+    CJNE P7, '2', label_1;
+    SAVE 'SH_TEMP', $1, $222;
+  label_1:
+    CLEAR $60, $222;
+    MOVE P8, $94;
+    MOVE P7, $110;
+    MOVE '0', $1;
+    MOVE '19', $75;
+    MOVE '1', I1;
+  label_3:
+    CJGE I1, '16', label_2;
+    MOVE I1, $60(I1);
+    ADD $60, I1;
+    JUMP label_3;
+  label_2:
+    MOVE $60, P8;
+  label_6:
+    CJGE P8, '21', label_4;
+    LENGTH P8, I1;
+    CJGE I1, $61, label_5;
+    STRING P8, $1, P8;
+  label_5:
+    STRING $123(P8), 'FLOP01', P8, 'PGM', '\x00\x0c';
+    ADD $60, P8;
+    JUMP label_6;
+  label_4:
+    CLEAR $76;
+    MOVE ' ', $77;
+    MOVE '\x00', $78;
+    MOVE '\x01', $79;
+    STRING $80, 'XXOWYESNWND', '\x00\x0e';
+    STRING $143, 'XXOWLGYNWND', '\x00\x0e';
+    STRING $81, 'XXOPMSGSPGM', '\x00\x0c';
+    STRING $82, 'XXOW1INPWND', '\x00\x0e';
+    STRING $84, 'XXOWDLSTWND', '\x00\x0e';
+    STRING $83, 'XXOPFLTRPGM', '\x00\x0c';
+    STRING $144, 'XXOPPADSPGM', '\x00\x0c';
+    SAVE 'FLC', $60, $84;
+    CLEAR &155, &254;
+    RESTORE 'FLI', $95;
+    CJEQ SYS_RETURN_CODE, $1, label_7;
+    CLEAR $26, $58;
+    FILL $26, $1, '30';
+    STRING $26, $26, '\x00\x00';
+    MOVE '99', $27;
+    MOVE '25', $28;
+    JUMP label_8;
+  label_7:
+    RESTORE 'FLSPPR', &155;
+  label_8:
+    MAKE_FORMAT $95,
+  $85:5,
+  $86:1,
+  $87:2,
+  $88:15,
+  $90:2,
+  $91:2,
+  $92:2,
+  $93:4;
+    FORMAT $26, $95, I1;
+    TRANSFER $131;
+    RETURN ;
+END_PROC;

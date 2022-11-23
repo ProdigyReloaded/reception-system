@@ -1,0 +1,92 @@
+{ Program 'QAPLNAVF' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/14/89 12:540 }
+
+
+PROC main =
+    MOVE '2.0.1', P8;
+    MOVE SYS_NAVIGATE_OBJ_ID, $6;
+    proc_1;
+    POP P8;
+    CJNE P8, '0', label_1;
+    JUMP label_2;
+  label_1:
+    SAVE 'QAS', $1, $68;
+    RESTORE 'LR.QA.RDA', $1;
+    LINK P8, '17', '10';
+    MOVE SYS_RETURN_CODE, P8;
+    RESTORE 'QAS', $1;
+    RELEASE 'QAS';
+    CJNE P8, '99', label_3;
+    proc_2;
+    JUMP label_2;
+  label_3:
+    CJNE P8, $16, label_2;
+    proc_3;
+    EXIT ;
+  label_2:
+    STRING P8, 'QE000000WND', '\x00\x0e';
+    CJNE P1, ' ', label_4;
+    PUSH '11';
+    JUMP label_5;
+  label_4:
+    PUSH P1;
+    PUSH '12';
+  label_5:
+    SET_FUNCTION VIEWPATH, DISABLE;
+    SET_FUNCTION GUIDE, DISABLE;
+    SET_FUNCTION UNDO, DISABLE;
+    OPEN_WINDOW P8;
+    SET_FUNCTION VIEWPATH, 00;
+    SET_FUNCTION GUIDE, 00;
+    SET_FUNCTION UNDO, 00;
+    MOVE $6, SYS_NAVIGATE_OBJ_ID;
+    POP P7;
+    CJEQ P7, $17, label_6;
+    EXIT '99';
+  label_6:
+    proc_3;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    RESTORE 'SMNAVP', P1;
+    CJNE SYS_RETURN_CODE, '0', label_7;
+    PUSH P1;
+    JUMP label_8;
+  label_7:
+    PUSH '0';
+  label_8:
+    RETURN ;
+END_PROC;
+
+PROC proc_3 =
+    MOVE $16, $59;
+  label_10:
+    CJEQ SYS_RETURN_CODE, '14', label_9;
+    ADD $17, $59;
+    STRING $57, $58, $59, $60;
+    RELEASE $57;
+    JUMP label_10;
+  label_9:
+    RESTORE 'LR.QA.RDA', $1;
+    RELEASE 'LR.QA.RDA';
+    RELEASE 'LR.QA.PARMS';
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    CJNE &231, &255, label_11;
+    SET_FUNCTION NEXT, DISABLE;
+    JUMP label_12;
+  label_11:
+    SET_FUNCTION NEXT, FILTER_ON, &231, &232;
+  label_12:
+    CJNE &2($47), &255, label_13;
+    SET_FUNCTION BACK, DISABLE;
+    JUMP label_14;
+  label_13:
+    SET_FUNCTION BACK, FILTER_ON, 'QAPLBACKPGM\x00\x0c', &2(I1);
+  label_14:
+    EXIT '99';
+    RETURN ;
+END_PROC;

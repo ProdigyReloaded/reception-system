@@ -1,0 +1,285 @@
+{ Program 'QAPHMAIN' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 06/19/88 20:010 }
+
+
+PROC main =
+    MOVE '2.0.1', P8;
+    CJLE SYS_WINDOW_ID, &255, label_1;
+    EXIT '99';
+  label_1:
+    CLEAR $68;
+    CLEAR &229;
+    CLEAR &223;
+    CLEAR $62;
+    CJNE &212, '\xff', label_2;
+    EXIT ;
+  label_2:
+    CJLE &52, &255, label_3;
+    CLEAR &52;
+  label_3:
+    CJLE &51, &255, label_4;
+    CJNE $10, $18, label_4;
+    CLEAR &51;
+  label_4:
+    MOVE &220, I8;
+    MOVE SYS_CURRENT_CURSOR_POS, &4(I8);
+    MOVE $10, I8;
+    GOTO_DEPENDING_ON I8, label_5, label_6, label_5, label_7, label_8;
+  label_5:
+    MOVE $22, $42;
+    MOVE $22, $38;
+    JUMP label_8;
+  label_7:
+    CLEAR &219;
+    MOVE &221, $46;
+    CLEAR $49;
+  label_19:
+    ADD $17, &219;
+    MOVE &219, I1;
+    MOVE I1, &211, ABS;
+    JUMP label_9;
+  label_6:
+    MOVE SYS_CURRENT_CURSOR_POS, I1;
+    MOVE I1, &211, ABS;
+  label_9:
+    SUBSTR &211, &216, $18, $17;
+    LOOKUP &216, &214, '5', $19, I1;
+    ADD $19, I1;
+    SUBSTR &214, $42, I1, $17;
+    ADD $17, I1;
+    SUBSTR &214, $38, I1, $17;
+    JUMP label_8;
+  label_8:
+    LINK 'QALFUNCTPGM\x00\x0c', $38, $42;
+    CJNE &226, $24, label_10;
+    MOVE &211, I8, ABS;
+    EDIT P8, '%3d', I8;
+    OR '000', P8;
+    CJEQ $10, $18, label_11;
+    CJLE P8, $16, label_11;
+    MOVE P8, I8;
+    UPPER &1(I8);
+    STRING P8, P8, &1(I8);
+  label_11:
+    LENGTH P8, I8;
+    MOVE I8, P7, ABS;
+    STRING $49, $49, P7, P8;
+  label_10:
+    CJEQ &3($47), $17, label_12;
+    CJNE $10, $18, label_12;
+    CJLE &229, &255, label_12;
+    CJGE &213, &212, label_13;
+    CJNE &222, $24, label_14;
+    SET_CURSOR $17;
+  label_14:
+    CLEAR &222;
+    MOVE $46, &55;
+    ADD $13, &55;
+    EXIT ;
+    JUMP label_12;
+  label_13:
+    CJNE &213, &212, label_12;
+    MOVE '\xff', &212;
+    CJEQ &218, &255, label_15;
+    MOVE &218, $14;
+  label_15:
+    CJNE $68, &255, label_16;
+    JUMP label_17;
+  label_16:
+    CJNE &52, &255, label_12;
+  label_17:
+    MOVE '\x00\x03', $38;
+    proc_1 $17;
+    MOVE SYS_RETURN_CODE, &228;
+  label_12:
+    CJGE &219, &220, label_18;
+    CJNE $10, '4', label_18;
+    JUMP label_19;
+  label_18:
+    ADD $46, $13;
+    CJEQ $10, '3', label_20;
+    MOVE $13, &55;
+  label_20:
+    CJNE &226, $24, label_21;
+    proc_2;
+  label_21:
+    CLEAR $46;
+    CJLE &223, &255, label_22;
+    SWAP &223, $14;
+  label_22:
+    SUBSTR $14, P8, $17, '4';
+    CJNE $10, $17, label_23;
+    JUMP label_24;
+  label_23:
+    CJNE $10, '3', label_25;
+  label_24:
+    JUMP label_26;
+  label_25:
+    CJLE &52, &255, label_27;
+  label_26:
+    JUMP label_28;
+  label_27:
+    CJNE $14, '@END', label_29;
+  label_28:
+    JUMP label_30;
+  label_29:
+    CJLE &229, &255, label_31;
+  label_30:
+    CJNE $10, $17, label_32;
+    JUMP label_33;
+  label_32:
+    CJNE $10, '3', label_34;
+  label_33:
+    MOVE $22, $38;
+    JUMP label_35;
+  label_34:
+    MOVE '\x00\x04', $38;
+  label_35:
+    CJGE &228, $17, label_31;
+    proc_1 $17, &51;
+  label_31:
+    CJNE $10, $17, label_36;
+    JUMP label_37;
+  label_36:
+    CJNE $10, '3', label_38;
+  label_37:
+    JUMP label_39;
+  label_38:
+    CJLE &52, &255, label_40;
+  label_39:
+    JUMP label_41;
+  label_40:
+    CJNE $14, '@END', label_42;
+  label_41:
+    CJEQ P8, $58, label_43;
+    SET_FUNCTION NAVIGATION, FILTER, 'QAPLCPTRPGM\x00\x0c';
+    CJEQ $10, $17, label_44;
+    CJEQ $10, '3', label_44;
+    SET_FUNCTION BACK, DISABLE;
+  label_44:
+    SET_FUNCTION NEXT, DISABLE;
+    CJNE $14, '@END', label_43;
+    RESTORE 'QANAV', $14;
+    RELEASE 'QANAV';
+  label_43:
+    LENGTH $14, I8;
+    CJNE I8, $20, label_45;
+    CJNE $62, 'W', label_46;
+    TRANSFER $27, $14;
+    JUMP label_45;
+  label_46:
+    SET_FUNCTION NEXT, FILTER_ON, $27, $14;
+    MOVE $27, &231;
+    MOVE $14, &232;
+    FETCH $14;
+  label_45:
+    MOVE $16, I8;
+  label_48:
+    CJNE $10, $18, label_47;
+    CJGT I8, &220, label_47;
+    SET_ATT I8, $31, 0x0, $95, $95;
+    ADD $17, I8;
+    JUMP label_48;
+  label_47:
+    JUMP label_49;
+  label_42:
+    TRANSFER $27, $14;
+  label_49:
+    EXIT ;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MOVE '\x00\x02', $42;
+    LINK 'QAPLTEXTPGM\x00\x0c';
+    LENGTH $37, I8;
+    CJNE I8, $16, label_50;
+    RETURN ;
+  label_50:
+    SUB $18, I8;
+    SUBSTR $37, P5, $19, I8;
+    SUBSTR $37, P6, $18, $17;
+    CJLE P6, $21, label_51;
+    SOUND '600', '100';
+  label_51:
+    SUBSTR $37, P6, $17, $17;
+    CJGT P6, $21, label_52;
+    PUSH P5;
+    REFRESH ;
+    OPEN_WINDOW $25;
+    JUMP label_53;
+  label_52:
+    MOVE P1, I8;
+    CJNE P0, $18, label_54;
+    CJLE P2, &255, label_54;
+    RETURN ;
+  label_54:
+    MOVE P5, &51(I8);
+  label_53:
+    RETURN $17;
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    MOVE '2.0.1', P8;
+    proc_3 $40;
+    POP P7;
+    EDIT P8, '%13.13s%c%c%3.3s%c%6s', SYS_BASE_OBJ_ID, $10, &3($47), $46, $50, P7;
+    LENGTH $49, I8;
+    MOVE I8, P7, ABS;
+    MOVE $53, I8;
+    MOVE I8, P6, ABS;
+    STRING P5, $21, P6, P8, P7, $49;
+    LENGTH P5, I8;
+    MOVE I8, P8, ABS;
+    MOVE '31', I8;
+    MOVE I8, P7, ABS;
+    STRING P7, P7, P8, P5;
+    STRING P6, P6, SYS_BASE_OBJ_ID;
+    SUBSTR P6, P6, $18, '9';
+    INSTR $54, P6, I8;
+    CLEAR P8;
+    CJLE I8, $16, label_55;
+    CJLE I8, $17, label_55;
+    SUB '5', I8;
+    SUBSTR $54, P8, I8, $18;
+    MOVE P8, I7, ABS;
+    ADD $18, I7;
+    ADD I8, I7;
+    SUBSTR $54, P8, I7, '32000';
+    SUB $19, I8;
+    SUBSTR $54, $54, $17, I8;
+  label_55:
+    STRING $54, $54, P7, P8;
+    RETURN ;
+END_PROC;
+
+PROC proc_3 =
+    MAKE_FORMAT P8,
+  P4:2,
+  P3:2,
+  P2:2;
+    FORMAT P1, P8, P7;
+    MAKE_FORMAT P8,
+  P7:2,
+  P6:2,
+  P5:2;
+    FORMAT SYS_TIME, P8, P1;
+    CJGE P5, P2, label_56;
+    SUB '1', P6;
+    ADD '60', P5;
+  label_56:
+    SUB P2, P5;
+    CJGE P6, P3, label_57;
+    SUB '1', P7;
+    ADD '60', P6;
+  label_57:
+    SUB P3, P6;
+    CJGE P7, P4, label_58;
+    ADD '24', P7;
+  label_58:
+    SUB P4, P7;
+    EDIT P8, '%2s%2s%2s', P7, P6, P5;
+    PUSH P8;
+    RETURN ;
+END_PROC;

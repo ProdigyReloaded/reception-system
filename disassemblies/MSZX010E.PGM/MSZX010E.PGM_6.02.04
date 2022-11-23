@@ -1,0 +1,14 @@
+{ Program 'MSZX010E' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 01/05/88 15:220 }
+
+
+PROC main =
+    POP P1;
+    LENGTH P1, I1;
+    MOVE '17', I2;
+    SUB I1, I2;
+    DIVIDE '2', I2;
+    FILL P2, ' ', I2;
+    STRING &10, P2, P1;
+    RETURN ;
+END_PROC;

@@ -1,0 +1,22 @@
+{ Program 'XTG00095' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 06/29/89 15:500 }
+
+
+PROC main =
+    CLEAR P7;
+    LENGTH P1, I8;
+    MOVE '1', I7;
+  label_3:
+    CJGT I7, I8, label_1;
+    SUBSTR P1, P8, I7, '10';
+    CJEQ P8, '          ', label_2;
+    XOR '\xa2\x81|aPB5,\x18\x09', P8;
+  label_2:
+    STRING P7, P7, P8;
+    ADD '10', I7;
+    JUMP label_3;
+  label_1:
+    PUSH P7;
+    RETURN ;
+    RETURN ;
+END_PROC;

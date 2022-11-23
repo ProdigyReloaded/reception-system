@@ -1,0 +1,118 @@
+{ Program 'PG001610' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 10/13/88 12:020 }
+
+
+PROC main =
+    POP P6;
+    LINK $58, $24, P6;
+    POP P1;
+    SUBSTR P1, &101, '14', '1';
+    SUBSTR P1, &37, '25', '8';
+    MOVE &37, &151;
+    SUBSTR &37, &152, '8', '1';
+    SUBSTR P1, &35, '24', '1';
+    MOVE &35, $32;
+    SET_ATT '1', $31, 0x0, 0x0, 0x4;
+    CLEAR &1;
+    SET_ATT '2', $31, 0x0, 0x0, 0x4;
+    CLEAR &2;
+    CJLE &101, '0', label_1;
+    CJGE &101, '5', label_1;
+    CJNE &35, '1', label_2;
+    JUMP label_3;
+  label_2:
+    CJNE &35, '2', label_4;
+  label_3:
+    CJEQ &152, '-', label_5;
+    SET_ATT '1', $95, 0x0, 0x0, 0x4;
+    MOVE '>SELL', &1;
+    SET_ATT '2', $95, 0x0, 0x0, 0x4;
+    MOVE '>BUY MORE', &2;
+  label_5:
+    JUMP label_1;
+  label_4:
+    CJNE &35, '3', label_1;
+    CJNE &152, '-', label_1;
+    SET_ATT '1', $95, 0x0, 0x0, 0x4;
+    MOVE '>BUY TO COVER', &1;
+    SET_ATT '2', $95, 0x0, 0x0, 0x4;
+    MOVE '>SELL MORE', &2;
+  label_1:
+    LINK $57, 'PB006010PGM\x00\x0c', &35, '18', '1';
+    POP &35;
+    LINK $57, 'PB006020PGM\x00\x0c', &101, '23', '1';
+    POP &33;
+    SUBSTR P1, P2, '57', '1';
+    MOVE P2, I4;
+    MOVE '1', I1;
+    MOVE '58', I2;
+  label_7:
+    CJGT I1, I4, label_6;
+    SUBSTR P1, P5, I2, '20';
+    STRING &31, &31, P5;
+    ADD '20', I2;
+    ADD '1', I1;
+    JUMP label_7;
+  label_6:
+    SUBSTR P1, P3, '9', '3';
+    SUBSTR P1, P4, '12', '1';
+    STRING &39, P3, ' ', P4, '/8';
+    MOVE '0.001.132.253.384.505.636.757.88', &201;
+    LOOKUP P4, &201, '4', '1', I5;
+    CJEQ I5, '0', label_8;
+    ADD '1', I5;
+    SUBSTR &201, P7, I5, '3';
+    MOVE P7, D1;
+    JUMP label_9;
+  label_8:
+    MOVE '1', D1;
+  label_9:
+    ADD P3, D1;
+    SUBSTR &37, &153, '1', '7';
+    STRING &153, &152, &153;
+    MOVE &153, D2;
+    CJNE &101, '5', label_10;
+    JUMP label_11;
+  label_10:
+    CJNE &101, '6', label_12;
+  label_11:
+    JUMP label_13;
+  label_12:
+    CJNE &101, '7', label_14;
+  label_13:
+    JUMP label_15;
+  label_14:
+    CJNE &101, 'C', label_16;
+  label_15:
+    MUL D1, D2;
+    DIVIDE '100', D2;
+    JUMP label_17;
+  label_16:
+    CJNE &101, '8', label_18;
+    MUL D1, D2;
+    MUL '100', D2;
+    JUMP label_17;
+  label_18:
+    MUL D1, D2;
+  label_17:
+    MOVE D2, &41;
+    LINK 'PG009970PGM\x00\x0c', &41;
+    POP &41;
+    STRING &41, '$', &41;
+    LINK 'PG009970PGM\x00\x0c', &37;
+    POP &37;
+    SUBSTR P1, &150, '33', '10';
+    MOVE 'Security Type:', &32;
+    MOVE 'Account Type:', &34;
+    INSTR '567BCP', &101, P7;
+    CJLE P7, '0', label_19;
+    MOVE 'Principal Held:', &36;
+    JUMP label_20;
+  label_19:
+    MOVE 'Quantity:', &36;
+  label_20:
+    MOVE 'Price:', &38;
+    MOVE 'Estimated Value:', &40;
+    CLEAR P2;
+    RETURN ;
+END_PROC;

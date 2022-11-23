@@ -1,0 +1,57 @@
+{ Program 'TAPBGCPS' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/12/88 15:420 }
+
+
+PROC main =
+    MOVE '0', P6;
+    RESTORE 'gpsb', P1;
+    RESTORE 'gspf', P7;
+    CJNE SYS_RETURN_CODE, P6, label_1;
+    JUMP label_2;
+  label_1:
+    LENGTH PRF_CUG_SERVICE_ID, $22;
+    MOVE P1, I1, ABS;
+    MOVE I1, P5;
+    MOVE '0001BDY', P8;
+    MOVE '\x00\x08', P3;
+    CJNE PRF_CUG_SERVICE_ID, '\x00\x00', label_3;
+    JUMP label_4;
+  label_3:
+    CJNE $22, '0', label_5;
+  label_4:
+    STRING SYS_SELECTED_OBJ_ID, 'XG', P5, P6, P8, P3;
+    JUMP label_6;
+  label_5:
+    STRING SYS_SELECTED_OBJ_ID, PRF_CUG_SERVICE_ID, P5, P6, P8, P3;
+  label_6:
+    FETCH SYS_SELECTED_OBJ_ID;
+    GOTO_DEPENDING_ON P4, label_7, label_8, label_8;
+  label_7:
+    MOVE P1, I1, ABS;
+    MOVE I1, P5;
+    MOVE P2, I1, ABS;
+    MOVE I1, P6;
+    JUMP label_9;
+  label_8:
+    MOVE '0', P5;
+    MOVE P5, P6;
+  label_9:
+    CJNE PRF_CUG_SERVICE_ID, '\x00\x00', label_10;
+    JUMP label_11;
+  label_10:
+    CJNE $22, '0', label_12;
+  label_11:
+    STRING P7, 'XG', P5, P6, P8, P3;
+    JUMP label_13;
+  label_12:
+    STRING P7, PRF_CUG_SERVICE_ID, P5, P6, P8, P3;
+  label_13:
+    FETCH P7;
+    SAVE! 0x1, 'gspf', P7;
+    JUMP label_14;
+  label_2:
+    MOVE P7, SYS_SELECTED_OBJ_ID;
+    RELEASE 'gspf';
+  label_14:
+    RETURN ;
+END_PROC;

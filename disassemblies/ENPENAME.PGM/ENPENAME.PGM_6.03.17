@@ -1,0 +1,40 @@
+{ Program 'ENPENAME' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 10/16/87 15:040 }
+
+
+PROC main =
+    LINK $66, '3';
+    SET_FUNCTION PAGE_HELP, 00;
+    SET_FUNCTION FIELD_HELP, 00;
+    MOVE '0011A2B2C2D3E3F3G4H4I4J5K5L5M6N6O6P7R7S7T8U8V8W9X9Y9', $33;
+    SET_ATT '8', 0x0, P7, $95, $95, 'AA';
+    SET_ATT '7', 0x0, $95, $95, $95;
+    SET_ATT '1', 0x0, $95, $95, $95;
+    SET_ATT '2', 0x0, $95, $95, $95;
+    SET_ATT '3', 0x0, P7, $95, $95, 'A';
+    SET_ATT '9', 0x0, $31, $95, $95;
+    SET_ATT '10', 0x0, P7, $95, $95, '(XXX)XXX-XXXX';
+    CJNE $1, $99, label_1;
+    JUMP label_2;
+  label_1:
+    CJNE $57, $99, label_3;
+  label_2:
+    MOVE $40, &1;
+    MOVE $38, &2;
+    MOVE $39, &3;
+    MOVE $37, &4;
+    MOVE $45, &5;
+    MOVE $44, &6;
+    MOVE $46, &7;
+    MOVE $47, &8;
+    MOVE $48, &9;
+    MOVE $49, &10;
+    JUMP label_4;
+  label_3:
+    MOVE ' ', &10;
+  label_4:
+    CJNE $57, $99, label_5;
+    SET_CURSOR P7;
+  label_5:
+    RETURN ;
+END_PROC;

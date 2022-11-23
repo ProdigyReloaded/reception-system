@@ -1,0 +1,8 @@
+{ Program 'TAPXTTXA' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 03/09/90 11:360 }
+
+
+PROC main =
+    TRANSFER 'TAOPAFFRPGM\x00\x0c';
+    RETURN ;
+END_PROC;

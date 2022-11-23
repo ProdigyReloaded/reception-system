@@ -1,0 +1,42 @@
+{ Program 'MSZX0XIT' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 08/11/88 14:160 }
+
+
+PROC main =
+    CJNE $57, $25, label_1;
+    EXIT '99';
+  label_1:
+    CJEQ SYS_WINDOW_ID, $34, label_2;
+    SUBSTR SYS_WINDOW_ID, P7, $25, $26;
+    SUBSTR SYS_BASE_OBJ_ID, P8, $25, $26;
+    CJNE P7, P8, label_3;
+    TRANSFER $40, $25, '\x18\xce';
+    EXIT '99';
+  label_3:
+    EXIT ;
+  label_2:
+    CJNE $58, $27, label_4;
+    JUMP label_5;
+  label_4:
+    CJEQ $53, $25, label_6;
+  label_5:
+    JUMP label_7;
+  label_6:
+    CJNE P0, $25, label_8;
+    STRING P2, 'You have not completed your activity.  ', 'Do you want to leave?';
+  label_8:
+    PUSH P2;
+    PUSH '12';
+    MOVE $25, $57;
+    OPEN_WINDOW 'XXOWYESNWND\x00\x0e';
+    CLEAR $57;
+    POP P8;
+    MOVE SYS_API_EVENT, $52;
+    CJNE P8, $25, label_9;
+    JUMP label_7;
+  label_9:
+    EXIT $33;
+  label_7:
+    RETURN ;
+    RETURN ;
+END_PROC;

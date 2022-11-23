@@ -1,0 +1,62 @@
+{ Program 'BNA00006' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/17/88 18:000 }
+
+
+PROC main =
+    CJNE SYS_CURRENT_CURSOR_POS, '43', label_1;
+    CJNE $52, 'QUOTE TRACK 1', label_2;
+    MOVE 'QUOTE TRACK 2', SYS_NAVIGATE_KEYWORD;
+    JUMP label_3;
+  label_2:
+    MOVE 'QUOTE TRACK 1', SYS_NAVIGATE_KEYWORD;
+  label_3:
+    NAV 'BNA00001MAP\x00\x04';
+  label_1:
+    CJNE SYS_CURRENT_CURSOR_POS, '39', label_4;
+    CJNE $56, ',', label_5;
+    LINK 'BNA00060PGM\x00\x0c', 'BNA00030PGM\x00\x0c', $56;
+    JUMP label_6;
+  label_5:
+    CJNE $56, '/', label_7;
+    LINK 'BNA00060PGM\x00\x0c', 'BNA00031PGM\x00\x0c', $56;
+    JUMP label_6;
+  label_7:
+    CJNE $56, '+', label_6;
+    LINK 'BNA00060PGM\x00\x0c', 'BNA00032PGM\x00\x0c', $56;
+  label_6:
+    EXIT ;
+  label_4:
+    proc_1;
+    SET_FUNCTION NEXT, DISABLE;
+    SET_FUNCTION BACK, DISABLE;
+    CJNE $56, '+', label_8;
+    LINK 'XXOPSETFPGM\x00\x0c', '1', '15', '26', '24', '22';
+    OPEN_WINDOW 'BNA00014WND\x00\x0e';
+    LINK 'XXOPSETFPGM\x00\x0c', '2', '15', '26', '24', '22';
+    JUMP label_9;
+  label_8:
+    LINK 'XXOPSETFPGM\x00\x0c', '1', '15', '26', '24', '22';
+    OPEN_WINDOW 'BNA00013WND\x00\x0e';
+    LINK 'XXOPSETFPGM\x00\x0c', '2', '15', '26', '24', '22';
+  label_9:
+    LINK 'BNA00002PGM\x00\x0c';
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MOVE SYS_CURRENT_CURSOR_POS, I1;
+    SUB '28', I1;
+    MOVE &175(I1), $64;
+    MOVE &180(I1), $65;
+    MOVE &185(I1), $66;
+    MOVE &190(I1), $222;
+    MOVE &195(I1), $67;
+    MOVE &200(I1), $68;
+    MOVE &205(I1), $69;
+    MOVE ',1/5+8', &131;
+    LOOKUP $56, &131, '2', '1', I2;
+    ADD '1', I2;
+    SUBSTR &131, $80, I2, '1';
+    SUBSTR &29(I1), $79, '1', '5';
+    RETURN ;
+END_PROC;

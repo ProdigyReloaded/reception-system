@@ -1,0 +1,142 @@
+{ Program 'SHPE0235' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 06/17/88 11:080 }
+
+
+PROC main =
+    CLEAR $84, $222;
+    MOVE '0', $1;
+    MOVE '1', I1;
+  label_2:
+    CJGE I1, '16', label_1;
+    MOVE I1, $60(I1);
+    ADD $60, I1;
+    JUMP label_2;
+  label_1:
+    MOVE '19', $75;
+    CLEAR $76;
+    MOVE ' ', $77;
+    MOVE '\x00', $78;
+    MOVE '\x01', $79;
+    MOVE P4, $81;
+    MOVE P6, $130;
+    SUBSTR P1, $132, $60, $61;
+    SUBSTR P1, $133, $62, $60;
+    SUBSTR P1, $134, $63, $72;
+    SUBSTR P1, $135, '17', $67;
+    STRING $135, $135, 'D  ', '\x01\x0c';
+    MOVE '30', I1;
+    MOVE $60, I2;
+  label_4:
+    CJGT I2, $132, label_3;
+    SUBSTR P1, $139, I1, $60;
+    MOVE $139, I3, ABS;
+    ADD $60, I1;
+    SUBSTR P1, $108(I2), I1, I3;
+    ADD I3, I1;
+    ADD $60, I2;
+    JUMP label_4;
+  label_3:
+    MAKE_FORMAT $120,
+  $136:2,
+  &130:2,
+  $137:2,
+  &131::1;
+    MAKE_FORMAT $121,
+  $92:25,
+  $93:25,
+  $94:20,
+  $95:1,
+  $96:2,
+  $97:6,
+  $98:13,
+  $99:2,
+  $100:19,
+  $101:19,
+  $102:19,
+  $103:19,
+  $104:19;
+    MOVE $133, $125;
+    MUL $75, $125;
+    ADD '94', $125;
+    MOVE $1, $107;
+    MOVE $1, $85;
+    MOVE P7, $105;
+    RESTORE 'FLI', $139;
+    MOVE $76, $139;
+    CJEQ SYS_RETURN_CODE, '0', label_5;
+    CLEAR $26, $59;
+    JUMP label_6;
+  label_5:
+    SUBSTR $26, $105, $65, $60;
+    CJNE $105, $61, label_7;
+    SUBSTR $26, $124, $66, $61;
+    SUBSTR $26, $99, '24', $61;
+    JUMP label_8;
+  label_7:
+    SUBSTR $26, $141, '28', $61;
+    MOVE $1, $124;
+  label_10:
+    CJGT $124, $141, label_9;
+    CJEQ $139, $134, label_9;
+    ADD $60, $124;
+    SUBSTR $34($124), $139, $75, $72;
+    JUMP label_10;
+  label_9:
+    CJEQ $139, $134, label_11;
+    CLEAR $59;
+    MOVE $1, $124;
+    JUMP label_6;
+  label_11:
+    MOVE $34($124), $59;
+  label_8:
+    SUBSTR $59, $85, $61, $61;
+    MOVE $85, I5;
+    MUL $125, I5;
+    SUBSTR $59, $59, '38', I5;
+    MOVE $60, I1;
+    MOVE '72', I2;
+    MOVE $60, I3;
+    MOVE $85, I5;
+    MOVE $99, I6;
+  label_16:
+    CJGT I1, I5, label_12;
+    SUBSTR $59, $96, I2, $61;
+    MOVE $96, I4;
+    CJNE I4, $1, label_13;
+    SUB $60, $85;
+    CJGE I1, $99, label_14;
+    SUB $60, I6;
+  label_14:
+    JUMP label_15;
+  label_13:
+    SUBSTR $59, $139, I3, $125;
+    STRING $140, $140, $139;
+  label_15:
+    ADD $125, I3;
+    ADD $125, I2;
+    ADD $60, I1;
+    JUMP label_16;
+  label_12:
+    MOVE $140, $59;
+    CLEAR $140;
+    MOVE I6, $107;
+  label_6:
+    PUSH P3;
+    PUSH P2;
+    SET_FUNCTION NAVIGATION, FILTER, P5, $64;
+    OPEN_WINDOW $134;
+    FETCH $135;
+    SET_FUNCTION NAVIGATION, 00;
+    POP P2;
+    MOVE SYS_NAVIGATE_OBJ_ID, $87;
+    GOTO_DEPENDING_ON $105, label_17, label_18, label_17, label_18;
+  label_17:
+    MOVE $1, $105;
+    MOVE $60, $122;
+    SAVE 'SMMF', $63, $63;
+    NAV P2;
+  label_18:
+    POP P3;
+    TRANSFER P3, $61;
+    RETURN ;
+END_PROC;

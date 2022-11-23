@@ -1,0 +1,15 @@
+{ Program 'XTG00096' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/12/89 09:020 }
+
+
+PROC main =
+    CJNE $21, '\x01', label_1;
+    TRANSFER 'XTG0030FPGM\x00\x0c';
+    JUMP label_2;
+  label_1:
+    DISCONNECT ;
+    TRIGGER_FUNCTION BYE;
+  label_2:
+    RETURN ;
+    RETURN ;
+END_PROC;

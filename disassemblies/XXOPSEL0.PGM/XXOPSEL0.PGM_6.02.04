@@ -1,0 +1,42 @@
+{ Program 'XXPBSEL0' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 08/12/87 09:500 }
+
+
+PROC main =
+    ADD '1', P0;
+    GOTO_DEPENDING_ON P0, label_1, label_2, label_3;
+  label_1:
+    RESTORE 'W.SMPARM', P2;
+    LENGTH P2, P3;
+  label_8:
+    CJNE P3, '13', label_4;
+    RELEASE 'W.SMPARM';
+    JUMP label_5;
+  label_4:
+    MOVE P2, P1;
+    SUB '13', P3;
+    SUBSTR P1, P4, '14', P3;
+    SAVE 'W.SMPARM', P4, P4;
+  label_2:
+    SUBSTR P1, P2, '1', '13';
+  label_5:
+    MOVE P2, SYS_SELECTED_OBJ_ID;
+    STRING SYS_SELECTOR_DATA, SYS_SELECTOR_DATA, P2;
+    RETURN ;
+  label_3:
+    RESTORE 'W.SMPARM', P8;
+    CJEQ SYS_RETURN_CODE, '0', label_6;
+    JUMP label_2;
+  label_6:
+    LENGTH P2, P7;
+    SUBSTR P8, P4, '1', P7;
+    CJEQ P4, P2, label_7;
+    JUMP label_2;
+  label_7:
+    LENGTH P8, P3;
+    SUB P7, P3;
+    ADD '1', P7;
+    SUBSTR P8, P2, P7, P3;
+    JUMP label_8;
+    RETURN ;
+END_PROC;

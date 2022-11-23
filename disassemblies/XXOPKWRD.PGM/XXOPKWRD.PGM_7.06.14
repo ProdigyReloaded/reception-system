@@ -1,0 +1,150 @@
+{ Program 'XXPXKWRD' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/17/88 10:330 }
+
+
+PROC main =
+    CJNE KEYWORD_TABLE, '\x00', label_1;
+    CJNE PRF_CUG_SERVICE_ID, '\x00\x00', label_2;
+    JUMP label_3;
+  label_2:
+    CJNE PRF_CUG_SERVICE_ID, '\x00', label_4;
+  label_3:
+    STRING P7, 'TA', 'ODCUSSPGM\x00\x0c';
+    JUMP label_5;
+  label_4:
+    STRING P7, PRF_CUG_SERVICE_ID, 'ODCUSSPGM\x00\x0c';
+  label_5:
+    FETCH P7, KEYWORD_TABLE;
+  label_1:
+    LINK 'XXOPIRGSPGM\x00\x0c', '1';
+    LENGTH P1, I1;
+    UPPER P1;
+  label_8:
+    CJLE I1, '0', label_6;
+    SUBSTR P1, P8, I1, '1';
+    CJEQ P8, ' ', label_7;
+    JUMP label_6;
+  label_7:
+    SUB '1', I1;
+    JUMP label_8;
+  label_6:
+    SUBSTR P1, P1, '1', I1;
+    SUBSTR KEYWORD_TABLE, P3, '2', '9';
+    LENGTH KEYWORD_TABLE, I5;
+    SUB '15', I5;
+    SUBSTR KEYWORD_TABLE, P2, '16', I5;
+    MOVE '1', I5;
+    LOOKUP P1, P2, '0', I5, I3;
+    CJNE I5, '0', label_9;
+    MOVE '1', I5;
+  label_9:
+    proc_1 I5, P3;
+    POP P3;
+    CJNE P0, '2', label_10;
+    FETCH P3;
+    MOVE '0', P6;
+    JUMP label_11;
+  label_10:
+    FETCH P3, P2;
+    XOR I6, I6;
+    MOVE '2', P4;
+  label_28:
+    CLEAR P7;
+    MOVE '2', I2;
+    LENGTH P2, I3;
+  label_25:
+    CJGE I2, I3, label_12;
+    SUBSTR P2, P8, I2, '1';
+    MOVE P8, I4, ABS;
+    ADD '1', I2;
+    CLEAR P6;
+    CJEQ P7, '\x00', label_13;
+    SUBSTR P7, P6, '1', I4;
+  label_13:
+    SUBSTR P2, P8, I2, '1';
+    MOVE P8, I4, ABS;
+    ADD '1', I2;
+    SUBSTR P2, P8, I2, I4;
+    ADD I4, I2;
+    STRING P7, P6, P8;
+    CJNE P7, P1, label_14;
+    JUMP label_15;
+  label_14:
+    SUBSTR P7, P8, '1', I1;
+    GOTO_DEPENDING_ON P4, label_16, label_17;
+  label_16:
+    CJNE P8, P5, label_18;
+    JUMP label_19;
+  label_18:
+    RESTORE 'KWB', P7;
+    MOVE P8, SYS_ACCESS_KEY_OBJ_ID;
+    MOVE '1', P6;
+    JUMP label_20;
+  label_17:
+    CJLE P8, P1, label_21;
+    JUMP label_22;
+  label_21:
+    CJNE I6, '1', label_23;
+  label_22:
+    JUMP label_19;
+  label_23:
+    CJNE P8, P1, label_24;
+    MOVE '1', P4;
+    MOVE P8, P5;
+    SUBSTR P2, P8, I2, '13';
+    SAVE 'KWB', P7, P8;
+  label_24:
+    ADD '13', I2;
+    JUMP label_25;
+  label_12:
+    CJNE P4, '2', label_26;
+    JUMP label_19;
+  label_26:
+    SUBSTR P3, P6, '12', '1';
+    MOVE P6, I5, ABS;
+    ADD '1', I5;
+    SUBSTR KEYWORD_TABLE, P8, '15', '1';
+    MOVE P8, I4, ABS;
+    CJGE I4, I5, label_27;
+    MOVE '1', I5;
+  label_27:
+    SUBSTR P3, P3, '1', '9';
+    proc_1 I5, P3;
+    POP P3;
+    FETCH P3, P2;
+    MOVE '1', I6;
+    JUMP label_28;
+  label_15:
+    MOVE '0', P6;
+    SUBSTR P2, SYS_ACCESS_KEY_OBJ_ID, I2, '13';
+  label_20:
+    PUSH SYS_ACCESS_KEY_OBJ_ID;
+    MOVE P7, SYS_NAVIGATE_KEYWORD;
+    JUMP label_11;
+  label_19:
+    MOVE '-1', P6;
+  label_11:
+    RELEASE 'KWB';
+    LINK 'XXOPIRGSPGM\x00\x0c', '2';
+    RETURN P6;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    SUBSTR KEYWORD_TABLE, P8, '11', '1';
+    CJEQ P8, ' ', label_29;
+    CJGE P1, '10', label_29;
+    STRING P1, '0', P1;
+  label_29:
+    MOVE P1, I8;
+    MOVE I8, P7, ABS;
+    SUBSTR P7, P7, '2', '1';
+    CJEQ P8, ' ', label_30;
+    STRING P3, P2, P1, P7, '\x0c';
+    JUMP label_31;
+  label_30:
+    STRING P3, P2, '  ', P7, '\x0c';
+  label_31:
+    PUSH P3;
+    RETURN ;
+END_PROC;

@@ -1,0 +1,89 @@
+{ Program 'TQPXINIT' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 04/21/89 14:290 }
+
+
+PROC main =
+    CJNE SYS_WINDOW_ID, '\x00', label_1;
+    CJLT P0, '2', label_2;
+    CJEQ P2, '0', label_2;
+    SET_FUNCTION NEXT, FILTER_ON, 'TQPXPARMPGM\x00\x0c', P2;
+    JUMP label_3;
+  label_2:
+    MOVE '000', P2;
+  label_3:
+    CJEQ $69, '1', label_4;
+    SET_FUNCTION NAVIGATION, FILTER_ON, 'TQPXNAVGPGM\x00\x0c';
+    EDIT P8, '%-3.3s000', P2;
+    SET_FUNCTION PREVIOUS_MENU, FILTER_ON, 'TQPXMENUPGM\x00\x0c', P8;
+    JUMP label_1;
+  label_4:
+    SET_FUNCTION NAVIGATION, FILTER_ON, 'TQPXPNAVPGM\x00\x0c';
+  label_1:
+    MOVE '0', SYS_WORD_WRAP;
+    CJNE P1, '3', label_5;
+    JUMP label_6;
+  label_5:
+    MOVE '0', I1;
+    MOVE $10, I2, ABS;
+    MOVE $4, &242;
+    LENGTH &242, I3;
+    MAKE_FORMAT P8,
+  $84:1,
+  $85:1,
+  $86:1,
+  $87::1;
+  label_9:
+    CJGE I1, I2, label_6;
+    FORMAT &242, P8, I5;
+    LENGTH $87, I4;
+    MOVE I4, I5;
+    ADD '5', I5;
+    STRING &229, $84, $85;
+    CJNE P1, '1', label_7;
+    STRING &229, $85, $84;
+    MOVE &229, I6, ABS;
+    MOVE $87, &1(I6);
+    JUMP label_8;
+  label_7:
+    proc_1 P3, P4;
+  label_8:
+    SUB I5, I3;
+    ADD '1', I3;
+    SUBSTR &242, &242, I5, I3;
+    ADD '1', I1;
+    JUMP label_9;
+  label_6:
+    REFRESH ;
+    MOVE '1', SYS_WORD_WRAP;
+    CJLT P0, '5', label_10;
+    CJEQ P5, '\x00', label_10;
+    FETCH P5;
+  label_10:
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    INSTR P1, &229, I7;
+    CJEQ I7, '0', label_11;
+    ADD '2', I7;
+    SUBSTR P1, &240, I7, '1';
+    MOVE &240, I6, ABS;
+    MOVE $87, &1(I6);
+  label_11:
+    INSTR P2, &229, I7;
+    CJEQ I7, '0', label_12;
+    ADD '2', I7;
+    SUBSTR P2, &240, I7, '1';
+    MOVE &240, I6, ABS;
+    CJNE $8, '\x06', label_13;
+    SET_ATT I6, $95, 0x0, 0x7, 0x2;
+    JUMP label_14;
+  label_13:
+    SET_ATT I6, $95, 0x0, 0x0, 0x4;
+  label_14:
+    MOVE '>', &1(I6);
+    ADD '100', I6;
+    MOVE $87, &1(I6);
+  label_12:
+    RETURN ;
+END_PROC;

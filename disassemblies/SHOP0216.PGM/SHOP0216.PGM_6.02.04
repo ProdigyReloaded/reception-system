@@ -1,0 +1,69 @@
+{ Program 'SHPE0216' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 06/16/88 11:210 }
+
+
+PROC main =
+    SET_FUNCTION ACTION, DISABLE;
+    GOTO_DEPENDING_ON $105, label_1, label_2;
+    CJEQ $105, $1, label_1;
+    POP &205;
+    FETCH &205;
+    MOVE $60, $105;
+    PUSH &205;
+  label_1:
+    CLEAR &205, &206;
+    MOVE '  Add above item to your order', &52;
+    MOVE '              View ORDER RECAP', &53;
+    RETURN ;
+  label_2:
+    MOVE $107, I1;
+    MOVE $125, I2;
+    SUB $60, I1;
+    MUL I2, I1;
+    ADD $60, I1;
+    SUBSTR $59, &206, I1, I2;
+    FORMAT &206, $121, P1;
+    MOVE $60, I8;
+  label_7:
+    CJGT I8, $132, label_3;
+    FORMAT $108(I8), $120, P1;
+    MOVE $136, I4;
+    MOVE $137, I5;
+    CJNE I5, $62, label_4;
+    MOVE $92(I5), &207;
+  label_4:
+    CJNE I5, $64, label_5;
+    MOVE $92(I5), I1;
+    MOVE I1, $92(I5);
+  label_5:
+    CJNE I5, $65, label_6;
+    MOVE $92(I5), D1;
+    proc_1 D1;
+    POP $92(I5);
+  label_6:
+    MOVE $92(I5), &1(I4);
+    ADD $60, I8;
+    JUMP label_7;
+  label_3:
+    MOVE '           Complete the change', &52;
+    MOVE '             Cancel the change', &53;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    PUSH I6;
+    MOVE P1, D2;
+    MOVE '100', D1;
+    DIVIDE D1, D2;
+    MOVE D2, I6;
+    MUL I6, D1;
+    SUB D1, P1;
+    CJGE P1, $69, label_8;
+    STRING P1, $1, P1;
+  label_8:
+    MOVE I6, P2;
+    STRING P1, P2, '.', P1;
+    POP I6;
+    PUSH P1;
+    RETURN ;
+END_PROC;

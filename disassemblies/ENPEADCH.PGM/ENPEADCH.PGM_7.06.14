@@ -1,0 +1,23 @@
+{ Program 'ENPEADCH' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/30/87 20:200 }
+
+
+PROC main =
+    SET_ATT $99, 0x0, $95, $95, $95;
+    SET_ATT $100, 0x0, $95, $95, $95;
+    SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
+    CJNE $106, $99, label_1;
+    MOVE 'Type a Member name, use [TAB] to move', &4;
+    MOVE 'cursor and [RETURN] when done.', &5;
+    JUMP label_2;
+  label_1:
+    MOVE 'Change members name. Use [TAB] to move', &4;
+    MOVE 'cursor and press [RETURN] when done.', &5;
+    POP P1;
+    MOVE $14(P1), &1;
+    MOVE $19(P1), &2;
+    MOVE $9(P1), &3;
+    PUSH P1;
+  label_2:
+    RETURN ;
+END_PROC;

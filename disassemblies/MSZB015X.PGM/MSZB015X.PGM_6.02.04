@@ -1,0 +1,106 @@
+{ Program 'MSZB015X' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 05/25/88 08:130 }
+
+
+PROC main =
+    CJEQ SYS_CURRENT_CURSOR_POS, SYS_CURRENT_FIELD, label_1;
+    CJEQ SYS_API_EVENT, '11', label_1;
+    CJNE P0, $24, label_1;
+    EXIT ;
+  label_1:
+    MOVE SYS_CURRENT_CURSOR_POS, $213;
+    CJNE P0, $24, label_2;
+    CJNE $107, $27, label_3;
+    EXIT ;
+    JUMP label_2;
+  label_3:
+    MOVE $107, P1;
+    MOVE $36, $95;
+    MOVE $213, $212;
+  label_2:
+    MOVE $95, I2;
+    MUL $28, I2;
+    ADD $212, I2;
+    MUL $26, I2;
+    SUB '9', I2;
+    CJNE P0, $24, label_4;
+    CJNE &1(&55), $34, label_5;
+    SUBSTR $102, P5, I2, $26;
+    SUBSTR $101, P6, I2, $26;
+    CJEQ P5, P6, label_6;
+    proc_1 $24, I2, P6;
+    SUB $25, &128;
+  label_6:
+    JUMP label_7;
+  label_5:
+    MOVE 'DR', P8;
+    SUBSTR P8, P8, $107, $25;
+    MOVE &1(&55), P7;
+    UPPER P7;
+    CJEQ P7, P8, label_4;
+    proc_2 '\x18\xa0', '\x18\x9f', P1, P0;
+  label_4:
+    SUBSTR $101, P7, I2, $25;
+    CJNE P1, $26, label_8;
+    MOVE '@', P6;
+    AND $180(&54), P6;
+    CJEQ P6, '\x00', label_9;
+    CJNE P7, $25, label_9;
+    proc_1 P0, I2, '\x00\x00';
+    JUMP label_10;
+    JUMP label_8;
+  label_9:
+    CJEQ P6, '\x00', label_8;
+    proc_2 $34, '\x18\x9d', $26, P0;
+  label_8:
+    CJNE P7, P1, label_11;
+    proc_2 '\x18\xa1', '\x18\x9d', P1, P0;
+  label_11:
+    STRING P7, P1, $172(&54);
+    proc_1 P0, I2, P7;
+    ADD $25, &128;
+    MOVE $25, $106;
+  label_10:
+    CJNE P0, $25, label_7;
+    OPEN_WINDOW $64(P1);
+  label_7:
+    CJNE SYS_CURRENT_CURSOR_POS, SYS_CURRENT_FIELD, label_12;
+    ADD $25, $213;
+    CJLE $213, $100, label_13;
+    MOVE '68', $213;
+  label_13:
+    SET_CURSOR $213;
+  label_12:
+    CJEQ SYS_API_EVENT, '11', label_14;
+    EXIT $33;
+    JUMP label_15;
+  label_14:
+    RETURN ;
+  label_15:
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    CJNE P1, $24, label_16;
+    MOVE $26, P1;
+  label_16:
+    MOVE P2, I1;
+    SUB $25, I1;
+    CLEAR P7, P8;
+    SUBSTR $101(P1), P7, $25, I1;
+    LENGTH P3, I3;
+    ADD I3, I1;
+    ADD $25, I1;
+    LENGTH $101(P1), I2;
+    SUBSTR $101(P1), P8, I1, I2;
+    STRING $101(P1), P7, P3, P8;
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    CJNE P4, $24, label_17;
+    CLEAR &1(&54);
+  label_17:
+    TRANSFER $40, $26, P1(P3), SYS_CURRENT_CURSOR_POS;
+    RETURN ;
+END_PROC;

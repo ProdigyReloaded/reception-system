@@ -1,0 +1,23 @@
+{ Program 'BK001020' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 04/20/88 10:380 }
+
+
+PROC main =
+    LENGTH P2, I1;
+    CJGE I1, P4, label_1;
+    MOVE P4, I5;
+    SUB I1, I5;
+    FILL P5, ' ', I5;
+    STRING P2, P2, P5;
+  label_1:
+    LOOKUP P2, P1, P3, '1', $113;
+    CJEQ $113, '0', label_2;
+  label_2:
+    MOVE $113, I3;
+    ADD P4, I3;
+    MOVE P3, I4;
+    SUB P4, I4;
+    SUBSTR P1, $112, I3, I4;
+    RETURN ;
+    RETURN ;
+END_PROC;

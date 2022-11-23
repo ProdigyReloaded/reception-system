@@ -1,0 +1,24 @@
+{ Program 'TAPXIND2' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 12/21/88 10:060 }
+
+
+PROC main =
+    GOTO_DEPENDING_ON P1, label_1;
+    LENGTH P1, P8;
+    SUBSTR P1, P7, '1', '13';
+    SUB '13', P8;
+    CJLE P8, '0', label_2;
+    SUBSTR P1, P6, '14', P8;
+    JUMP label_3;
+  label_2:
+    CLEAR P6;
+  label_3:
+    LINK P7, P6;
+    CJEQ SYS_RETURN_CODE, '0', label_1;
+    EXIT '99';
+  label_1:
+    RESTORE 'xx.glos', $1;
+    RELEASE 'xx.glos';
+    RELEASE 'ta.sav';
+    RETURN ;
+END_PROC;

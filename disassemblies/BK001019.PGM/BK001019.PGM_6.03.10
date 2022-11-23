@@ -1,0 +1,29 @@
+{ Program 'BK001019' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 04/20/88 10:380 }
+
+
+PROC main =
+    CJNE P1, '1', label_1;
+    LINK 'BK001017PGM\x00\x0c', P2, $20, P3, P4;
+    JUMP label_2;
+  label_1:
+    LINK 'BK001017PGM\x00\x0c', P2, $19, P3, P4;
+  label_2:
+    CJNE $112, '\x00', label_3;
+    CJNE P1, '1', label_4;
+    STRING $23, 'ITTX00000', 'LOGO', $20;
+    STRING $118, $115, '0301', 'HDR\x00\x08';
+    MOVE $118, SYS_SELECTED_OBJ_ID;
+    JUMP label_5;
+  label_4:
+    STRING $23, 'ITTX00000', 'AD  ', $19;
+    STRING $118, $115, '0401', 'LDR\x00\x08';
+    MOVE $118, SYS_SELECTED_OBJ_ID;
+  label_5:
+    LINK 'BK001013PGM\x00\x0c', '5', '\x00', $23;
+    JUMP label_6;
+  label_3:
+    MOVE $112, SYS_SELECTED_OBJ_ID;
+  label_6:
+    RETURN ;
+END_PROC;

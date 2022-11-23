@@ -1,0 +1,92 @@
+{ Program 'XTG0025P' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/06/89 11:320 }
+
+
+PROC main =
+    CLEAR &102;
+    RESTORE 'mbr', &102;
+    RELEASE 'mbr';
+    CJNE &102, '\x00', label_1;
+    EXIT ;
+  label_1:
+    CJNE SYS_CURRENT_CURSOR_POS, '12', label_2;
+    CLOSE_WINDOW ;
+  label_2:
+    CJEQ SYS_CURRENT_CURSOR_POS, '11', label_3;
+    EXIT ;
+  label_3:
+    SUB '1', $27;
+    CLEAR P3, P4;
+    MOVE &102, P7;
+    SUB '1', P7;
+    SUBSTR $26, P3, '1', P7;
+    MOVE &102, P6;
+    MOVE '6', P5;
+    SUB P6, P5;
+    ADD '1', P6;
+    SUBSTR $26, P4, P6, P5;
+    STRING $26, P3, P4;
+    LENGTH $26, I7;
+    MOVE '6', I8;
+    SUB I7, I8;
+    FILL P8, '0', I8;
+    STRING $26, $26, P8;
+    CLEAR P3, P4;
+    MOVE &102, P7;
+    SUB '1', P7;
+    MUL '7', P7;
+    SUBSTR $29, P3, '1', P7;
+    MOVE &102, P6;
+    MOVE '6', P5;
+    SUB P6, P5;
+    MUL '7', P5;
+    MUL '7', P6;
+    ADD '1', P6;
+    SUBSTR $29, P4, P6, P5;
+    STRING $29, P3, P4;
+    LENGTH $29, I7;
+    MOVE '42', I8;
+    SUB I7, I8;
+    FILL P8, ' ', I8;
+    STRING $29, $29, P8;
+    CLEAR P3, P4;
+    MOVE &102, P7;
+    SUB '1', P7;
+    MUL '10', P7;
+    SUBSTR $30, P3, '1', P7;
+    MOVE &102, P6;
+    MOVE '6', P5;
+    SUB P6, P5;
+    MUL '10', P5;
+    MUL '10', P6;
+    ADD '1', P6;
+    SUBSTR $30, P4, P6, P5;
+    STRING $30, P3, P4;
+    LENGTH $30, I7;
+    MOVE '60', I8;
+    SUB I7, I8;
+    FILL P8, ' ', I8;
+    STRING $30, $30, P8;
+    CLEAR P3, P4;
+    MOVE &102, P7;
+    SUB '1', P7;
+    MUL '40', P7;
+    SUBSTR $31, P3, '1', P7;
+    MOVE &102, P6;
+    MOVE '6', P5;
+    SUB P6, P5;
+    MUL '40', P5;
+    MUL '40', P6;
+    ADD '1', P6;
+    SUBSTR $31, P4, P6, P5;
+    STRING $31, P3, P4;
+    LENGTH $31, I7;
+    MOVE '240', I8;
+    SUB I7, I8;
+    FILL P8, ' ', I8;
+    STRING $31, $31, P8;
+    MOVE 'Y', $32;
+    NAV 'XTG00009PG \x01\x04';
+    RETURN ;
+    RETURN ;
+END_PROC;

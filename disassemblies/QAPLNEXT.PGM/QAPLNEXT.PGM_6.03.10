@@ -1,0 +1,56 @@
+{ Program 'QAPLNEXT' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 05/04/88 16:180 }
+
+
+PROC main =
+    MOVE '2.0.1', P8;
+    LOOKUP P1, $67, $20, $17, I6;
+    MOVE &220, I8;
+    CJNE &230, $24, label_1;
+    CJNE I6, $16, label_1;
+    MOVE $17, I7;
+    CJNE $10, $18, label_2;
+    ADD I8, I7;
+  label_2:
+    SAVE $57, &1(I7), &4(I8);
+    ADD $17, $59;
+    STRING $67, $67, SYS_BASE_OBJ_ID;
+    STRING $57, $58, $59, $60;
+    MOVE SYS_BASE_OBJ_ID, $56;
+    JUMP label_3;
+  label_1:
+    CJLE I6, $16, label_4;
+    SUB $17, I6;
+    SUBSTR $67, $67, $17, I6;
+    SUB '12', I6;
+    SUBSTR $67, $56, I6, $20;
+    ADD '12', I6;
+    DIVIDE $20, I6;
+    JUMP label_5;
+  label_4:
+    CLEAR $56;
+  label_5:
+    CJLE $59, I6, label_6;
+    STRING $57, $58, $59, $60;
+    RELEASE $57;
+    SUB $17, $59;
+    JUMP label_5;
+  label_6:
+    ADD $17, $59;
+  label_3:
+    SUBSTR P1, P8, $17, '4';
+    CJNE &3(I8), $17, label_7;
+    ADD $17, $12;
+  label_7:
+    CJNE &3(I8), $18, label_8;
+    ADD $17, $51;
+  label_8:
+    CLEAR &3(I8);
+    CJEQ P8, $58, label_9;
+    LINK 'QAPLCPTRPGM\x00\x0c';
+  label_9:
+    SET_FUNCTION NAVIGATION, NORMAL;
+    SAVE 'SMMF', $16, $16;
+    NAV P1;
+    RETURN ;
+END_PROC;

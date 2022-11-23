@@ -1,0 +1,25 @@
+{ Program 'TLPE10X1' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 04/01/88 11:550 }
+
+
+PROC main =
+    GOTO_DEPENDING_ON $51, label_1, label_1, label_2;
+  label_1:
+    MOVE 'Retype your ID and Password. You have 3 tries. This will be your ', P6;
+    CJNE $51, $99, label_3;
+    STRING &2, P6, '2nd try.';
+    JUMP label_4;
+  label_3:
+    STRING &2, P6, 'last try.';
+  label_4:
+    JUMP label_5;
+  label_2:
+    STRING &2, 'Please call Prodigy Membership Services for assistance:      ', ' 800 759-8000';
+  label_5:
+    CJEQ $51, '3', label_6;
+    EXIT ;
+  label_6:
+    REFRESH ;
+    TRIGGER_FUNCTION BYE;
+    RETURN ;
+END_PROC;

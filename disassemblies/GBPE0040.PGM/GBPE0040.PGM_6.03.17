@@ -1,0 +1,106 @@
+{ Program 'GBPE0040' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/22/90 13:010 }
+
+
+PROC main =
+    SET_FUNCTION NAVIGATION, FILTER, 'XZAA0002PGM\x00\x0c';
+    CJEQ TTX_ASST_EVENT, 'ZIP', label_1;
+    CJNE SYS_ZIP, 'GB000000PG \x01\x04', label_2;
+    JUMP label_3;
+  label_2:
+    CJNE SYS_ZIP, 'GBTS0070PG \x01\x04', label_4;
+  label_3:
+    JUMP label_5;
+  label_4:
+    CJNE SYS_ZIP, 'GBR00000PG \x01\x04', label_6;
+  label_5:
+    JUMP label_7;
+  label_6:
+    CJNE SYS_ZIP, 'GBTS0090PG \x01\x04', label_8;
+  label_7:
+    JUMP label_9;
+  label_8:
+    CJNE SYS_ZIP, 'GBSM0000PG \x01\x04', label_1;
+  label_9:
+    CLEAR SYS_ZIP;
+    RELEASE 'ZIPDATA';
+  label_1:
+    LINK 'XZAA0001PGM\x00\x0c';
+    MOVE ' ', &80;
+    MOVE ' ', &81;
+    CLEAR $174;
+    CLEAR $52;
+    CLEAR $33;
+    MOVE $24, $65;
+    SET_ATT '4', $31, 0x0, $95, $95;
+    CJNE TTX_ASST_EVENT, 'ZIP', label_10;
+    JUMP label_11;
+  label_10:
+    MOVE SYS_PREVIOUS_SEEN_MENU, $64;
+    LENGTH $64, I3;
+    RESTORE 'GB40FRST', P1;
+    CJNE SYS_RETURN_CODE, '14', label_11;
+    SAVE 'GB40FRST', $25, $25;
+    SUBSTR $64, $58, $25, '13';
+    STRING $48, '\x03\x00\x00e', $60;
+    SEND $48, $50, 0x0, 0x0;
+  label_15:
+    CJEQ SYS_RETURN_CODE, '2', label_12;
+    RECEIVE $50, $49;
+    CJNE SYS_RETURN_CODE, '0', label_13;
+    JUMP label_14;
+  label_13:
+    JUMP label_15;
+  label_12:
+    PUSH 'Communications error';
+    OPEN_WINDOW 'XXOWERR0WND\x00\x0e';
+    EXIT '99';
+  label_14:
+    SUBSTR $49, $183, $25, $25;
+    CJNE $183, '\x02', label_16;
+    NAV 'SAFEPAGEPG \x01\x04';
+  label_16:
+    CJNE $183, '\x09', label_17;
+    JUMP label_18;
+  label_17:
+    CJNE $183, '\x0d', label_19;
+  label_18:
+    SET_ATT '1', $31, 0x0, $95, $95;
+    SET_ATT '2', $31, 0x0, $95, $95;
+    SET_ATT '3', $31, 0x0, $95, $95;
+    LINK 'XXOPMSGSPGM\x00\x0c', $25, '7\x92';
+  label_19:
+    SUBSTR $49, $62, $26, $26;
+    SUBSTR $49, $63, $28, $28;
+    MOVE $32, I2;
+    ADD $25, I2;
+    SUBSTR $49, $64, I2, $26;
+    MOVE $64, I1, ABS;
+    ADD $26, I2;
+    SUBSTR $49, $61, I2, I1;
+    CLEAR $48, $50;
+    CLEAR $66;
+    CJNE $183, '\x05', label_11;
+    OPEN_WINDOW 'GT000017WND\x00\x0e';
+  label_11:
+    CJNE $57, 'lBUL', label_20;
+    JUMP label_21;
+  label_20:
+    CJNE $66, 'WPH', label_22;
+    CLEAR $64;
+    CLEAR $66;
+    MOVE 'lBUL', $57;
+  label_21:
+    SET_ATT '14', 0x0, 0x0, 0x0, 0x1;
+    MOVE '   4', &15;
+    SET_ATT '15', 0x0, 0x0, 0x0, 0x4;
+    MOVE 'EDITOR'S TOOLS', &16;
+    SET_ATT '4', $95, 0x0, $95, $95;
+    SET_CURSOR '4';
+    JUMP label_23;
+  label_22:
+    CLEAR $57;
+  label_23:
+    FETCH SYS_APPL_RANDOM;
+    RETURN ;
+END_PROC;

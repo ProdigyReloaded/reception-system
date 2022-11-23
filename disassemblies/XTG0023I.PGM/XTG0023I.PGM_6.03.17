@@ -1,0 +1,8 @@
+{ Program 'XTG0023I' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 06/26/89 15:150 }
+
+
+PROC main =
+    MOVE ' ', &10;
+    RETURN ;
+END_PROC;

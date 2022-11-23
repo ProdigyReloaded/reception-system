@@ -1,0 +1,118 @@
+{ Program 'TLPEADDS' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 03/02/90 17:230 }
+
+
+PROC main =
+    POP P1;
+    CJNE P1, '\x00', label_1;
+    proc_1;
+    proc_2 $60, '\x00';
+    JUMP label_2;
+  label_1:
+    CJEQ P1, '\x04', label_3;
+    SAVE 'ENROLL', P1, P1;
+    NAV $59;
+    JUMP label_2;
+  label_3:
+    proc_1;
+    CJNE &151, '\x00', label_4;
+    CJNE SYS_SURROGATE, '6', label_5;
+    LINK 'XTG00094PGM\x00\x0c', $43;
+  label_5:
+    MOVE '0', $53;
+    proc_2 $82, '\x04';
+    JUMP label_2;
+  label_4:
+    SET_FUNCTION LOGOFF, DISABLE;
+    SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
+    CLOSE_OPEN_WINDOW $93;
+  label_2:
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MAKE_FORMAT &152,
+  &151:1,
+  PRF_GENDER:1,
+  &159:4,
+  &168:1,
+  PRF_BUS_CLIENT_CODE:1,
+  PRF_USER_SECURITY_LEVEL:1,
+  PRF_AUTO_SKIP:1,
+  PRF_GAME_PROFILE:1,
+  &160:6,
+  &163:6,
+  $56:1,
+  PRF_CUG_ID:2,
+  &167:2,
+  PRF_CUG_SERVICE_ID:2,
+  PRF_USER_CLASS:2,
+  &169:2,
+  PRF_TIER_OF_SERVICE:2,
+  PRF_CCL_VERSION_NUM:1,
+  PRF_SEL_NUM_ITEMS:1,
+  &172:2,
+  PRF_LAST_LOGON_DATE:8,
+  PRF_LAST_LOGON_TIME:5,
+  PRF_SEL_ITEM_LIST::2;
+    FORMAT $35, &152, &150;
+    MOVE $56, SYS_MESSAGING_STATUS, ABS;
+    SUBSTR &160, &162, '5', $100;
+    SUBSTR &160, &160, $99, '4';
+    STRING &161, &160, '19', &162;
+    MOVE &161, SYS_DATE;
+    MOVE &163, SYS_TIME;
+    MOVE SYS_DATE, $77;
+    MOVE SYS_TIME, $78;
+    MOVE &159, SYS_DATA_COLLECT;
+    SUBSTR PRF_TIER_OF_SERVICE, PRF_OBJ_MEM_CLASS, $99, $99;
+    OR PRF_SEL_NUM_ITEMS, PRF_SEL_NUM_ITEMS;
+    CJNE SYS_RETURN_CODE, '7', label_6;
+    MOVE '\x00', PRF_SEL_STATUS;
+    JUMP label_7;
+  label_6:
+    MOVE '\x01', PRF_SEL_STATUS;
+  label_7:
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    LENGTH SYS_VERSION, P4;
+    CJNE P4, '7', label_8;
+    SUBSTR SYS_VERSION, P3, $99, '4';
+    JUMP label_9;
+  label_8:
+    SUBSTR SYS_VERSION, P3, $99, '5';
+  label_9:
+    MOVE P3, D1;
+    CJLT D1, '8', label_10;
+    AND SYS_DATA_COLLECT, '\x00\x00\x00\x80';
+    CJEQ SYS_RETURN_CODE, '7', label_11;
+    JUMP label_12;
+  label_11:
+    CJNE P2, '\x04', label_13;
+  label_12:
+    LINK 'TL80INFOPGM\x00\x0c';
+  label_13:
+    JUMP label_14;
+  label_10:
+    CJGE D1, '6.03', label_14;
+    OPEN_WINDOW 'TL80WO60WND\x00\x0e';
+  label_14:
+    CJNE SYS_SURROGATE, '6', label_15;
+    CJNE SYS_VERSION, '6.03.17', label_16;
+    LINK 'XTG00093PGM\x00\x0c';
+  label_16:
+    CJNE SYS_LOGON_CHOICE, 'A', label_15;
+    CJNE PRF_CUG_SERVICE_ID, '\x00\x00', label_15;
+    CJNE PRF_OBJ_MEM_CLASS, '\x01', label_15;
+    MOVE 'X200VI00PG \x01\x04', P1;
+  label_15:
+    CJEQ PRF_CUG_SERVICE_ID, '\x00\x00', label_17;
+    SUBSTR P1, P3, '3', $101;
+    STRING P1, PRF_CUG_SERVICE_ID, P3;
+  label_17:
+    MOVE P1, SYS_ACCESS_KEY_OBJ_ID;
+    NAV P1;
+    RETURN ;
+END_PROC;

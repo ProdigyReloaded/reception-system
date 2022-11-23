@@ -1,0 +1,27 @@
+{ Program 'ENPE0001' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/04/87 10:490 }
+
+
+PROC main =
+    SUBSTR P2, &100, $99, '2';
+    MOVE $99, I3;
+    MOVE &100, I1;
+    MOVE '3', I2;
+  label_2:
+    CJLE I1, '0', label_1;
+    SUBSTR P2, &101, I2, '13';
+    MOVE &101, $57(I3), ABS;
+    ADD '13', I2;
+    ADD $99, I3;
+    SUB $99, I1;
+    JUMP label_2;
+  label_1:
+    MOVE '0', $1;
+    CJNE $2, $98, label_3;
+    MOVE $69, SYS_SELECTED_OBJ_ID;
+    JUMP label_4;
+  label_3:
+    MOVE $71, SYS_SELECTED_OBJ_ID;
+  label_4:
+    RETURN ;
+END_PROC;

@@ -1,0 +1,24 @@
+{ Program 'BNA00012' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/17/88 18:040 }
+
+
+PROC main =
+    LINK 'XXOPIRGSPGM\x00\x0c', '1';
+    SUB '50', I4;
+    SUBSTR &116, &200(I1), '2', '9';
+    SUBSTR &116, &175(I1), '11', '10';
+    SUBSTR &116, &180(I1), '21', '10';
+    SUBSTR &116, &185(I1), '31', '10';
+    SUBSTR &116, &190(I1), '41', '10';
+    SUBSTR &116, &195(I1), '51', I4;
+    STRING &195(I1), &195(I1), '00';
+    EDIT &195(I1), '%8.8s', &195(I1);
+    CJNE &205(I1), '\x05', label_1;
+    STRING &200(I1), '*', &200(I1);
+    MOVE '* ADJUSTED', &40;
+  label_1:
+    EDIT &200(I1), '%10.10s', &200(I1);
+    STRING &34(I1), &190(I1), ' ', &200(I1), '   ', &195(I1);
+    LINK 'XXOPIRGSPGM\x00\x0c', '2';
+    RETURN ;
+END_PROC;

@@ -1,0 +1,35 @@
+{ Program 'TQPPP001' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 06/01/88 10:050 }
+
+
+PROC main =
+    SET_FUNCTION NAVIGATION, 00;
+    GOTO_DEPENDING_ON SYS_CURRENT_CURSOR_POS, label_1, label_2, label_3, label_4;
+  label_1:
+    MOVE '/RMK,SEND TICKETS BY REQULAR MAIL', $2;
+    proc_1;
+    MOVE 'MAIL - REGULAR', $76;
+    MOVE 'CREDIT CARD', $77;
+    NAV 'TQOT0002MAP\x00\x04';
+  label_2:
+    MOVE '/RMK,48 HOUR DELIVERY EXPECTED.', $2;
+    proc_1;
+    MOVE 'MAIL - FEDERAL EXPRESS', $76;
+    MOVE 'CREDIT CARD', $77;
+    NAV 'TQOT0007MAP\x00\x04';
+  label_3:
+    MOVE 'PICKUP - AIRPORT', $76;
+    MOVE 'NOT APPLICABLE', $77;
+    NAV 'TQOT0011MAP\x00\x04';
+  label_4:
+    NAV 'TQ000172MAP\x00\x04';
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    LINK 'TQPXSENDPGM\x00\x0c', '2';
+    CJEQ $6, '\x99\x01', label_5;
+    NAV 'TQ0000EFMAP\x00\x04';
+  label_5:
+    RETURN ;
+END_PROC;

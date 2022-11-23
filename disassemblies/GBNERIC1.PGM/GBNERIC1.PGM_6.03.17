@@ -1,0 +1,50 @@
+{ Program 'GBNERIC1' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 05/18/89 09:390 }
+
+
+PROC main =
+    CJNE D8, '1.23456', label_1;
+    MOVE '12.00', D8;
+    RESTORE 'GBTSDATA', $64;
+    RELEASE 'GBTSDATA';
+  label_1:
+    MOVE SYS_PREVIOUS_SEEN_MENU, $66;
+    LENGTH $66, I3;
+    RESTORE 'GBNRFRST', P1;
+    CJNE SYS_RETURN_CODE, '14', label_2;
+    JUMP label_3;
+  label_2:
+    CJNE TTX_ASST_EVENT, 'ZIP', label_4;
+  label_3:
+    MOVE '1', $25;
+    SAVE 'GBNRFRST', $25, $25;
+    CLEAR $21, $222;
+    MOVE '\x00 ', SYS_FM0_TXHDR;
+    MOVE '\x00\xd2\x00', SYS_FM0_TXDID;
+    MOVE '\x00', SYS_FM0_TXRID;
+    MOVE '0', $24;
+    MOVE '1', $25;
+    MOVE '2', $26;
+    MOVE '3', $27;
+    MOVE '4', $28;
+    MOVE '5', $29;
+    MOVE '6', $30;
+    MOVE '7', $31;
+    MOVE '13', $32;
+    CLEAR $34;
+    MOVE ' ', $35;
+    CJNE TTX_ASST_EVENT, 'ZIP', label_5;
+    RESTORE 'ZIPDATA', $1;
+    RELEASE 'ZIPDATA';
+    SAVE 'GB40FRST', $25, $25;
+    SAVE 'W.SMPARM', $59, $59;
+  label_5:
+    RESTORE 'W.SMPARM', $59;
+    MOVE $59, SYS_SELECTED_OBJ_ID;
+    SUBSTR $59, $60, $25, $27;
+    JUMP label_6;
+  label_4:
+    MOVE $59, SYS_SELECTED_OBJ_ID;
+  label_6:
+    RETURN ;
+END_PROC;

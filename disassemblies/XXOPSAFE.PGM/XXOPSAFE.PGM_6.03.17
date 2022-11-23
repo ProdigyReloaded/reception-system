@@ -1,0 +1,15 @@
+{ Program 'XXPESAFE' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 01/24/89 16:010 }
+
+
+PROC main =
+    CLEAR SYS_ZIP;
+    CJNE SYS_SAFE_PAGE, '\x00', label_1;
+    RETURN ;
+  label_1:
+    MOVE SYS_SAFE_PAGE, P1;
+    MOVE SYS_SAFE_PAGE_2, P2;
+    CLEAR SYS_SAFE_PAGE, SYS_SAFE_PAGE_2;
+    TRANSFER P1, P2;
+    RETURN ;
+END_PROC;

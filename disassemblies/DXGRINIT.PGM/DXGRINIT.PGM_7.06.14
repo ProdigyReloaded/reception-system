@@ -1,0 +1,194 @@
+{ Program 'DXGRINIT' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 04/21/89 08:420 }
+
+
+PROC main =
+    RESTORE 'GRIN', P3;
+    CJEQ SYS_RETURN_CODE, '0', label_1;
+    CLEAR $22, $222;
+    MOVE '0', $23;
+    MOVE '1', $24;
+    MOVE '2', $25;
+    MOVE '6', $26;
+    MOVE ' ', $27;
+    MOVE 'XXOPPROFPGM\x00\x0c', $28;
+    MOVE 'DXGRCAPTPGM\x00\x0c', $29;
+    MOVE 'XXOPMSGSPGM\x00\x0c', $31;
+    MOVE '4', $171;
+    MOVE '5', $170;
+    MOVE '13', $169;
+    MOVE '0', $162;
+    CLEAR PRF_SAVED_ORDER_DATE, PRF_SAVED_ORDER_PTR;
+    LINK $28, $24, '4', '\x02\xa4\x02\xac\x02\xad\x02\xae\x02\xbd\x02\xbe\x02\xbf';
+    MOVE '\x00', $172;
+    CJNE PRF_GROCERY_ITEM_COUNT, $172, label_2;
+    MOVE $27, PRF_GROCERY_ITEM_COUNT;
+  label_2:
+    FILL $172, $172, $171;
+    CJNE PRF_GROCERY_PTR, $172, label_3;
+    MOVE $27, PRF_GROCERY_PTR;
+  label_3:
+    CJNE PRF_GROCERY_STORE_REF_NUM, $172, label_4;
+    MOVE $27, PRF_GROCERY_STORE_REF_NUM;
+  label_4:
+    CJNE PRF_SAVED_ORDER_PTR, $27, label_5;
+    CLEAR PRF_SAVED_ORDER_PTR;
+  label_5:
+    RESTORE 'W.SMPARM', P1;
+    FETCH P1;
+    MOVE $23, $32;
+    MOVE $24, $33;
+    MOVE $23, $35;
+    MOVE $23, $37;
+    MOVE $23, $41;
+    MOVE $23, $42;
+    MOVE $23, $40;
+    MOVE $23, $45;
+    MOVE $23, $38;
+    MOVE $23, $39;
+    MOVE $23, $43;
+    MOVE SYS_BASE_OBJ_ID, $156;
+    MAKE_FORMAT $163,
+  $18:1,
+  $19:1,
+  $20:1,
+  $21::1,
+  $12:4,
+  $13:4,
+  $14:4,
+  $15:4,
+  $16:4,
+  $17:4;
+    MOVE 'DXGRNFLTPGM\x00\x0c', P7;
+    MOVE $24, P8;
+    SAVE 'SMNAVP', P7, P8;
+    FETCH P1, P3;
+    SUBSTR P3, $168, $24, $24;
+    SUBSTR P3, $36, $25, $171;
+    SUBSTR P3, $173, $26, $24;
+    SUBSTR P3, $167, '7', '13';
+    SUBSTR P3, $157, '20', '39';
+    MOVE '59', I2;
+    SUBSTR P3, $149, I2, $24;
+    ADD $24, I2;
+    SUBSTR P3, $172, I2, $24;
+    ADD $24, I2;
+    SUBSTR P3, $150, I2, $172;
+    ADD $172, I2;
+    SUBSTR P3, $172, I2, $24;
+    ADD $24, I2;
+    SUBSTR P3, $151, I2, $172;
+    ADD $172, I2;
+    MOVE $24, I1;
+  label_7:
+    CJGE I1, $170, label_6;
+    SUBSTR P3, $152(I1), I2, $149;
+    ADD $149, I2;
+    ADD $24, I1;
+    JUMP label_7;
+  label_6:
+    STRING $172, $150, $152, $151, '\x01\x0c';
+    FETCH $172;
+    SAVE 'DCPRM', $172, $172;
+    MOVE 'DXGRQNAVPGM\x00\x0c', $172;
+    SAVE 'SHQKNAV', $172, $172;
+    SUBSTR P3, $172, I2, $149;
+    CJEQ $172, '    ', label_8;
+    CJEQ $172, $22, label_8;
+    STRING $172, $150, $172, $151, '\x01\x0c';
+    FETCH $172, P3;
+    LOOKUP SYS_USER_ID, P3, '7', $24, I1;
+    CJNE I1, $23, label_8;
+    LINK $31, $24, '\xa4y';
+  label_8:
+    proc_1 '16';
+    SUBSTR $36, P4, $24, $25;
+    CJNE P4, 'GX', label_9;
+    LENGTH PRF_GROCERY_MEMBER_STATUS, I1;
+    CJGE I1, $25, label_10;
+    MOVE $23, I1;
+    JUMP label_11;
+  label_10:
+    MOVE PRF_GROCERY_MEMBER_STATUS, I1, ABS;
+  label_11:
+    MOVE $25, I2;
+    AND I2, I1;
+    CJEQ I1, I2, label_9;
+    STRING $172, 'XOMG0008D  ', '\x01\x0c';
+    FETCH $172, $172;
+    PUSH $172;
+    PUSH $23;
+    STRING $172, 'FLOW1803WND', '\x00\x0e';
+    OPEN_WINDOW $172;
+    JUMP label_12;
+  label_9:
+    CJNE PRF_GROCERY_STORE_REF_NUM, $27, label_13;
+    MOVE $36, PRF_GROCERY_STORE_REF_NUM;
+  label_13:
+    SAVE 'GRIN', $23, $23;
+    JUMP label_14;
+  label_1:
+    proc_1 '16';
+  label_14:
+    CJNE $32, $23, label_15;
+    PUSH $173;
+    LINK 'DXGRDMTHPGM\x00\x0c';
+    CJNE $32, $23, label_16;
+    JUMP label_12;
+  label_16:
+    CJNE $32, $24, label_15;
+    MOVE $25, $32;
+  label_15:
+    MOVE PRF_GROCERY_ITEM_COUNT, I1, ABS;
+    MOVE I1, $166;
+    CJEQ PRF_SAVED_ORDER_PTR, $22, label_17;
+    CJNE PRF_SAVED_ORDER_STORE_NO, $36, label_18;
+    LINK 'DXGRRESTPGM\x00\x0c', $24;
+    CJNE SYS_RETURN_CODE, $24, label_19;
+    PUSH SYS_CURRENT_CURSOR_POS;
+    OPEN_WINDOW 'DXOWWAITWND';
+    JUMP label_20;
+    JUMP label_21;
+  label_19:
+    proc_2;
+  label_21:
+    JUMP label_17;
+  label_18:
+    proc_2;
+  label_17:
+    MOVE $27, PRF_SAVED_ORDER_DATE;
+    CLEAR PRF_SAVED_ORDER_PTR;
+    CJNE SYS_CURRENT_CURSOR_POS, $25, label_20;
+    LINK 'DXGRCPGLPGM\x00\x0c';
+    POP P8;
+    CJNE P8, $24, label_22;
+    OPEN_WINDOW 'DXOWNPGLWND\x00\x0e';
+    JUMP label_12;
+    JUMP label_20;
+  label_22:
+    CJNE P8, $25, label_20;
+    proc_1 '00';
+    LINK $31, $24, '\xa4\x92';
+  label_20:
+    RELEASE 'SHFOOT';
+    RETURN $23;
+  label_12:
+    proc_1 '00';
+    EXIT '99';
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    LINK 'XXOPFLTRPGM\x00\x0c', P1;
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    MOVE '\x00\x00', SYS_FM0_TXHDR;
+    MOVE '\x03r\x06', SYS_FM0_TXDID;
+    MOVE '\x00', SYS_FM0_TXRID;
+    SEND SYS_USER_ID, 0x0, 0x0;
+    CLEAR PRF_SAVED_ORDER_PTR;
+    MOVE $27, PRF_SAVED_ORDER_DATE;
+    RETURN ;
+END_PROC;

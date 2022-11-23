@@ -1,0 +1,119 @@
+{ Program 'ENPHMBRS' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/03/87 17:380 }
+
+
+PROC main =
+    CJEQ SYS_API_EVENT, '3', label_1;
+    MOVE SYS_CURRENT_CURSOR_POS, $106;
+    SUB '15', $106;
+    GOTO_DEPENDING_ON $106, label_2, label_2, label_3, label_4;
+    JUMP label_2;
+  label_1:
+    MOVE $98, $107;
+    SET_ATT '6', 0x0, 0x0, I4, 0x2;
+    MOVE '      YOUR OTHER FAMILY MEMBERS', &6;
+    MOVE 'Change a member's name.', &12;
+    MOVE 'Remove a member's name.', &13;
+    MOVE 'Done? List is complete.', &14;
+    CLEAR &7, &11;
+    MOVE $99, $106;
+    LINK $66, '3';
+    SET_FUNCTION PAGE_HELP, 00;
+    SET_FUNCTION FIELD_HELP, 00;
+    MOVE $99, I1;
+    CJNE $1, $99, label_2;
+    proc_1;
+    EXIT '99';
+  label_2:
+    CJNE $106, $99, label_5;
+    OPEN_WINDOW 'ZEW50K09WND\x00\x0e';
+    JUMP label_6;
+  label_5:
+    CJNE $107, $99, label_7;
+    MOVE $100, $106;
+    MOVE $99, P1;
+    PUSH P1;
+    OPEN_WINDOW 'ZEW50K09WND\x00\x0e';
+    JUMP label_6;
+  label_7:
+    OPEN_WINDOW $92;
+  label_6:
+    POP P1;
+    CJNE P1, '\x01', label_8;
+    CJNE $107, $99, label_8;
+    CLEAR &1, &5;
+  label_8:
+    proc_1;
+    JUMP label_4;
+  label_3:
+    OPEN_WINDOW $92;
+    POP P1;
+    CJEQ P1, '99', label_4;
+    CLEAR &1(P1), &5;
+    CLEAR &1(P1), &11;
+    MOVE P1, I1;
+    MOVE P1, I2;
+    CLEAR $4(P1);
+    CLEAR $14(P1);
+    CLEAR $19(P1);
+    CLEAR $9(P1);
+  label_11:
+    CJGE I1, '6', label_9;
+    CJNE $4(I1), '\x01', label_10;
+    MOVE $14(I1), $14(I2);
+    MOVE $19(I1), $19(I2);
+    MOVE $9(I1), $9(I2);
+    CLEAR $4(I1);
+    MOVE '\x01', $4(I2);
+    ADD $99, I2;
+  label_10:
+    ADD $99, I1;
+    JUMP label_11;
+  label_9:
+    proc_1;
+  label_4:
+    EXIT ;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MOVE $99, I1;
+    CLEAR $107;
+  label_15:
+    CJNE $4(I1), '\x01', label_12;
+    MOVE I1, $107;
+    MOVE '15', P4;
+    LENGTH $14(I1), I3;
+    MOVE '15', P4;
+    SUB I3, P4;
+    FILL P5, ' ', P4;
+    CJNE $19(I1), '\x00', label_13;
+    MOVE '  ', P7;
+    JUMP label_14;
+  label_13:
+    MOVE ' ', P7;
+  label_14:
+    STRING $108, $14(I1), P5, ' ', $19(I1), P7, $9(I1);
+    UPPER $108;
+    MOVE $108, &1(I1);
+    ADD '6', I1;
+    MOVE $107, &1(I1);
+    SUB '5', I1;
+    JUMP label_15;
+  label_12:
+    CJNE $4($99), '\x01', label_16;
+    SET_ATT '17', $95, 0x0, $95, $95;
+    SET_ATT '18', $95, 0x0, $95, $95;
+    JUMP label_17;
+  label_16:
+    SET_ATT '17', $31, 0x0, $95, $95;
+    SET_ATT '18', $31, 0x0, $95, $95;
+  label_17:
+    CJNE $107, '5', label_18;
+    SET_ATT '16', $31, 0x0, $95, $95;
+    JUMP label_19;
+  label_18:
+    SET_ATT '16', $95, 0x0, $95, $95;
+  label_19:
+    RETURN ;
+END_PROC;

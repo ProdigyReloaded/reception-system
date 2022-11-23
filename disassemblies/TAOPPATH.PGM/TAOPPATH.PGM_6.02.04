@@ -1,0 +1,41 @@
+{ Program 'TAPXPATH' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/22/88 16:030 }
+
+
+PROC main =
+    CJGT SYS_PATH_PTR, '0', label_1;
+    JUMP label_2;
+  label_1:
+    CJNE PRF_PERSONAL_PATH_JUMPWORD_1, '             ', label_3;
+  label_2:
+    JUMP label_4;
+  label_3:
+    CJNE PRF_PERSONAL_PATH_JUMPWORD_1, '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', label_5;
+  label_4:
+    JUMP label_6;
+  label_5:
+    CJLE SYS_PATH_PTR, '12', label_7;
+    MOVE '1', SYS_PATH_PTR;
+  label_7:
+    MOVE SYS_PATH_PTR, P6;
+    MOVE PRF_PERSONAL_PATH_JUMPWORD_1(P6), P1;
+    CJNE P1, '             ', label_8;
+    MOVE '1', SYS_PATH_PTR;
+    JUMP label_7;
+  label_8:
+    ADD '1', SYS_PATH_PTR;
+    LINK 'XXOPKWRDPGM\x00\x0c', P1;
+    CJNE SYS_RETURN_CODE, '0', label_9;
+    POP P7;
+    FETCH P7;
+    FETCH P7;
+    MOVE SYS_PATH_PTR, P6;
+    LINK 'XXOPKWRDPGM\x00\x0c', PRF_PERSONAL_PATH_JUMPWORD_1(P6), '1';
+    NAV P7;
+  label_9:
+    MOVE PRF_PERSONAL_PATH_JUMPWORD_1(P6), &255;
+    LINK 'XXOPMSGSPGM\x00\x0c', '1', '\x00g';
+  label_6:
+    NAV 'XFEP0001PG \x01\x04';
+    RETURN ;
+END_PROC;

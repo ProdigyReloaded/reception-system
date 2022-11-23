@@ -1,0 +1,38 @@
+{ Program 'BN000002' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/17/88 17:410 }
+
+
+PROC main =
+    CLEAR SYS_FM0_TXHDR, SYS_FM64_RXDATA;
+    MOVE '\x00"', SYS_FM0_TXHDR;
+    MOVE '\x00', SYS_FM0_TXRID;
+    CJNE P2, '1', label_1;
+    proc_1 P1;
+    JUMP label_2;
+  label_1:
+    proc_2 P1;
+  label_2:
+    RETURN SYS_RETURN_CODE;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MOVE '\x06r\x01', SYS_FM0_TXDID;
+    MOVE '0', SYS_FM4_TXHDR;
+    MOVE '\x00\x00', SYS_FM4_TXCORID;
+    MOVE SYS_USER_ID, SYS_FM4_TXUSEID;
+    SEND P1, P2, #14849, 0x6;
+    MOVE SYS_RETURN_CODE, P3;
+    SAVE! 0x1, 'DJMESSAGE', P2;
+    RETURN P3;
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    MOVE '\x04\x02\x10', SYS_FM0_TXDID;
+    SEND P1, P2, #14849, 0x4;
+    MOVE SYS_RETURN_CODE, P3;
+    SAVE! 0x1, 'HFHMESSAGE', P2;
+    RETURN P3;
+    RETURN ;
+END_PROC;

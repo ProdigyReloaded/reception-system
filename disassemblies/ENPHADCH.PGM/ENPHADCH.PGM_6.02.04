@@ -1,0 +1,78 @@
+{ Program 'ENPHADCH' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 10/21/87 13:340 }
+
+
+PROC main =
+    MOVE $99, I1;
+    CJEQ &1(I1), '\x00', label_1;
+    proc_1;
+    CJNE SYS_RETURN_CODE, '0', label_2;
+    MOVE '3', I1;
+    proc_2;
+    CJNE SYS_RETURN_CODE, '0', label_3;
+    CJNE $106, $99, label_4;
+    ADD $99, $107;
+    JUMP label_5;
+  label_4:
+    POP $107;
+  label_5:
+    PUSH '\x01';
+    MOVE &1, $14($107);
+    MOVE &2, $19($107);
+    MOVE &3, $9($107);
+    MOVE '\x01', $4($107);
+    JUMP label_6;
+  label_3:
+    proc_3;
+  label_6:
+    JUMP label_7;
+  label_2:
+    JUMP label_1;
+  label_7:
+    JUMP label_8;
+  label_1:
+    MOVE '3', I1;
+    proc_2;
+    CJNE SYS_RETURN_CODE, '0', label_9;
+    MOVE $99, I1;
+    proc_3;
+    JUMP label_8;
+  label_9:
+    PUSH '0';
+  label_8:
+    CLOSE_WINDOW ;
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    CJEQ &1(I1), '\x00', label_10;
+    proc_1;
+    CJNE SYS_RETURN_CODE, '0', label_11;
+    RETURN '0';
+    JUMP label_12;
+  label_11:
+    RETURN '1';
+  label_12:
+    JUMP label_13;
+  label_10:
+    RETURN '1';
+  label_13:
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    LENGTH &1(I1), I5;
+    FILL P5, ' ', I5;
+    CJNE P5, &1(I1), label_14;
+    proc_3;
+    JUMP label_15;
+  label_14:
+    RETURN '0';
+  label_15:
+    RETURN ;
+END_PROC;
+
+PROC proc_3 =
+    LINK $85, '2', '\x0b\xbd', I1;
+    RETURN ;
+END_PROC;

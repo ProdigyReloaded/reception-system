@@ -1,0 +1,9 @@
+{ Program 'MSZB024X' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 01/07/88 08:540 }
+
+
+PROC main =
+    MOVE $208(&54), SYS_LEADER_AD_ID;
+    STRING $218, '\x0d', $172(&54);
+    RETURN ;
+END_PROC;

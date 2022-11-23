@@ -1,0 +1,62 @@
+{ Program 'TLPH000A' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 06/10/88 16:300 }
+
+
+PROC main =
+    MOVE '2.2.1', P8;
+    CJNE SYS_CURRENT_CURSOR_POS, '1', label_1;
+    JUMP label_2;
+  label_1:
+    CJNE SYS_API_EVENT, '10', label_3;
+  label_2:
+    CJEQ SYS_NOCOMM, '1', label_4;
+    MOVE '\x00\xd2\x01', SYS_FM0_TXDID;
+    proc_1;
+    proc_2;
+    DISCONNECT ;
+  label_4:
+    TRIGGER_FUNCTION BYE;
+    JUMP label_5;
+  label_3:
+    CJNE SYS_CURRENT_CURSOR_POS, '2', label_6;
+    CJEQ SYS_NOCOMM, '1', label_7;
+    MOVE '\x00\xd2\x02', SYS_FM0_TXDID;
+    MOVE '1', SYS_SESSION_STATUS;
+    proc_1;
+    proc_2;
+  label_7:
+    CLEAR SYS_AD_LIST;
+    CLEAR PRF_BA_FIRST_LINE, PRF_CUG_ID;
+    MOVE '-1', SYS_PATH_PTR;
+    MOVE '1', $55;
+    NAV 'TLOT0010PG \x01\x04';
+    JUMP label_5;
+  label_6:
+    SOUND ;
+  label_5:
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MOVE '\x80\x00\x00\x00', SYS_DATA_COLLECT;
+    CLEAR SYS_FM0_TXRID, SYS_FM64_TXDATA;
+    MOVE '\x0f\x01', $36;
+    MOVE '\x00 ', SYS_FM0_TXHDR;
+    MOVE '\x00', SYS_FM0_TXRID;
+    SEND $36, $34, 0x0, 0x0;
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    MOVE '0', I1;
+    OR '0', I1;
+  label_10:
+    CJEQ SYS_RETURN_CODE, '2', label_8;
+    RECEIVE $34, $35;
+    CJNE SYS_RETURN_CODE, '0', label_9;
+    RETURN '1';
+  label_9:
+    JUMP label_10;
+  label_8:
+    RETURN ;
+END_PROC;

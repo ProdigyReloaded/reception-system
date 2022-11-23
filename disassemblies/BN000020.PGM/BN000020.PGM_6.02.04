@@ -1,0 +1,8 @@
+{ Program 'BN000020' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/04/88 14:290 }
+
+
+PROC main =
+    NAV 'BN000001MAP\x00\x04';
+    RETURN ;
+END_PROC;
