@@ -1,0 +1,201 @@
+{ Program 'XXPESM00' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 09/15/88 13:270 }
+
+
+PROC main =
+    CLEAR STND_MENU_VAR10, STND_MENU_VAR1;
+    CJNE P2, '\x03', label_1;
+    JUMP label_2;
+  label_1:
+    CJEQ SYS_WINDOW_ID, '\x00', label_3;
+    MOVE SYS_WINDOW_ID, STND_MENU_VAR8;
+    JUMP label_2;
+  label_3:
+    CJNE P2, '\x05', label_4;
+    MOVE P3, P7;
+    CLEAR P3;
+  label_4:
+    CJEQ P0, '7', label_5;
+    JUMP label_6;
+  label_5:
+    PUSH P1;
+    PUSH P2;
+    SUBSTR P7, P1, '1', '1';
+    CJNE P1, '\x01', label_7;
+    SUBSTR P7, P1, '2', '1';
+    SUBSTR P7, P2, '3', '1';
+    PUSH I1;
+    PUSH I2;
+    MOVE P1, I1, ABS;
+    MOVE P2, I2, ABS;
+    DEF_FIELD STND_MENU_VAR10, I1, I2, '6', '1', 0x1;
+    SUB '2', I2;
+    DEF_FIELD STND_MENU_VAR9, I1, I2, '2', '1', 0x1;
+    SET_FUNCTION FIELD_HELP, FILTER, 'XXOPSM02PGM\x00\x0c', '6';
+    POP I2;
+    POP I1;
+    SET_ATT STND_MENU_VAR10, $31, 0x0, $95, $95;
+    SET_ATT STND_MENU_VAR10, 0x0, 0x0, 0x7, 0x0;
+    SET_ATT STND_MENU_VAR9, 0x0, 0x0, 0x7, 0x0;
+  label_7:
+    CLEAR P7;
+    POP P2;
+    POP P1;
+  label_6:
+    CJNE P2, '\x01', label_8;
+    JUMP label_9;
+  label_8:
+    CJNE P2, '\x05', label_2;
+  label_9:
+    CLEAR $1;
+    MOVE '\x01', $3;
+    RELEASE 'SMPS';
+    CJEQ STND_MENU_VAR9, '\x00', label_10;
+    CJGE SYS_TOTAL_PAGES, '2', label_11;
+    SET_ATT STND_MENU_VAR9, $31, 0x0, $95, $95;
+    JUMP label_12;
+  label_11:
+    SET_CURSOR '1';
+  label_12:
+    MOVE STND_MENU_VAR10, P5;
+    MOVE STND_MENU_VAR9, P4;
+    CJLE SYS_PAGE_NUMBER, '1', label_13;
+    MOVE SYS_PAGE_NUMBER, P8;
+    JUMP label_14;
+  label_13:
+    MOVE '1', P8;
+  label_14:
+    CJGE P8, '10', label_15;
+    STRING &1(P4), ' ', P8;
+  label_15:
+    MOVE SYS_TOTAL_PAGES, P7;
+    CJNE P7, '0', label_16;
+    MOVE '1', P7;
+  label_16:
+    STRING &1(P5), ' of ', P7;
+  label_10:
+    MOVE '20', $8;
+    MOVE 'XXOPSMU1PGM\x00\x0c', $14;
+    SET_FUNCTION NAVIGATION, FILTER, 'XXOPSM02PGM\x00\x0c', '5';
+    CJNE P2, '\x05', label_17;
+    MOVE P1, $6;
+    JUMP label_18;
+  label_17:
+    MOVE '\x05', P2;
+    LENGTH P6, P1;
+    SUB '3', P1;
+    SUBSTR P6, $6, '4', P1;
+  label_18:
+    MOVE '0', $1;
+    MOVE P2, $4;
+    CJNE SYS_WINDOW_ID, '\x00', label_19;
+    SUBSTR SYS_BASE_OBJ_ID, P1, '1', '11';
+    STRING P4, 'm', P1;
+    RESTORE P4, P1;
+    CJNE SYS_RETURN_CODE, $1, label_20;
+    SET_CURSOR P1;
+    RELEASE P4;
+  label_20:
+    JUMP label_21;
+  label_19:
+    SET_FUNCTION SET_CLOSE_WINDOW, FILTER, 'XXOPSM02PGM\x00\x0c', '3';
+    MOVE SYS_WINDOW_ID, STND_MENU_VAR8;
+  label_21:
+    PUSH I2;
+    PUSH I3;
+    proc_1 '1', '1';
+    POP I3;
+    POP I2;
+    RETURN ;
+  label_2:
+    RESTORE 'SMPS', $1;
+    CJNE SYS_RETURN_CODE, '0', label_22;
+    MOVE '1', I8;
+    JUMP label_23;
+  label_22:
+    LINK 'XXOPIRGSPGM\x00\x0c', '1';
+    MOVE '183 091588', $15;
+    CLEAR $1;
+    RESTORE 'W.SMPARM', $4;
+    MOVE '0', $1;
+    MOVE '1', I8;
+    MOVE '2', I7;
+    MOVE $1, $13;
+    MOVE I8, $2;
+    proc_1 I8, I8;
+  label_23:
+    STRING $4, P2, $4;
+    MOVE P2, I6, ABS;
+    CJNE I6, $1, label_24;
+    SUBSTR P1, $14, I7, '13';
+    FETCH $14;
+    FETCH $14;
+    JUMP label_25;
+  label_24:
+    CJNE I6, '4', label_26;
+    MOVE 'SHOPSHOPPGM\x00\x0c', $14;
+    JUMP label_25;
+  label_26:
+    MOVE 'XXOPSMU1PGM\x00\x0c', $14;
+  label_25:
+    MOVE '3', I1;
+    MOVE I8, I2;
+  label_28:
+    CJEQ I1, '7', label_27;
+    MOVE P1(I1), $9(I2);
+    ADD I8, I1;
+    ADD I8, I2;
+    JUMP label_28;
+  label_27:
+    CJEQ SYS_WINDOW_ID, '\x00', label_29;
+    JUMP label_30;
+  label_29:
+    SUBSTR SYS_BASE_OBJ_ID, $19, '1', '11';
+    STRING $16, 'm', $19;
+    CLEAR $18, $20;
+    RESTORE $16, $18;
+    CJNE SYS_RETURN_CODE, $1, label_30;
+    MOVE $19, $13;
+    SAVE 'W.SMPARM', $20, $20;
+    SUB '1', $13;
+    MOVE 'PM', $20;
+    RELEASE $16;
+  label_30:
+    TRANSFER 'XXOPSM02PGM\x00\x0c', I8, P1, I6;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    PUSH $2;
+    PUSH $3;
+    RESTORE 'w.smnest', $2;
+    CJEQ SYS_RETURN_CODE, $1, label_31;
+    MOVE '\x01\x01', $2;
+    MOVE '1', $3;
+    SAVE 'SMNL', $3, $3;
+    JUMP label_32;
+  label_31:
+    SUBSTR $2, $3, '1', '1';
+    PUSH $4;
+    SUBSTR $2, $4, '2', '1';
+    MOVE $3, I2, ABS;
+    MOVE $4, I3, ABS;
+    ADD P1, I2;
+    MOVE I2, $3;
+    SAVE 'SMNL', $3, $3;
+    MOVE I2, $3, ABS;
+    SUBSTR $3, $3, '2', '1';
+    CJGT P2, I3, label_33;
+    MOVE I3, P2;
+  label_33:
+    MOVE P2, I3;
+    MOVE I3, $4, ABS;
+    SUBSTR $4, $4, '2', '1';
+    STRING $2, $3, $4;
+    POP $4;
+  label_32:
+    SAVE 'w.smnest', $2, $2;
+    POP $3;
+    POP $2;
+    RETURN ;
+END_PROC;

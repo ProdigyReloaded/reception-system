@@ -1,0 +1,147 @@
+{ Program 'XTG0093P' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/28/89 11:560 }
+
+
+PROC main =
+    MOVE P1, &211;
+    MOVE &10, P8;
+    UPPER P8;
+    LENGTH P8, I8;
+    CJNE I8, '0', label_1;
+    SUBSTR P1, P8, '1', '13';
+    CJNE P8, 'XTG00004PG \x01\x04', label_2;
+    RELEASE 'fp2';
+    RETURN ;
+    JUMP label_1;
+  label_2:
+    JUMP label_3;
+  label_1:
+    CJNE I8, '1', label_4;
+    CJNE P8, 'Q', label_4;
+    CLEAR P2;
+    MOVE 'CONFIG.SM', &210;
+    proc_1;
+    CJEQ SYS_RETURN_CODE, '0', label_5;
+    JUMP label_6;
+  label_5:
+    JUMP label_7;
+  label_4:
+    STRING P7, 'VAN.', P8;
+    OPEN P7, 'r';
+    CJEQ SYS_RETURN_CODE, '0', label_8;
+    JUMP label_3;
+  label_8:
+    CLOSE P7;
+    STRING P2, 'VAN:', 'VAN.', P8, ';', '\x0d\x0a';
+    MOVE 'CONFIG.SM', &210;
+    proc_1;
+    CJEQ SYS_RETURN_CODE, '0', label_9;
+    JUMP label_6;
+  label_9:
+    JUMP label_7;
+  label_6:
+    JUMP label_7;
+  label_3:
+    LINK 'XXOPMSGSPGM\x00\x0c', '2', '\xc4\xe9', '10';
+  label_7:
+    NAV &211;
+    RETURN ;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    OPEN &210, 'r+';
+    CJEQ SYS_RETURN_CODE, '0', label_10;
+    MOVE 'Error on opening file.', P4;
+    JUMP label_11;
+  label_10:
+    CJEQ SYS_RETURN_CODE, '18', label_12;
+    READ &210, P1, '512';
+    JUMP label_10;
+  label_12:
+    NOTE &210, P6;
+    CJEQ SYS_RETURN_CODE, '0', label_13;
+    MOVE 'Error while obtaining file position.', P4;
+    JUMP label_14;
+  label_13:
+    SUB '1', P6;
+    MOVE '1', P1;
+    POINT &210, P1;
+    READ &210, P5, P6;
+    CJEQ SYS_RETURN_CODE, '0', label_15;
+    MOVE 'Error on reading file.', P4;
+    JUMP label_14;
+  label_15:
+    UPPER P5;
+    CJEQ P2, '\x00', label_16;
+    INSTR P5, P2, I7;
+    CJEQ I7, '0', label_16;
+    JUMP label_17;
+  label_16:
+    INSTR P5, 'VAN:', I7;
+    MOVE I7, I5;
+    CJEQ I7, '0', label_18;
+    LENGTH 'VAN:', I6;
+    ADD I6, I7;
+  label_23:
+    CJGT I7, P6, label_19;
+    SUBSTR P5, P3, I7, '2';
+    CJNE P3, '\x0d\x0a', label_20;
+    SUB '1', I5;
+    CLEAR P1;
+    CJLE I5, '0', label_21;
+    SUBSTR P5, P1, '1', I5;
+  label_21:
+    ADD '2', I7;
+    MOVE P6, I5;
+    SUB I7, I5;
+    ADD '1', I5;
+    CJLE I5, '0', label_22;
+    SUBSTR P5, P3, I7, I5;
+  label_22:
+    STRING P5, P1, P2, P3;
+    JUMP label_19;
+  label_20:
+    ADD '1', I7;
+    JUMP label_23;
+  label_19:
+    JUMP label_24;
+  label_18:
+    CJEQ P2, '\x00', label_24;
+    STRING P5, P2, P5;
+  label_24:
+    CJEQ I7, '0', label_25;
+    JUMP label_26;
+  label_25:
+    CJEQ P2, '\x00', label_17;
+  label_26:
+    LENGTH P5, P6;
+    MOVE '1', P1;
+    POINT &210, P1;
+    CJEQ SYS_RETURN_CODE, '0', label_27;
+    MOVE 'Error while obtaining file position.', P4;
+    JUMP label_14;
+  label_27:
+    WRITE &210, P5, P6;
+    CJEQ SYS_RETURN_CODE, '0', label_28;
+    MOVE 'Error while obtaining file position.', P4;
+    JUMP label_14;
+  label_28:
+    SAVE 'van_upd', P1, P1;
+  label_17:
+    CLOSE &210;
+    CJEQ SYS_RETURN_CODE, '0', label_29;
+    MOVE 'Error on closing file.', P4;
+    JUMP label_11;
+  label_29:
+    JUMP label_30;
+  label_14:
+    PUSH SYS_RETURN_CODE;
+    CLOSE &210;
+    POP SYS_RETURN_CODE;
+  label_11:
+    RETURN SYS_RETURN_CODE;
+  label_30:
+    SAVE 'fp2', &101, &101;
+    RETURN ;
+END_PROC;

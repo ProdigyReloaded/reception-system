@@ -1,0 +1,8 @@
+{ Program 'MSZW020A' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 01/19/88 14:510 }
+
+
+PROC main =
+    MOVE $126, SYS_SELECTED_OBJ_ID;
+    RETURN ;
+END_PROC;

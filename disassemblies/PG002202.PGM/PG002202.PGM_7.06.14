@@ -1,0 +1,121 @@
+{ Program 'PG002202' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 04/27/89 16:150 }
+
+
+PROC main =
+    CJNE SYS_CURRENT_CURSOR_POS, '54', label_1;
+    CJNE SYS_BASE_OBJ_ID, 'PG002000PG \x01\x04', label_2;
+    MOVE '1', $35;
+    SET_FUNCTION NAVIGATION, 00;
+    NAV SYS_BASE_OBJ_ID;
+    JUMP label_1;
+  label_2:
+    MOVE '2', $35;
+    SAVE 'TRADE_PEVS', &211, &212;
+    CLEAR &42;
+    SET_ATT '42', P7, P7, 0x7, 0x2, 'NNNNNN';
+    SET_CURSOR '42';
+    EXIT ;
+  label_1:
+    CJNE SYS_CURRENT_CURSOR_POS, '42', label_3;
+    CJEQ &42, '\x00', label_3;
+    CJEQ &42, '0', label_3;
+    INSTR &42, '.', I1;
+    INSTR &42, '$', I2;
+    INSTR &42, '-', I3;
+    CJEQ I1, '0', label_4;
+    JUMP label_5;
+  label_4:
+    CJEQ I2, '0', label_6;
+  label_5:
+    JUMP label_7;
+  label_6:
+    CJEQ I3, '0', label_8;
+  label_7:
+    LINK $56, '1', 'H\xba';
+  label_8:
+    INSTR &42, ' ', I4;
+    CJEQ I4, '0', label_9;
+    LINK $56, '1', 'I\x80';
+  label_9:
+    CJNE $44, '\x00', label_10;
+    MOVE $14, I2;
+    CJNE $30, 'SELL', label_10;
+    CJEQ SYS_BASE_OBJ_ID, 'PG002000PG \x01\x04', label_10;
+    CJLE &42, I2, label_10;
+    OPEN_WINDOW 'PGAB200AWND\x00\x0e';
+    POP &223;
+    CJNE &223, '\x00', label_11;
+    JUMP label_12;
+  label_11:
+    CJNE &223, '2', label_10;
+  label_12:
+    EXIT ;
+  label_10:
+    CJEQ $44, '\x00', label_13;
+    MOVE $34, I1;
+    MOVE I1, P3;
+    MOVE &42, P4;
+    DIVIDE '100', P3, P1;
+    DIVIDE '100', P4, P2;
+    CJLE $34, '99', label_14;
+    CJNE P1, '0', label_14;
+    CJLE &42, '100', label_15;
+    CJEQ P2, '0', label_15;
+    JUMP label_16;
+  label_15:
+    CJGE &42, '100', label_14;
+  label_16:
+    LINK $56, '1', 'H\xb9';
+    JUMP label_13;
+  label_14:
+    CJLE $34, '100', label_17;
+    CJEQ P1, '0', label_17;
+    JUMP label_18;
+  label_17:
+    CJGE $34, '100', label_13;
+  label_18:
+    CJLE &42, '99', label_13;
+    CJNE P2, '0', label_13;
+    LINK $56, '1', 'H\xb8';
+  label_13:
+    MOVE &42, &210;
+    MOVE &210, D1;
+    MOVE D1, &210;
+    MOVE '3', $35;
+    SET_ATT '42', $31, 0x0, 0x7, 0x3;
+    MOVE 'Please select the type of trade:', &39;
+    MOVE '>MARKET', &51;
+    MOVE '   >LIMIT   ', &52;
+    CJNE &212, '1', label_19;
+    JUMP label_20;
+  label_19:
+    CJNE &212, '2', label_21;
+  label_20:
+    JUMP label_22;
+  label_21:
+    CJNE &212, '3', label_23;
+  label_22:
+    JUMP label_24;
+  label_23:
+    CJNE &212, '6', label_25;
+  label_24:
+    JUMP label_26;
+  label_25:
+    CJNE &212, '9', label_27;
+  label_26:
+    MOVE ' >STOP  ', &53;
+    JUMP label_28;
+  label_27:
+    CLEAR &53;
+    SET_ATT '53', $31, 0x0, 0x0, 0x3;
+  label_28:
+    JUMP label_29;
+  label_3:
+    CJLE SYS_CURRENT_CURSOR_POS, '50', label_29;
+    CLEAR $44;
+    CLEAR $93;
+    TRANSFER $55, SYS_CURRENT_CURSOR_POS;
+  label_29:
+    RETURN ;
+END_PROC;

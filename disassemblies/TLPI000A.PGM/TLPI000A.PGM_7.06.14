@@ -1,0 +1,33 @@
+{ Program 'TLPI000A' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 03/15/89 15:190 }
+
+
+PROC main =
+    CJNE SYS_API_EVENT, '3', label_1;
+    OR '\x80', SYS_DATA_COLLECT;
+    FETCH 'XXOE0014CMD\x00\x08';
+    SET_FUNCTION LOGOFF, FILTER, 'TLPI000APGM\x00\x0c', '\x00';
+    SET_FUNCTION BYE, FILTER, 'TLPH000APGM\x00\x0c', '\x00';
+    SET_FUNCTION LOGON, FILTER, 'TLPH000APGM\x00\x0c', '\x00';
+    EXIT ;
+    JUMP label_2;
+  label_1:
+    CJNE SYS_CURRENT_CURSOR_POS, '1', label_3;
+    JUMP label_4;
+  label_3:
+    CJNE SYS_API_EVENT, '10', label_5;
+  label_4:
+    TRIGGER_FUNCTION BYE;
+    JUMP label_2;
+  label_5:
+    CJNE SYS_CURRENT_CURSOR_POS, '2', label_2;
+    CLEAR SYS_AD_LIST, SYS_CURRENT_KEYWORD;
+  label_2:
+    CLEAR PRF_BA_FIRST_LINE, PRF_LAST_LOGON_TIME;
+    CLEAR #31000, STND_MENU_VAR1;
+    CLEAR SYS_ZIP;
+    MOVE '-1', SYS_PATH_PTR;
+    MOVE '1', $55;
+    TRIGGER_FUNCTION LOGON;
+    RETURN ;
+END_PROC;

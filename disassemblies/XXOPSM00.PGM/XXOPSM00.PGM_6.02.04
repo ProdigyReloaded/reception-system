@@ -1,0 +1,82 @@
+{ Program 'XXPESM00' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/29/88 17:300 }
+
+
+PROC main =
+    RESTORE 'SMPS', $1;
+    CJNE SYS_RETURN_CODE, '0', label_1;
+    MOVE '1', I8;
+    JUMP label_2;
+  label_1:
+    LINK 'XXOPIRGSPGM\x00\x0c', '1';
+    MOVE '154 022988', $15;
+    CLEAR $1;
+    RESTORE 'W.SMPARM', $4;
+    STRING $4, P2, $4;
+    MOVE '0', $1;
+    MOVE '1', I8;
+    MOVE '2', I7;
+    MOVE $1, $13;
+    MOVE I8, $2;
+    proc_1 I8, I8;
+  label_2:
+    MOVE P2, I6, ABS;
+    CJNE I6, $1, label_3;
+    SUBSTR P1, $14, I7, '13';
+    FETCH $14;
+    FETCH $14;
+    JUMP label_4;
+  label_3:
+    CJNE I6, '4', label_5;
+    MOVE 'SHOPSHOPPGM\x00\x0c', $14;
+    JUMP label_4;
+  label_5:
+    MOVE 'XXOPSMU1PGM\x00\x0c', $14;
+  label_4:
+    MOVE '3', I1;
+    MOVE I8, I2;
+  label_7:
+    CJEQ I1, '7', label_6;
+    MOVE P1(I1), $9(I2);
+    ADD I8, I1;
+    ADD I8, I2;
+    JUMP label_7;
+  label_6:
+    TRANSFER 'XXOPSM02PGM\x00\x0c', I8, P1, I6;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    PUSH $2;
+    PUSH $3;
+    RESTORE 'w.smnest', $2;
+    CJEQ SYS_RETURN_CODE, $1, label_8;
+    MOVE '\x01\x01', $2;
+    MOVE '1', $3;
+    SAVE 'SMNL', $3, $3;
+    JUMP label_9;
+  label_8:
+    SUBSTR $2, $3, '1', '1';
+    PUSH $4;
+    SUBSTR $2, $4, '2', '1';
+    MOVE $3, I2, ABS;
+    MOVE $4, I3, ABS;
+    ADD P1, I2;
+    MOVE I2, $3;
+    SAVE 'SMNL', $3, $3;
+    MOVE I2, $3, ABS;
+    SUBSTR $3, $3, '2', '1';
+    CJGT P2, I3, label_10;
+    MOVE I3, P2;
+  label_10:
+    MOVE P2, I3;
+    MOVE I3, $4, ABS;
+    SUBSTR $4, $4, '2', '1';
+    STRING $2, $3, $4;
+    POP $4;
+  label_9:
+    SAVE 'w.smnest', $2, $2;
+    POP $3;
+    POP $2;
+    RETURN ;
+END_PROC;

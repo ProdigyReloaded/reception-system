@@ -1,0 +1,56 @@
+{ Program 'PG001500' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/22/88 15:480 }
+
+
+PROC main =
+    CJLE SYS_CURRENT_CURSOR_POS, '50', label_1;
+    MOVE '0', $49;
+    TRANSFER $55, SYS_CURRENT_CURSOR_POS;
+    JUMP label_2;
+  label_1:
+    STRING P5, '3', 'PG001000PG \x01\x04', 'PG001900PGM\x00\x0c';
+    SET_FUNCTION PREVIOUS_MENU, FILTER_ON, 'PG009955PGM\x00\x0c', P5;
+    MOVE '0', $50;
+    SET_FUNCTION NEXT, DISABLE;
+    SET_FUNCTION BACK, DISABLE;
+    CLEAR $19;
+    CLEAR $100;
+    CLEAR $31;
+    CJNE $49, '1', label_3;
+    MOVE '0', $49;
+    LINK $53, '\x00B';
+  label_3:
+    MOVE SYS_CURRENT_CURSOR_POS, I2;
+    CLEAR &32, &35;
+    CLEAR &1, &5;
+    SET_ATT '1', $31, 0x0, 0x0, 0x3;
+    SET_ATT '2', $31, 0x0, 0x0, 0x3;
+    SET_ATT '3', $31, 0x0, 0x0, 0x3;
+    SET_ATT '4', $31, 0x0, 0x0, 0x3;
+    SET_ATT '5', $31, 0x0, 0x0, 0x3;
+    SUBSTR &11(I2), $11, '1', '15';
+    SUBSTR &11(I2), $10, '22', '9';
+    SUBSTR &11(I2), P2, '33', '1';
+    SUBSTR &16(I2), $9, '1', '1';
+    SUBSTR &16(I2), P4, '3', '1';
+    STRING P3, '   ', $11, '   ', $10, '  ', P2;
+    CLEAR &11, &15;
+    MOVE '     The account you selected is:', &33;
+    MOVE P3, &11;
+    CJNE P4, '1', label_4;
+    SET_ATT '34', $31, 0x0, I6, 0x3;
+    MOVE '* Margin call - please contact CONTROL', &34;
+  label_4:
+    SET_ATT '35', $31, 0x0, I6, 0x3;
+    MOVE 'Select what you want to do:', &35;
+    SET_ATT '51', $95, 0x0, 0x0, 0x4;
+    SET_ATT '52', $95, 0x0, 0x0, 0x4;
+    SET_ATT '53', $95, 0x0, 0x0, 0x4;
+    SET_ATT '54', $95, 0x0, 0x0, 0x4;
+    MOVE '>TRADING', &51;
+    MOVE '>ACCOUNT INFO', &52;
+    MOVE '>SERVICES', &53;
+    MOVE '>PRINT', &54;
+  label_2:
+    RETURN ;
+END_PROC;

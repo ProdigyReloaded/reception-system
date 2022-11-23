@@ -1,0 +1,201 @@
+{ Program 'TAPXDIR1' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 04/14/89 10:170 }
+
+
+PROC main =
+    MOVE '16', $47;
+    MOVE $47, $41;
+    GOTO_DEPENDING_ON P1, label_1, label_2, label_3, label_4, label_5;
+  label_3:
+    MOVE '1', $42;
+    LINK 'TAOPDIR2PGM\x00\x0c', '6';
+    RESTORE 'DIRC', $41;
+    CJEQ SYS_RETURN_CODE, '0', label_6;
+    LINK 'XXOPDB00PGM\x00\x0c', '1', '3A';
+    LENGTH SYS_CURRENT_CATEGORY, P7;
+    CJNE P7, $1, label_7;
+    LINK 'XXOPDB00PGM\x00\x0c', '6', '3A', '01';
+    JUMP label_8;
+  label_7:
+    MOVE SYS_CURRENT_CATEGORY, $16;
+    JUMP label_9;
+  label_6:
+    RESTORE 'DIR2', &16;
+    RELEASE 'DIR2';
+    CJEQ $45, $1, label_10;
+    proc_1;
+  label_10:
+    RESTORE 'CAT', P2;
+    ADD P2, $41;
+    CJGE $41, '32', label_11;
+    JUMP label_12;
+  label_11:
+    SUB $47, $41;
+    CJGE $41, '32', label_13;
+    JUMP label_1;
+  label_13:
+    MOVE $47, $41;
+    MOVE SYS_CURRENT_CATEGORY, $16;
+  label_9:
+    LINK 'XXOPDB00PGM\x00\x0c', '3', '3A', '01';
+  label_8:
+    MOVE $16, &16;
+    MOVE '16', P5;
+    MOVE P5, P3;
+    SUB $2, P5;
+    MOVE '17', P1;
+    MOVE $3, P8;
+    CJNE #2036, $2, label_14;
+    CJNE #2038, $2, label_14;
+    JUMP label_15;
+  label_14:
+    JUMP label_16;
+  label_1:
+    CJEQ SYS_WINDOW_ID, '\x00', label_17;
+    RETURN ;
+  label_17:
+    MOVE $2, $42;
+    MOVE &31, $16;
+    LINK 'XXOPDB00PGM\x00\x0c', '3', '3A', '01';
+    MOVE '16', P5;
+    MOVE $47, P1;
+    MOVE $2, P8;
+  label_16:
+    ADD $2, $42;
+  label_15:
+    MOVE $1, I2;
+    LINK 'XXOPDB00PGM\x00\x0c', '13', '3A', P5, P1;
+    CJNE SYS_RETURN_CODE, '4', label_18;
+    MOVE '1', I2;
+    MOVE #2103, P5;
+    ADD P8, P5;
+    MOVE P5, $45;
+    proc_1;
+    JUMP label_19;
+  label_18:
+    MOVE $1, $45;
+  label_19:
+    CJNE #2036, #2041, label_20;
+    CJNE #2038, #2039, label_20;
+    JUMP label_12;
+  label_20:
+    ADD $3, $42;
+    JUMP label_12;
+  label_2:
+    CJEQ SYS_WINDOW_ID, '\x00', label_21;
+    RETURN ;
+  label_21:
+    MOVE $45, P6;
+    MOVE $1, $45;
+    MOVE $2, $42;
+    MOVE &16, $46;
+    MOVE $46, $16;
+    LINK 'XXOPDB00PGM\x00\x0c', '3', '3A', '01';
+    MOVE '16', P5;
+    MOVE P5, P3;
+    CLEAR &40($2), &40(P5);
+    MOVE $1, $43;
+    MOVE $1, $44;
+    ADD $2, P5;
+    LINK 'XXOPDB00PGM\x00\x0c', '14', '3A', P5, '55';
+    CJNE SYS_RETURN_CODE, '3', label_22;
+    MOVE $2, $44;
+    MOVE #2103, P2;
+    MOVE P2, P5;
+    ADD $2, P5;
+    MOVE P5, P4;
+    SUB P5, P3;
+    MOVE $46, $16;
+    MOVE $16, &16(P5);
+    CJGT P3, $1, label_23;
+    JUMP label_24;
+  label_23:
+    LINK 'XXOPDB00PGM\x00\x0c', '3', '3A', '01';
+    ADD $47, P5;
+    ADD $2, P3;
+    LINK 'XXOPDB00PGM\x00\x0c', '13', '3A', P3, P5;
+    CJNE SYS_RETURN_CODE, '4', label_25;
+    MOVE $2, $43;
+    ADD #2103, P4;
+    MOVE P4, $45;
+    ADD $2, $45;
+    CJGE $45, P6, label_25;
+    proc_1;
+  label_25:
+    JUMP label_24;
+  label_22:
+    MOVE '16', P2;
+    CJNE #2036, $2, label_26;
+    CJNE #2038, $2, label_26;
+    JUMP label_24;
+  label_26:
+    ADD $2, $42;
+  label_24:
+    CJLE P6, $1, label_27;
+    CJNE $45, '0', label_28;
+    MOVE '17', P7;
+    JUMP label_29;
+  label_28:
+    MOVE $45, P7;
+  label_29:
+    CJGE P6, P7, label_27;
+    MOVE '15', P8;
+    ADD P6, P8;
+    SET_ATT P8, $95, 0x0, $95, $95;
+    ADD $2, P6;
+    JUMP label_29;
+  label_27:
+    MOVE '16', P7;
+  label_31:
+    CJLE P2, $1, label_30;
+    MOVE &40(P7), &16(P2);
+    SUB $2, P2;
+    SUB $2, P7;
+    JUMP label_31;
+  label_30:
+    CJNE $44, $1, label_32;
+    CJNE $43, $1, label_32;
+    MOVE '4', $42;
+  label_32:
+    CJNE $44, $2, label_33;
+    CJNE $43, $1, label_33;
+    MOVE '3', $42;
+  label_33:
+    CJNE $44, $1, label_34;
+    CJNE $43, $2, label_34;
+    MOVE '2', $42;
+  label_34:
+    CJNE $44, $2, label_12;
+    CJNE $43, $2, label_12;
+    MOVE '1', $42;
+  label_12:
+    SET_CURSOR $41;
+    TRANSFER 'TAOPDIR2PGM\x00\x0c', $42;
+  label_4:
+    MOVE SYS_CURRENT_CURSOR_POS, $41;
+    SAVE 'DIR2', &16, &31;
+    SAVE! 0x5, 'DIRC', $41;
+    SAVE 'CAT', $1, $1;
+    MOVE &1($41), SYS_CURRENT_CATEGORY;
+    SET_FUNCTION NAVIGATION, 00;
+    NAV 'ICG00001PG \x01\x04';
+  label_5:
+    RELEASE 'DIRC';
+    RELEASE 'CAT';
+    LINK 'XXOPDB00PGM\x00\x0c', '2', '3A';
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MOVE $45, P1;
+    CLEAR &16(P1), &31;
+  label_36:
+    CJGT P1, '16', label_35;
+    MOVE '15', P2;
+    ADD P1, P2;
+    SET_ATT P2, $31, 0x0, $95, $95;
+    ADD $2, P1;
+    JUMP label_36;
+  label_35:
+    RETURN ;
+END_PROC;

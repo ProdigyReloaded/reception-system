@@ -1,0 +1,191 @@
+{ Program 'MSZB016X' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 04/21/88 11:160 }
+
+
+PROC main =
+    RESTORE 'MS_ZB1', P4;
+    CJEQ SYS_RETURN_CODE, '14', label_1;
+    RELEASE 'MS_ZB1';
+    MOVE $97, $36;
+    MOVE $98, $37;
+    proc_1;
+    proc_2 $36;
+    JUMP label_2;
+  label_1:
+    CJNE P0, $25, label_2;
+    MOVE $25, $36;
+    MOVE $25, $56;
+    SAVE 'MS_ZB0', $25, $25;
+    proc_3 $25;
+    CLEAR &98, &99;
+    proc_2 $25;
+    CJNE &192, $25, label_3;
+    STRING $48, '\x01', '\x0b', $172(&54);
+    CJEQ SYS_NOCOMM, $25, label_4;
+    SEND $48, $50, 0x0, 0x4;
+  label_4:
+    proc_3 $26;
+  label_3:
+    MOVE $36, &98;
+    MOVE $37, &99;
+  label_2:
+    CJNE P0, $25, label_5;
+    MOVE $180(&54), P8;
+    AND '\x05', P8;
+    CJEQ P8, '\x00', label_6;
+    MOVE 'd', P8;
+    JUMP label_7;
+  label_6:
+    MOVE 'A05REPLY', P8;
+  label_7:
+    STRING P8, P8, 'A06DELETEA09NEXT MAILA07OPTIONS';
+    LINK $54, $25, '64', P8;
+    MOVE $84, $47;
+    SET_FUNCTION PREVIOUS_MENU, FILTER, $54, $26;
+    SET_FUNCTION NAVIGATION, FILTER, $82, $26;
+    JUMP label_8;
+  label_5:
+    proc_2 $36;
+  label_8:
+    TRANSFER $54, $30, $37;
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    CJNE $36, $37, label_9;
+    SET_CURSOR '64';
+  label_9:
+    MUL '480', P1;
+    SUB '479', P1;
+    SUBSTR $214, &15, P1, '480';
+    MOVE $24, SYS_WORD_WRAP;
+    REFRESH ;
+    MOVE $25, SYS_WORD_WRAP;
+    RETURN ;
+END_PROC;
+
+PROC proc_3 =
+    CJNE SYS_NOCOMM, $25, label_10;
+    FETCH $89(P1), $49;
+    JUMP label_11;
+  label_10:
+    RECEIVE $50, $49;
+  label_12:
+    CJEQ SYS_RETURN_CODE, '2', label_11;
+    CJEQ SYS_RETURN_CODE, '0', label_11;
+    RECEIVE $50, $49;
+    JUMP label_12;
+  label_11:
+    LENGTH $49, P2;
+    CJNE SYS_RETURN_CODE, '2', label_13;
+    JUMP label_14;
+  label_13:
+    CJNE P2, $25, label_15;
+  label_14:
+    proc_4 $60;
+  label_15:
+    CJNE P1, $25, label_16;
+    proc_1;
+    MOVE $188(&54), &14;
+    MOVE $196(&54), I1, ABS;
+    SUB $25, I1;
+    SUBSTR $108($95), P7, $25, I1;
+    ADD $30, I1;
+    LENGTH $108($95), I2;
+    SUBSTR $108($95), P8, I1, I2;
+    STRING $108($95), P7, $192(&54), P8;
+    MOVE $196(&54), I1, ABS;
+    SUB $31, I1;
+    SUBSTR $108($95), P6, I1, $25;
+    OR '\x10', P6;
+    SUB $25, I1;
+    SUBSTR $108($95), P7, $25, I1;
+    ADD $26, I1;
+    LENGTH $108($95), I2;
+    SUBSTR $108($95), P8, I1, I2;
+    STRING $108($95), P7, P6, P8;
+    proc_5 '14';
+    POP $214;
+    JUMP label_17;
+  label_16:
+    proc_5 $25;
+    POP P8;
+    STRING $214, $214, P8;
+  label_17:
+    LENGTH $214, I1;
+    ADD '479', I1;
+    DIVIDE '480', I1;
+    MOVE I1, $37;
+    CLEAR $49;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MOVE $200(&54), &11;
+    MOVE $204(&54), &13;
+    SUBSTR $49, &14, '9', $29;
+    MOVE $180(&54), P8;
+    AND '\x86', P8;
+    CJNE P8, '\x00', label_18;
+    STRING &12, '(', $176(&54), ')';
+    MOVE 'e', &193;
+    JUMP label_19;
+  label_18:
+    CLEAR &12;
+    MOVE 'd', &193;
+  label_19:
+    RETURN ;
+END_PROC;
+
+PROC proc_5 =
+    SUBSTR $49, P8, P1, $26;
+    MOVE P8, I1, ABS;
+    CJNE I1, '500', label_20;
+    MOVE $25, &192;
+    JUMP label_21;
+  label_20:
+    MOVE $24, &192;
+  label_21:
+    ADD $26, P1;
+    SUBSTR $49, P8, P1, I1;
+    MOVE '\x01', P7;
+    AND $184(&54), P7;
+    CJNE P7, '\x00', label_22;
+    proc_6 P8;
+    JUMP label_23;
+  label_22:
+    PUSH P8;
+  label_23:
+    RETURN ;
+END_PROC;
+
+PROC proc_6 =
+    MOVE $25, I1;
+  label_26:
+    CJEQ I1, $24, label_24;
+    INSTR P1, '\x81', I1;
+    CJEQ I1, $24, label_25;
+    ADD $25, I1;
+    SUBSTR P1, P3, I1, $25;
+    MOVE P3, I3, ABS;
+    FILL P3, $35, I3;
+    SUB $26, I1;
+    SUBSTR P1, P2, $25, I1;
+    STRING P2, P2, P3;
+    LENGTH P1, I5;
+    ADD $27, I1;
+    SUBSTR P1, P3, I1, I5;
+    STRING P1, P2, P3;
+  label_25:
+    JUMP label_26;
+  label_24:
+    PUSH P1;
+    RETURN ;
+END_PROC;
+
+PROC proc_4 =
+    LINK $54, $25, '64', 'dddd';
+    OPEN_WINDOW P1;
+    EXIT $33;
+    RETURN ;
+END_PROC;

@@ -1,0 +1,91 @@
+{ Program 'MSZW010X' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 03/03/88 11:550 }
+
+
+PROC main =
+    RESTORE 'MS_ZW', P4;
+    CJNE SYS_RETURN_CODE, '14', label_1;
+    SAVE 'MS_ZW', P4, P4;
+    CJEQ $117, $25, label_2;
+    CLEAR $91, $151;
+    MOVE $24, $117;
+    MOVE $24, $118;
+    MOVE $24, $112;
+    MOVE $24, $114;
+    MOVE $28, $137;
+    MOVE '\x07', $140;
+    MOVE '\x03', $148;
+    MOVE '\x01', $120;
+    MOVE 'WRITE A MESSAGE', $127;
+    MOVE '(Type Member ID)', $116;
+  label_2:
+    MOVE 'MSZB0000MAP\x00\x04', $121;
+    MOVE $24, $53;
+    MOVE $79, $46;
+  label_1:
+    MOVE $24, $56;
+    MOVE 'd', P4;
+    MOVE P4, P6;
+    CJEQ $140, '\x00', label_3;
+    MOVE 'A04LIST', P4;
+  label_3:
+    CJNE $53, $25, label_4;
+    MOVE 'A04SEND', P5;
+    JUMP label_5;
+  label_4:
+    MOVE 'K04SEND', P5;
+  label_5:
+    CJEQ $148, '\x00', label_6;
+    MOVE 'A07OPTIONS', P6;
+  label_6:
+    STRING P5, P5, 'A05CLEARA05PRINT', P4, P6;
+    LINK $54, $25, '64', P5;
+    MOVE $77, $47;
+    LINK $54, $27, $25, $25, $79;
+    SET_FUNCTION NAVIGATION, FILTER, $81, '\x00';
+    CJNE $117, $25, label_7;
+    CJEQ $133, $34, label_8;
+    MOVE $133, SYS_PREVIOUS_MENU;
+    JUMP label_7;
+  label_8:
+    SET_FUNCTION PREVIOUS_MENU, 00;
+  label_7:
+    proc_1;
+    TRANSFER $54, $30, $137;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    CLEAR &10, &15;
+    CJGE $112, $26, label_9;
+    MOVE $116, &12;
+  label_9:
+    CJLE $112, $25, label_10;
+    JUMP label_11;
+  label_10:
+    CJNE $117, $25, label_12;
+  label_11:
+    SET_ATT '10', $31, 0x0, 0x7, 0x2;
+    CJLE $112, $114, label_13;
+    MOVE 'DISTRIBUTION LIST', P8;
+    JUMP label_14;
+  label_13:
+    MOVE $115, P8;
+  label_14:
+    SUBSTR P8, &10, $25, $31;
+    SUBSTR P8, &11, '8', '18';
+    JUMP label_15;
+  label_12:
+    CJNE $112, $25, label_15;
+    MOVE $101($25), &10;
+  label_15:
+    MOVE $111, &13;
+    CJNE $118, $25, label_16;
+    SET_ATT '13', $31, 0x0, $95, $95;
+  label_16:
+    MOVE $91($36), &15;
+    CJEQ $111, $34, label_17;
+    SET_CURSOR '15';
+  label_17:
+    RETURN ;
+END_PROC;

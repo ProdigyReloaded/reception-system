@@ -1,0 +1,63 @@
+{ Program 'TQPP0002' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/11/88 09:520 }
+
+
+PROC main =
+    MOVE '1', $59;
+    LINK 'TQPXEDITPGM\x00\x0c', '19', 'TQF00006D  \x01\x0c', '20', '1018', '15', '\x0f\x10\x0a\x0b', 'TQF00003D  \x01\x0c';
+    MOVE '0', I1;
+    CJNE &17, '\x00', label_1;
+    CJNE &18, '\x00', label_1;
+    CJNE &13, '\x00', label_1;
+    MOVE '13', I1;
+  label_1:
+    CJEQ &17, '\x00', label_2;
+    CJNE &18, '\x00', label_2;
+    MOVE '18', I1;
+  label_2:
+    CJNE &17, '\x00', label_3;
+    CJEQ &18, '\x00', label_3;
+    MOVE '17', I1;
+  label_3:
+    CJLE I1, '0', label_4;
+    TRANSFER 'TQPXERRTPGM\x00\x0c', 'TQF00003D  \x01\x0c', I1;
+  label_4:
+    UPPER &15;
+    LINK 'TQPXDATEPGM\x00\x0c', &15, &16, '15', '16';
+    CLEAR &14;
+    CLEAR &12;
+    SUBSTR &15, &12, '1', '3';
+    STRING &12, &12, &16;
+    CJEQ &17, '\x00', label_5;
+    CLEAR &13;
+    UPPER &17;
+    UPPER &18;
+    STRING &14, &17, ' ', &18;
+  label_5:
+    LINK 'TQPXPARMPGM\x00\x0c', P1, P2;
+    OPEN_WINDOW $13;
+    CJNE $6, 'W\x00', label_6;
+    JUMP label_7;
+  label_6:
+    CJNE $6, '0\x00', label_8;
+  label_7:
+    CJNE $58, &10, label_9;
+    MOVE $57, &10;
+    MOVE '10', &98;
+    JUMP label_10;
+  label_9:
+    MOVE $57, &11;
+    MOVE '11', &98;
+  label_10:
+    CJNE $57, '\x00', label_8;
+    SET_CURSOR &98;
+  label_8:
+    CJNE $6, '\x0c\x00', label_11;
+    SET_CURSOR '15';
+  label_11:
+    CJNE $6, '\x0d\x00', label_12;
+    SET_CURSOR '10';
+  label_12:
+    REFRESH ;
+    RETURN ;
+END_PROC;

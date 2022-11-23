@@ -1,0 +1,180 @@
+{ Program 'TLPI1010' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 04/10/89 15:370 }
+
+
+PROC main =
+    CLEAR $79;
+    CJNE SYS_CURRENT_CURSOR_POS, '1', label_1;
+    CJNE &2, '\x00', label_1;
+    SET_CURSOR '2';
+    EXIT '99';
+    JUMP label_2;
+  label_1:
+    LINK $70, $99, $99, $99, $99, $98;
+    CJEQ SYS_RETURN_CODE, '0', label_3;
+    proc_1;
+  label_3:
+    LENGTH &2, I3;
+    CJGE I3, $100, label_4;
+    MOVE 'p', $79;
+    proc_1;
+  label_4:
+    CJNE SYS_NOCOMM, $99, label_5;
+    JUMP label_6;
+  label_5:
+    CJNE $55, $99, label_7;
+  label_6:
+    JUMP label_8;
+  label_7:
+    CJNE SYS_LINE_STATUS, $98, label_9;
+  label_8:
+    JUMP label_10;
+  label_9:
+    MOVE $99, $111;
+    OPEN_WINDOW $57;
+  label_11:
+    CJEQ SYS_LINE_STATUS, '0', label_10;
+    OPEN_WINDOW $58;
+    JUMP label_11;
+  label_10:
+    LENGTH &2, I3;
+    MOVE I3, $115, ABS;
+    SUBSTR $115, $115, $100, $99;
+    MOVE '\x01', $36, ABS;
+    MOVE &1, $52;
+    UPPER $52;
+    MOVE &2, $43;
+    UPPER $43;
+    LENGTH &10, I3;
+    CJGE I3, '8', label_12;
+    STRING P6, '0', &10;
+  label_12:
+    STRING $36, $36, $52, $115, $43, P6;
+    CJNE SYS_NOCOMM, $99, label_13;
+    LINK $63;
+    JUMP label_14;
+  label_13:
+    SEND $36, $34, 0x0, 0x0;
+    proc_2;
+  label_14:
+    CJNE SYS_RETURN_CODE, '1', label_15;
+    proc_3;
+    CJEQ &151, '\x00', label_16;
+    CJNE &151, '\x01', label_17;
+    JUMP label_18;
+  label_17:
+    CJNE &151, '\x02', label_19;
+  label_18:
+    proc_4;
+    JUMP label_16;
+  label_19:
+    proc_5;
+    proc_1;
+  label_16:
+    JUMP label_20;
+  label_15:
+    SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
+    OPEN_WINDOW $62;
+    JUMP label_14;
+  label_20:
+    SUBSTR $35, PRF_CUG_SERVICE_ID, '29', '2';
+    CJEQ PRF_CUG_SERVICE_ID, '\x00\x00', label_21;
+    CJEQ PRF_CUG_SERVICE_ID, '\x00', label_21;
+    SUBSTR $60, P3, '3', $101;
+    STRING $60, PRF_CUG_SERVICE_ID, P3;
+  label_21:
+    MOVE $60, SYS_ACCESS_KEY_OBJ_ID;
+    FETCH SYS_ACCESS_KEY_OBJ_ID;
+    proc_6;
+  label_2:
+    RETURN ;
+END_PROC;
+
+PROC proc_3 =
+    SUBSTR $36, PRF_USER_PROFILE_USER_ID, '2', '7';
+    MOVE PRF_USER_PROFILE_USER_ID, SYS_USER_ID;
+    SUBSTR $35, &151, $99, $99;
+    CJEQ &151, '\x00', label_22;
+    RETURN ;
+  label_22:
+    MOVE '0', $53;
+    CJEQ SYS_NOCOMM, $99, label_23;
+    MOVE $98, SYS_SESSION_STATUS;
+  label_23:
+    RETURN ;
+END_PROC;
+
+PROC proc_4 =
+    CJNE &151, '\x02', label_24;
+    MOVE $99, $2;
+    JUMP label_25;
+  label_24:
+    CJNE &151, '\x01', label_25;
+    MOVE $98, $2;
+  label_25:
+    CJEQ SYS_NOCOMM, $99, label_26;
+    MOVE $98, SYS_SESSION_STATUS;
+  label_26:
+    proc_6;
+    RETURN ;
+END_PROC;
+
+PROC proc_6 =
+    PUSH &151;
+    OPEN_WINDOW $72;
+    RETURN ;
+END_PROC;
+
+PROC proc_5 =
+    CJNE &151, '\x0d', label_27;
+    JUMP label_28;
+  label_27:
+    CJNE &151, '\x04', label_29;
+  label_28:
+    SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
+    MOVE 'There is a problem with your account.  Please call', P3;
+    MOVE ' Membership Services at 800 759 8000.', P4;
+    STRING P2, P3, P4;
+    LINK $64, '1', '\x00\x00', P2;
+  label_29:
+    CJNE &151, '\x07', label_30;
+    SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
+    LINK $64, '2', '\x00\x00', '1', 'Your ID is in use. Is it correct? Could anyone else be using it?';
+  label_30:
+    CJNE &151, '\x09', label_31;
+    SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
+    MOVE 'You don't have the recent PRODIGY software version. ', P3;
+    MOVE 'Sorry - you can't run the service now. Please call Membership ', P4;
+    MOVE 'Services: 800 759 8000.', P5;
+    STRING P2, P3, P4, P5;
+    LINK $64, '1', '\x00\x00', P2;
+  label_31:
+    CJNE &151, '\x05', label_32;
+    MOVE 'p', $79;
+    JUMP label_33;
+  label_32:
+    CJEQ &151, '\x08', label_33;
+    CJEQ &151, '\x86', label_33;
+    OPEN_WINDOW $62;
+  label_33:
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    ADD $99, $51;
+    MOVE &151, $108;
+    CLEAR &1, &2;
+    REFRESH ;
+    OPEN_WINDOW $61;
+    CJGT $4, 0x1, label_34;
+    OR '0', I1;
+  label_37:
+    CJEQ SYS_RETURN_CODE, '2', label_35;
+    RECEIVE $34, $35;
+    CJNE SYS_RETURN_CODE, '0', label_36;
+    RETURN '1';
+  label_36:
+    JUMP label_37;
+  label_35:
+    RETURN ;
+END_PROC;

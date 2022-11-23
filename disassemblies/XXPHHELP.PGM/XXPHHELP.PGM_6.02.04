@@ -1,0 +1,35 @@
+{ Program '' compiled with TBOL COMPILER version  }
+{ Date Program compiled  }
+
+
+PROC main =
+    DEF_FIELD $87, $87, $79, $71, $71, $68;
+    SET_FUNCTION 112, 130, $95, 0x2;
+    DEF_FIELD_PGM '78', '\x1f\x00\x0dNEXT0000HLP\x00\x0eJ', $97, $95, 0x2, I1;
+    BREAK ;
+    CJNE $21, $21, label_1;
+    OPEN_WINDOW 'BACK0000HLP\x00\x0e';
+    EXIT ;
+  label_1:
+    CJNE SYS_CURRENT_FIELD, '80', label_2;
+    OPEN_WINDOW 'PATH0000HLP\x00\x0e';
+    EXIT ;
+  label_2:
+    CJNE SYS_CURRENT_FIELD, '74', label_3;
+    OPEN_WINDOW 'JUMP0000HLP\x00\x0e';
+    EXIT ;
+  label_3:
+    CJNE SYS_CURRENT_FIELD, '65', label_4;
+    OPEN_WINDOW 'ACTION00HLP\x00\x0e';
+    EXIT ;
+  label_4:
+    CJNE SYS_CURRENT_FIELD, '72', label_5;
+    OPEN_WINDOW 'HELP0000HLP\x00\x0e';
+    EXIT ;
+  label_5:
+    CJNE SYS_CURRENT_FIELD, '69', label_6;
+    OPEN_WINDOW 'EXIT0000HLP\x00\x0e';
+    EXIT ;
+  label_6:
+    RETURN ;
+END_PROC;

@@ -1,0 +1,232 @@
+{ Program 'XXPXPROF' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 08/08/88 09:380 }
+
+
+PROC main =
+    LINK 'XXOPIRGSPGM\x00\x0c', '1';
+    SAVE 'w.prof', $1, $6;
+    SAVE 'w.prf2', SYS_FM0_TXHDR, SYS_FM0_TXDID;
+    MOVE '1.4.0', $1;
+    CLEAR $1;
+    MOVE '\x00 ', SYS_FM0_TXHDR;
+    MOVE '\x00', SYS_FM0_TXRID;
+    MOVE '\x00\xd2\x03', SYS_FM0_TXDID;
+    MOVE '0', $5;
+    MOVE '1', I4;
+    MOVE '2', I5;
+    MOVE $5, I7;
+    GOTO_DEPENDING_ON P2, label_1, label_2, label_3, label_4;
+  label_1:
+    UPPER P3;
+    CJNE P3, 'BNK', label_5;
+    MOVE '\x01s\x01t\x01u\x01v\x01w\x01x\x01y\x01z\x01{', P3;
+  label_5:
+    CJNE P3, 'INV', label_6;
+    MOVE '\x02\x0a\x02\x0b\x02\x0c\x02\x0d\x02\x0e\x02\x0f\x02\x16\x02\x17\x02\x18\x02\x19\x02\x1a\x02\x1b\x02\x1c\x02\x1d\x02\x1e\x02\x1f\x02 \x02!\x02"\x02#', P3;
+  label_6:
+    CJNE P3, 'TLS', label_7;
+    MOVE '\x01\x15\x01\x1a\x01\x1b\x01#\x01$\x01,\x01-\x015\x016\x01>\x01?\x01G\x01H', P3;
+  label_7:
+    CJNE P3, 'PBA', label_8;
+    MOVE '\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06', P3;
+  label_8:
+    CJNE P3, 'PUN', label_9;
+    MOVE '\x01^\x01_\x01`\x01a', P3;
+  label_9:
+    CJNE P3, 'VWP', label_10;
+    MOVE '\x02?\x02@\x02A\x02B\x02C\x02D\x02E\x02F\x02G\x02H\x02I\x02J', P3;
+  label_10:
+    JUMP label_4;
+  label_2:
+    MOVE P3, I1, ABS;
+    MOVE P4, I2, ABS;
+    GOTO_DEPENDING_ON P1, label_11, label_11, label_12;
+  label_11:
+    CLEAR P3;
+  label_14:
+    CJGT I1, I2, label_13;
+    MOVE I1, P8, ABS;
+    STRING P3, P3, P8;
+    ADD I4, I1;
+    JUMP label_14;
+  label_13:
+    JUMP label_4;
+  label_12:
+    CLEAR SYS_RETURN_CODE(I1), SYS_RETURN_CODE(I2);
+    JUMP label_15;
+  label_3:
+    MOVE P0, I1;
+    SUB I5, I1;
+    MOVE I1, $3, ABS;
+    MOVE I5, I2;
+  label_17:
+    CJGT I2, I1, label_16;
+    STRING P3, P3, P3(I2);
+    ADD I4, I2;
+    JUMP label_17;
+  label_16:
+    GOTO_DEPENDING_ON P1, label_4, label_4, label_18;
+    JUMP label_15;
+  label_4:
+    LENGTH P3, P8;
+    MOVE P8, I1;
+    DIVIDE I5, I1;
+    MOVE I1, $3, ABS;
+    CJEQ P2, '4', label_19;
+    JUMP label_20;
+  label_19:
+    CLEAR P4;
+    MOVE I4, I2;
+  label_26:
+    CJGE I2, P8, label_21;
+    SUBSTR P3, P5, I2, I4;
+    CJNE P5, '@', label_22;
+    ADD I4, I2;
+    SUBSTR P3, P7, I2, '2';
+    ADD '2', I2;
+    SUBSTR P3, P5, I2, '2';
+    ADD '2', I2;
+  label_24:
+    CJGT P7, P5, label_23;
+    STRING P4, P4, P7;
+    MOVE P7, I1, ABS;
+    ADD '1', I1;
+    MOVE I1, P7, ABS;
+    JUMP label_24;
+  label_23:
+    JUMP label_25;
+  label_22:
+    SUBSTR P3, P5, I2, '2';
+    STRING P4, P4, P5;
+    ADD '2', I2;
+  label_25:
+    JUMP label_26;
+  label_21:
+    MOVE P4, P3;
+  label_20:
+    LENGTH P3, P8;
+    MOVE P8, I1;
+    DIVIDE I5, I1;
+    MOVE I1, $3, ABS;
+    GOTO_DEPENDING_ON P1, label_27, label_27, label_18;
+  label_27:
+    MOVE I4, P7;
+    MOVE $5, $3;
+  label_35:
+    CJGT P7, P8, label_28;
+    SUBSTR P3, P6, P7, I5;
+    CJNE P1, I4, label_29;
+    MOVE P6, I2, ABS;
+    LENGTH SYS_RETURN_CODE(I2), P5;
+    CJNE SYS_RETURN_CODE(I2), ' ', label_30;
+    JUMP label_31;
+  label_30:
+    CJLE P5, '0', label_32;
+  label_31:
+    JUMP label_33;
+  label_32:
+    ADD I4, $3;
+    STRING $1, $1, P6, '\x00';
+    JUMP label_33;
+  label_29:
+    MOVE P6, I1, ABS;
+    CJNE SYS_RETURN_CODE(I1), ' ', label_34;
+    JUMP label_33;
+  label_34:
+    ADD I4, $3;
+    MOVE SYS_RETURN_CODE(I1), P5;
+    LENGTH P5, I1;
+    MOVE I1, $2, ABS;
+    SUBSTR $2, $2, I5, I4;
+    STRING $1, $1, P6, $2, P5;
+  label_33:
+    ADD I5, P7;
+    JUMP label_35;
+  label_28:
+    CJNE $3, $5, label_36;
+    JUMP label_15;
+  label_36:
+    MOVE $3, I1;
+    MOVE I1, $3, ABS;
+    GOTO_DEPENDING_ON P1, label_37, label_38;
+  label_37:
+    MOVE '\x03', P6;
+    JUMP label_39;
+  label_38:
+    MOVE '\x04', P6;
+  label_39:
+    STRING $1, '\x13', P6, '\x01', '       ', '   \x00 ', $3, $1;
+    JUMP label_40;
+  label_18:
+    CJGT P7, P8, label_41;
+    SUBSTR P3, P6, P7, I5;
+    MOVE P6, I1, ABS;
+    CLEAR SYS_RETURN_CODE(I1);
+    ADD I5, P7;
+    JUMP label_18;
+  label_41:
+    JUMP label_15;
+  label_40:
+    SEND $1, $6, 0x0, 0x0;
+    proc_1 $6;
+    CJEQ I7, $5, label_42;
+    proc_1 $6;
+  label_42:
+    CJLE I7, $5, label_43;
+    JUMP label_44;
+  label_43:
+    CJNE P1, I5, label_45;
+  label_44:
+    JUMP label_15;
+  label_45:
+    proc_2 $4, $3;
+  label_15:
+    MOVE I7, P1;
+    RESTORE 'w.prf2', SYS_FM0_TXHDR;
+    RELEASE 'w.prf2';
+    RESTORE 'w.prof', $1;
+    RELEASE 'w.prof';
+    LINK 'XXOPIRGSPGM\x00\x0c', I5;
+    RETURN P1;
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    MOVE P2, I1, ABS;
+    MOVE '18', I8;
+  label_48:
+    CJLE I1, $5, label_46;
+    SUBSTR P1, P6, I8, I5;
+    MOVE P6, I2, ABS;
+    ADD I5, I8;
+    SUBSTR P1, $2, I8, I4;
+    MOVE $2, I3, ABS;
+    ADD I4, I8;
+    SUB I4, I1;
+    CJNE I3, $5, label_47;
+    MOVE ' ', SYS_RETURN_CODE(I2);
+    JUMP label_48;
+  label_47:
+    SUBSTR P1, P5, I8, I3;
+    MOVE P5, SYS_RETURN_CODE(I2);
+    ADD I3, I8;
+    JUMP label_48;
+  label_46:
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MOVE $5, I7;
+    RECEIVE P1, $4;
+    CJNE SYS_RETURN_CODE, $5, label_49;
+    LENGTH $4, P2;
+    CJNE P2, I4, label_50;
+    CJEQ $4, $5, label_50;
+    MOVE $4, I7, ABS;
+  label_50:
+    JUMP label_51;
+  label_49:
+    MOVE '2', I7;
+  label_51:
+    RETURN ;
+END_PROC;

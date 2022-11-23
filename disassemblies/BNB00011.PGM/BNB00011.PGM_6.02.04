@@ -1,0 +1,62 @@
+{ Program 'BNB00011' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 04/12/88 10:260 }
+
+
+PROC main =
+    SORT $1, $15, '6';
+    MOVE '0', &125;
+    MOVE '1', &121;
+    MOVE '1', I1;
+    MOVE '1', I2;
+    CLEAR &9, &16;
+  label_3:
+    CJGT I1, $25, label_1;
+    LENGTH $1(I1), I3;
+    SUB '1', I3;
+    SUBSTR $1(I1), &9(I2), '2', I3;
+    MOVE '1', &125;
+    CJNE I2, '8', label_2;
+    MOVE '0', I2;
+    SAVE &121, &9, &16;
+    ADD '1', &121;
+    MOVE '0', &125;
+  label_2:
+    ADD '1', I1;
+    ADD '1', I2;
+    JUMP label_3;
+  label_1:
+    CJNE &125, '1', label_4;
+    SUB '1', I2;
+    MOVE '1', I1;
+    SAVE &121, &9(I1), &9(I2);
+    JUMP label_5;
+  label_4:
+    CJLE &121, '1', label_5;
+    SUB '1', &121;
+  label_5:
+    MOVE 'CANCEL', &32;
+    SET_ATT '32', $95, 0x0, 0x0, 0x4;
+    MOVE 'OK', &33;
+    SET_ATT '33', $95, 0x0, 0x0, 0x4;
+    CJNE $22, '1', label_6;
+    SET_FUNCTION NAVIGATION, FILTER_ON, 'BNB00038PGM\x00\x0c';
+  label_6:
+    MOVE 'ADD', &30;
+    SET_ATT '30', $95, 0x0, 0x0, 0x4;
+    MOVE 'DELETE', &31;
+    SET_ATT '31', $95, 0x0, 0x0, 0x4;
+    CJNE $25, '0', label_7;
+    RELEASE '1';
+    RELEASE '2';
+    SET_CURSOR '34';
+    CLEAR &31;
+    SET_ATT '31', $31, 0x0, 0x4, 0x2;
+    JUMP label_8;
+  label_7:
+    CJNE $25, '15', label_8;
+    CLEAR &30;
+    SOUND '500', '20';
+    SET_ATT '30', $31, 0x0, 0x4, 0x2;
+  label_8:
+    RETURN ;
+END_PROC;

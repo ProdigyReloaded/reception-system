@@ -1,0 +1,71 @@
+{ Program 'XTG0024P' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/24/89 10:360 }
+
+
+PROC main =
+    RESTORE 'mbr', &103;
+    RELEASE 'mbr';
+    CJNE SYS_CURRENT_CURSOR_POS, '12', label_1;
+    JUMP label_2;
+  label_1:
+    CJNE SYS_CURRENT_CURSOR_POS, '10', label_3;
+    JUMP label_4;
+  label_3:
+    CJEQ SYS_CURRENT_CURSOR_POS, '11', label_4;
+    EXIT ;
+  label_4:
+    LENGTH &10, I8;
+    CJNE I8, '0', label_5;
+    CJNE SYS_CURRENT_CURSOR_POS, '10', label_6;
+    JUMP label_7;
+    JUMP label_5;
+  label_6:
+    FILL &100, ' ', '10';
+    JUMP label_8;
+  label_5:
+    CJGE I8, '4', label_9;
+    LINK 'XXOPMSGSPGM\x00\x0c', '1', '\xc4\xef';
+  label_9:
+    MOVE ' ,', &102;
+    MOVE &10, &100;
+    MOVE '+', I6, ABS;
+  label_12:
+    CJLE I8, '0', label_7;
+    SUBSTR &100, P8, I8, '1';
+    MOVE P8, I5, ABS;
+    CJNE I5, I6, label_10;
+    MOVE '*', P8;
+  label_10:
+    INSTR &102, P8, I7;
+    CJEQ I7, '0', label_11;
+    LINK 'XXOPMSGSPGM\x00\x0c', '1', '\xc4\xef';
+  label_11:
+    SUB '1', I8;
+    JUMP label_12;
+  label_7:
+    CJNE SYS_CURRENT_CURSOR_POS, '10', label_8;
+    SET_CURSOR '11';
+    EXIT ;
+  label_8:
+    FILL P8, ' ', '10';
+    STRING &100, &100, P8;
+    SUBSTR &100, &100, '1', '10';
+    CLEAR P3, P4;
+    MOVE &103, P7;
+    SUB '1', P7;
+    MUL '10', P7;
+    SUBSTR $30, P3, '1', P7;
+    MOVE &103, P6;
+    MOVE '6', P5;
+    SUB P6, P5;
+    MUL '10', P5;
+    MUL '10', P6;
+    ADD '1', P6;
+    SUBSTR $30, P4, P6, P5;
+    STRING $30, P3, &100, P4;
+    MOVE 'Y', $32;
+  label_2:
+    CLOSE_WINDOW ;
+    RETURN ;
+    RETURN ;
+END_PROC;

@@ -1,0 +1,33 @@
+{ Program 'XXPXGETP' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/13/87 08:410 }
+
+
+PROC main =
+    LINK 'XXOPIRGSPGM\x00\x0c', '1';
+    MOVE '2', I1;
+    MOVE '3', I2;
+    GOTO_DEPENDING_ON P1, label_1, label_1, label_2, label_2;
+  label_1:
+    STRING P5, P2, P3;
+    LINK 'XXOPSLOTPGM\x00\x0c', P5;
+    CJNE P1, I1, label_3;
+    JUMP label_4;
+  label_3:
+    POP P7;
+    LENGTH P7, I3;
+    MOVE I3, P6, ABS;
+    STRING P8, P4, P5, P6, P7, '\x00';
+    LINK 'XXOPBINDPGM\x00\x0c', P8;
+    JUMP label_5;
+  label_2:
+    LINK P1;
+    CJNE P1, I2, label_6;
+    JUMP label_3;
+  label_6:
+    MOVE P2, P3;
+  label_4:
+    LINK P3;
+  label_5:
+    LINK 'XXOPIRGSPGM\x00\x0c', '2';
+    RETURN ;
+END_PROC;

@@ -1,0 +1,21 @@
+{ Program 'BNA00002' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 03/07/89 16:070 }
+
+
+PROC main =
+    CJNE &139, &138, label_1;
+    SET_FUNCTION NEXT, DISABLE;
+    CLEAR &20;
+    JUMP label_2;
+  label_1:
+    SET_FUNCTION NEXT, FILTER_ON, 'BNA00007PGM\x00\x0c';
+    MOVE '<NEXT> for more choices', &20;
+  label_2:
+    CJNE &139, '1', label_3;
+    SET_FUNCTION BACK, DISABLE;
+    JUMP label_4;
+  label_3:
+    SET_FUNCTION BACK, FILTER_ON, 'BNA00008PGM\x00\x0c';
+  label_4:
+    RETURN ;
+END_PROC;

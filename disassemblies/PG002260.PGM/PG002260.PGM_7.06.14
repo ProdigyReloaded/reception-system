@@ -1,0 +1,41 @@
+{ Program 'PG002260' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/19/88 18:020 }
+
+
+PROC main =
+    STRING P1, '400          013010', $29;
+    LINK $51, P1, '\x00"\x00\x06\x82\x01', '\x008';
+    LINK $52;
+    CJNE SYS_RETURN_CODE, '0', label_1;
+    POP P3;
+    SUBSTR P3, &200, '15', '1';
+    SUBSTR P3, &201, '19', '1';
+    CJLE &200, '0', label_2;
+    JUMP label_3;
+  label_2:
+    CJLE &201, '1', label_4;
+  label_3:
+    MOVE 'CURRENT QUOTE NOT AVAILABLE', &224;
+    RETURN ;
+  label_4:
+    SUBSTR P3, &180, '23', '10';
+    LINK $60, &180, '1';
+    POP &205;
+    SUBSTR P3, &180, '33', '10';
+    LINK $60, &180, '1';
+    POP &206;
+    SUBSTR P3, &180, '43', '10';
+    MOVE &180, &207;
+    LINK $60, &180, '1';
+    POP &180;
+    SUBSTR P3, &204, '53', '8';
+    SUBSTR P3, &203, '61', '5';
+    STRING &190, 'QUOTE AT ', &203, ' EASTERN TIME ', &204;
+    STRING &244, 'BID:', &205, ' ASK:', &206, ' LAST:', &180;
+    STRING &224, &190, '\x0a', &244;
+    JUMP label_5;
+  label_1:
+    MOVE 'CURRENT QUOTE NOT AVAILABLE', &224;
+  label_5:
+    RETURN ;
+END_PROC;

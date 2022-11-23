@@ -1,0 +1,199 @@
+{ Program 'XTG0026P' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/24/89 11:560 }
+
+
+PROC main =
+    RESTORE 'mbr', &104;
+    RELEASE 'mbr';
+    CJNE &104, '\x00', label_1;
+    EXIT ;
+  label_1:
+    CJNE SYS_CURRENT_CURSOR_POS, '12', label_2;
+    CLOSE_WINDOW ;
+  label_2:
+    CJNE SYS_CURRENT_CURSOR_POS, '9', label_3;
+    proc_1;
+    CJNE &102, 'Y', label_4;
+    SET_CURSOR '10';
+    JUMP label_5;
+  label_4:
+    LINK 'XXOPMSGSPGM\x00\x0c', '2', &103, '9';
+  label_5:
+    EXIT ;
+  label_3:
+    CJNE SYS_CURRENT_CURSOR_POS, '10', label_6;
+    proc_2;
+    CJNE &102, 'Y', label_7;
+    SET_CURSOR '11';
+    JUMP label_8;
+  label_7:
+    LINK 'XXOPMSGSPGM\x00\x0c', '2', &103, '10';
+  label_8:
+    EXIT ;
+  label_6:
+    CJEQ SYS_CURRENT_CURSOR_POS, '11', label_9;
+    EXIT ;
+  label_9:
+    proc_1;
+    CJEQ &102, 'Y', label_10;
+    LINK 'XXOPMSGSPGM\x00\x0c', '2', &103, '9';
+  label_10:
+    proc_2;
+    CJEQ &102, 'Y', label_11;
+    LINK 'XXOPMSGSPGM\x00\x0c', '2', &103, '10';
+  label_11:
+    MOVE '0', I1;
+    MOVE '0', I2;
+    MOVE &104, I8;
+    SUB '1', I8;
+    MUL '40', I8;
+    ADD '1', I8;
+    SUBSTR $31, P8, I8, '40';
+    CJEQ P8, &101, label_12;
+    MOVE '1', I1;
+  label_12:
+    MOVE &104, I8;
+    SUB '1', I8;
+    MUL '7', I8;
+    ADD '1', I8;
+    SUBSTR $29, P8, I8, '7';
+    CJEQ P8, &10, label_13;
+    MOVE '1', I2;
+  label_13:
+    CJNE I1, '0', label_14;
+    CJNE I2, '0', label_14;
+    PUSH &104;
+    CLOSE_OPEN_WINDOW 'XTG00003WND\x00\x0e';
+  label_14:
+    CJEQ I1, '0', label_15;
+    proc_3;
+  label_15:
+    CJEQ I2, '0', label_16;
+    proc_4;
+  label_16:
+    MOVE 'Y', $32;
+    SAVE 'xtg0', &104, &104;
+    NAV 'XTG00009PG \x01\x04';
+    RETURN ;
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    MOVE 'N', &102;
+    LENGTH &10, I8;
+    CJNE I8, '0', label_17;
+    MOVE '\xc4\xeb', &103;
+    RETURN ;
+  label_17:
+    CJEQ I8, '7', label_18;
+    MOVE '\xc4\xec', &103;
+    RETURN ;
+  label_18:
+    MOVE &10, &100;
+    UPPER &100;
+    MOVE '1', P8;
+    MOVE '7', P7;
+    MOVE '+', I8, ABS;
+  label_32:
+    CJLE P7, '0', label_19;
+    SUBSTR &100, P6, P8, '1';
+    MOVE P6, I7, ABS;
+    CJNE I7, I8, label_20;
+    MOVE '*', P6;
+  label_20:
+    CJLT P7, '4', label_21;
+    CJGE P6, 'A', label_22;
+    JUMP label_23;
+  label_22:
+    CJLE P6, 'Z', label_24;
+  label_23:
+    MOVE '\xc4\xec', &103;
+    RETURN ;
+  label_24:
+    JUMP label_25;
+  label_21:
+    CJNE P7, '1', label_26;
+    CJGE P6, 'A', label_27;
+    JUMP label_28;
+  label_27:
+    CJLE P6, 'F', label_29;
+  label_28:
+    MOVE '\xc4\xec', &103;
+    RETURN ;
+  label_29:
+    JUMP label_25;
+  label_26:
+    CJGE P6, '0', label_30;
+    JUMP label_31;
+  label_30:
+    CJLE P6, '9', label_25;
+  label_31:
+    MOVE '\xc4\xec', &103;
+    RETURN ;
+  label_25:
+    ADD '1', P8;
+    SUB '1', P7;
+    JUMP label_32;
+  label_19:
+    MOVE $29, P8;
+    UPPER P8;
+    INSTR P8, &100, I8;
+    CJEQ I8, '0', label_33;
+    DIVIDE '7', I8;
+    ADD '1', I8;
+    CJEQ I8, &104, label_33;
+    MOVE '\xc4\xf3', &103;
+    RETURN ;
+  label_33:
+    MOVE 'Y', &102;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MOVE 'N', &102;
+    LENGTH &9, I8;
+    CJNE I8, '0', label_34;
+    MOVE '\xc4\xeb', &103;
+    RETURN ;
+  label_34:
+    MOVE 'Y', &102;
+    MOVE &9, &101;
+    FILL P8, ' ', '40';
+    STRING &101, &101, P8;
+    SUBSTR &101, &101, '1', '40';
+    RETURN ;
+END_PROC;
+
+PROC proc_3 =
+    CLEAR P3, P4;
+    MOVE &104, P7;
+    SUB '1', P7;
+    MUL '40', P7;
+    SUBSTR $31, P3, '1', P7;
+    MOVE &104, P6;
+    MOVE '6', P5;
+    SUB P6, P5;
+    MUL '40', P5;
+    MUL '40', P6;
+    ADD '1', P6;
+    SUBSTR $31, P4, P6, P5;
+    STRING $31, P3, &101, P4;
+    RETURN ;
+END_PROC;
+
+PROC proc_4 =
+    CLEAR P3, P4;
+    MOVE &104, P7;
+    SUB '1', P7;
+    MUL '7', P7;
+    SUBSTR $29, P3, '1', P7;
+    MOVE &104, P6;
+    MOVE '6', P5;
+    SUB P6, P5;
+    MUL '7', P5;
+    MUL '7', P6;
+    ADD '1', P6;
+    SUBSTR $29, P4, P6, P5;
+    STRING $29, P3, &10, P4;
+    RETURN ;
+END_PROC;

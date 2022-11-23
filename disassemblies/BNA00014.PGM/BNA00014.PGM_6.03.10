@@ -1,0 +1,27 @@
+{ Program 'BNA00014' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/17/88 18:050 }
+
+
+PROC main =
+    CJNE $56, ',', label_1;
+    LINK 'BNA00015PGM\x00\x0c';
+    JUMP label_2;
+  label_1:
+    CJNE $56, '/', label_3;
+    LINK 'BNA00015PGM\x00\x0c';
+    JUMP label_2;
+  label_3:
+    CJNE $56, '+', label_2;
+    LINK 'BNA00017PGM\x00\x0c';
+  label_2:
+    REFRESH ;
+    LINK 'BNB00037PGM\x00\x0c', '75', $79, $80;
+    CJNE SYS_RETURN_CODE, '0', label_4;
+    POP $81;
+    STRING &20, $81, ' (', $79, ')';
+    JUMP label_5;
+  label_4:
+    MOVE $79, &20;
+  label_5:
+    RETURN ;
+END_PROC;

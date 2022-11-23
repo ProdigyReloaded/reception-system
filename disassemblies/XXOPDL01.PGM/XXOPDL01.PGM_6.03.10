@@ -1,0 +1,177 @@
+{ Program 'XXPEDL01' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 06/02/88 13:530 }
+
+
+PROC main =
+    CJEQ P1, '1', label_1;
+    MOVE &249, I3;
+    MOVE &248, I4;
+  label_1:
+    GOTO_DEPENDING_ON P1, label_2, label_3, label_4, label_5;
+  label_2:
+    STRING P3, '5', 'XXOPDL01PGM\x00\x0c';
+    MOVE I1, &255;
+    MOVE I2, &252;
+    MOVE I3, &254;
+    MOVE I4, &253;
+    MOVE I5, &251;
+    MOVE I6, &250;
+    MOVE '2', &2;
+    MOVE '1', &1;
+    MOVE '8', &8;
+    MOVE '9', &9;
+    POP P2;
+    SUBSTR P2, P5, &1, &2;
+    MOVE P5, I4, ABS;
+    POP &10;
+    SUBSTR P2, &246, '6', &1;
+    CJEQ &246, &1, label_6;
+    SET_ATT '23', $31, 0x0, $95, $95;
+  label_6:
+    MOVE &1, I1;
+  label_8:
+    CJGT I1, I4, label_7;
+    POP &128(I1);
+    ADD &1, I1;
+    JUMP label_8;
+  label_7:
+    SUBSTR P2, P3, '4', &2;
+    MOVE P3, I3, ABS;
+    PUSH '\x00\x00';
+    JUMP label_9;
+  label_3:
+    ADD &1, I3;
+    JUMP label_9;
+  label_4:
+    SUB &1, I3;
+  label_9:
+    SUBSTR &128(I3), P6, &1, &1;
+    MOVE '11', P8;
+    MOVE &1, I1;
+    MOVE &2, I2;
+    CLEAR &247;
+  label_21:
+    CJGT I1, '9', label_10;
+    CJGT I1, P6, label_11;
+    SUBSTR &128(I3), P4, I2, &2;
+    ADD &2, I2;
+    SUBSTR &128(I3), P3, I2, &1;
+    ADD &1, I2;
+    CJNE P3, &8, label_12;
+    JUMP label_13;
+  label_12:
+    CJNE P3, &9, label_14;
+  label_13:
+    MOVE P4, I5;
+    JUMP label_15;
+  label_14:
+    MOVE P4, I5, ABS;
+  label_15:
+    SUBSTR &128(I3), P7, I2, I5;
+    CJNE P3, &1, label_16;
+    JUMP label_17;
+  label_16:
+    CJNE P3, &8, label_18;
+  label_17:
+    MOVE '>', &1(P8);
+    STRING &247, &247, P8;
+    SET_ATT P8, $95, 0x0, $95, $95;
+    JUMP label_19;
+  label_18:
+    MOVE ' ', &1(P8);
+    SET_ATT P8, $31, 0x0, $95, $95;
+  label_19:
+    ADD &1, P8;
+    MOVE P7, &1(P8);
+    ADD I5, I2;
+    JUMP label_20;
+  label_11:
+    MOVE ' ', &1(P8);
+    SET_ATT P8, $31, 0x0, $95, $95;
+    ADD &1, P8;
+    CLEAR &1(P8);
+  label_20:
+    ADD &1, P8;
+    ADD &1, I1;
+    JUMP label_21;
+  label_10:
+    SET_CURSOR '11';
+    CJLE I3, &1, label_22;
+    STRING P3, '3', 'XXOPDL01PGM\x00\x0c';
+    SET_FUNCTION BACK, FILTER_ON, 'XXOPGF02PGM\x00\x0c', P3;
+    CJNE I3, I4, label_23;
+    proc_1;
+    JUMP label_24;
+  label_23:
+    JUMP label_25;
+  label_24:
+    JUMP label_26;
+  label_22:
+    proc_2;
+    CJLE I4, &1, label_27;
+    JUMP label_25;
+    JUMP label_26;
+  label_27:
+    proc_1;
+  label_26:
+    JUMP label_28;
+  label_5:
+    CJNE SYS_CURRENT_CURSOR_POS, '29', label_29;
+    JUMP label_30;
+  label_29:
+    MOVE '-1', I1;
+  label_32:
+    ADD &2, I1;
+    SUBSTR &247, P3, I1, &2;
+    CJEQ SYS_CURRENT_CURSOR_POS, P3, label_31;
+    JUMP label_32;
+  label_31:
+    ADD &1, I1;
+    DIVIDE &2, I1;
+    POP &10;
+    PUSH I1;
+    PUSH I3;
+    JUMP label_33;
+  label_30:
+    CJEQ &246, &1, label_33;
+    proc_3 'ESC is unavailable';
+  label_33:
+    MOVE &255, I1;
+    MOVE &252, I2;
+    MOVE &254, I3;
+    MOVE &253, I4;
+    MOVE &251, I5;
+    MOVE &250, I6;
+    CLOSE_WINDOW ;
+  label_25:
+    STRING P3, &2, 'XXOPDL01PGM\x00\x0c';
+    SET_FUNCTION NEXT, FILTER_ON, 'XXOPGF02PGM\x00\x0c', P3;
+    MOVE 'MORE [NEXT]', &30;
+  label_28:
+    MOVE I3, &249;
+    MOVE I4, &248;
+    MOVE &255, I1;
+    MOVE &252, I2;
+    MOVE &254, I3;
+    MOVE &253, I4;
+    MOVE &251, I5;
+    MOVE &250, I6;
+    RETURN ;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    SET_FUNCTION NEXT, 00;
+    CLEAR &30;
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    SET_FUNCTION BACK, 00;
+    RETURN ;
+END_PROC;
+
+PROC proc_3 =
+    LINK 'XXOPMSGSPGM\x00\x0c', &2, P1, '10';
+    RETURN ;
+END_PROC;

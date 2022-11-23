@@ -1,0 +1,72 @@
+{ Program 'XTG0020P' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 10/05/89 14:120 }
+
+
+PROC main =
+    CJNE SYS_CURRENT_CURSOR_POS, '1', label_1;
+    CLEAR &201;
+    JUMP label_2;
+  label_1:
+    CJNE SYS_CURRENT_CURSOR_POS, '2', label_3;
+    MOVE '\x01', $24;
+    NAV 'XTG00004PG \x01\x04';
+  label_3:
+    CJNE SYS_CURRENT_CURSOR_POS, '3', label_4;
+    NAV 'XTG00009PG \x01\x04';
+  label_4:
+    CJGE SYS_CURRENT_CURSOR_POS, '4', label_5;
+    JUMP label_6;
+  label_5:
+    CJLE SYS_CURRENT_CURSOR_POS, '9', label_7;
+  label_6:
+    JUMP label_8;
+  label_7:
+    MOVE SYS_CURRENT_CURSOR_POS, I1;
+    SUB '4', I1;
+    MOVE I1, I2;
+    MUL '7', I1;
+    MUL '10', I2;
+    ADD '1', I1;
+    ADD '1', I2;
+    CLEAR &200, &201;
+    SUBSTR $29, &201, I1, '7';
+    UPPER &201;
+    SUBSTR $30, &200, I2, '10';
+    INSTR &200, ' ', I8;
+    CJEQ I8, '0', label_9;
+    SUB '1', I8;
+    SUBSTR &200, &200, '1', I8;
+  label_9:
+    UPPER &200;
+    LENGTH &200, I8;
+    MOVE I8, P8, ABS;
+    SUBSTR P8, P8, '2', '1';
+    STRING &201, &201, P8, &200;
+  label_2:
+    LENGTH &201, I8;
+    OPEN 'LOGIN.IN', 'w';
+    WRITE 'LOGIN.IN', &201, I8;
+    CLOSE 'LOGIN.IN';
+    MOVE '6', SYS_SURROGATE;
+    RESTORE 'van_upd', P8;
+    CJNE SYS_RETURN_CODE, '0', label_10;
+    TRIGGER_FUNCTION BYE;
+  label_10:
+    CJNE $21, '\x01', label_11;
+    MOVE '\x00', $21;
+    LINK 'XTG00099PGM\x00\x0c', 'XTG00010.DAT', '1', $21;
+    CJNE $33, '01', label_12;
+    NAV 'XTG0LOGLPG \x01\x04';
+    JUMP label_11;
+  label_12:
+    NAV 'XTG0LOGHPG \x01\x04';
+  label_11:
+    CJNE SYS_LOGON_CHOICE, 'A', label_13;
+    NAV 'XTG0TLOTPG \x01\x04';
+    JUMP label_8;
+  label_13:
+    NAV 'TLOT0010PG \x01\x04';
+  label_8:
+    RETURN ;
+    RETURN ;
+END_PROC;

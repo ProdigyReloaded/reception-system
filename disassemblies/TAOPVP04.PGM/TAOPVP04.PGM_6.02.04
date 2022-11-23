@@ -1,0 +1,25 @@
+{ Program 'TAPHVP04' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/02/87 13:590 }
+
+
+PROC main =
+    CJNE SYS_CURRENT_CURSOR_POS, P3, label_1;
+    JUMP label_2;
+  label_1:
+    CJLT &1(P2), $2, label_3;
+    CJGT &1(P2), '12', label_3;
+    GOTO_DEPENDING_ON P1, label_4, label_5;
+  label_5:
+    CJLE &1(P2), $18, label_4;
+    JUMP label_6;
+  label_4:
+    MOVE &1(P2), $5;
+  label_2:
+    CLOSE_WINDOW ;
+  label_3:
+    CLEAR &1(I1);
+    SET_CURSOR &1(I1);
+  label_6:
+    LINK 'XXOPMSGSPGM\x00\x0c', $2, '\x00\x00', 'Please select only a valid entry on your ViewPath List.';
+    RETURN ;
+END_PROC;

@@ -1,0 +1,37 @@
+{ Program 'PG000100' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 09/09/88 14:220 }
+
+
+PROC main =
+  label_2:
+    CJNE SYS_RETURN_CODE, '0', label_1;
+    POP P1;
+    JUMP label_2;
+  label_1:
+    CLEAR $1, $222;
+    MOVE 'PG009965PGM\x00\x0c', SYS_SAFE_PAGE;
+    MOVE 'PG009100PGM\x00\x0c', $51;
+    MOVE 'PG009200PGM\x00\x0c', $52;
+    MOVE 'PG009940PGM\x00\x0c', $53;
+    MOVE 'PG009945PGM\x00\x0c', $54;
+    MOVE 'XXOPMSGSPGM\x00\x0c', $56;
+    MOVE 'PG009910PGM\x00\x0c', $55;
+    MOVE 'PG009205PGM\x00\x0c', $57;
+    MOVE 'PG009215PGM\x00\x0c', $58;
+    MOVE 'PG009960PGM\x00\x0c', $60;
+    MOVE 'PG009000PG \x01\x04', $59;
+    MOVE 'XXOPSETFPGM\x00\x0c', $61;
+    LINK 'XXOPPROFPGM\x00\x0c', '1', '3', '\x02\x82', '\x02\x82';
+    CJEQ SYS_RETURN_CODE, '0', label_3;
+    SET_FUNCTION NAVIGATION, 00;
+    NAV 'PG009000PG \x01\x04';
+  label_3:
+    MOVE 'FINANCIAL NETWORK', $39;
+    CJNE PRF_BROKER_MEMBER, '1', label_4;
+    NAV 'PB000001PG \x01\x04';
+    JUMP label_5;
+  label_4:
+    NAV 'PBC00000PG \x01\x04';
+  label_5:
+    RETURN ;
+END_PROC;

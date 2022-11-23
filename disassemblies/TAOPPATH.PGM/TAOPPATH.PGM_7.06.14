@@ -1,0 +1,84 @@
+{ Program 'TAPXPATH' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/07/89 15:420 }
+
+
+PROC main =
+    GOTO_DEPENDING_ON P1, label_1, label_2, label_3;
+  label_3:
+    CJGT SYS_PATH_PTR, '0', label_4;
+    JUMP label_5;
+  label_4:
+    CJLE SYS_PATH_PTR, '12', label_6;
+    MOVE '1', SYS_PATH_PTR;
+  label_6:
+    MOVE SYS_PATH_PTR, P6;
+    MOVE PRF_PERSONAL_PATH_JUMPWORD_1(P6), P1;
+    CJNE P1, ' ', label_7;
+    JUMP label_8;
+  label_7:
+    CJNE P1, '\x00', label_9;
+  label_8:
+    MOVE '1', SYS_PATH_PTR;
+    JUMP label_6;
+  label_9:
+    JUMP label_10;
+  label_5:
+    NAV 'XFEP0001PG \x01\x04';
+  label_1:
+    MOVE '1', P8;
+    MOVE '10', P4;
+  label_15:
+    CJGE P8, '13', label_11;
+    CJNE PRF_PERSONAL_PATH_JUMPWORD_1(P8), ' ', label_12;
+    JUMP label_13;
+  label_12:
+    CJNE PRF_PERSONAL_PATH_JUMPWORD_1(P8), '\x00', label_14;
+  label_13:
+    SET_ATT P4, $31, 0x0, $95, $95;
+  label_14:
+    MOVE PRF_PERSONAL_PATH_JUMPWORD_1(P8), &1(P4);
+    ADD '1', P8;
+    ADD '1', P4;
+    JUMP label_15;
+  label_11:
+    MOVE SYS_PATH_PTR, P8;
+    CJNE PRF_PERSONAL_PATH_JUMPWORD_1(P8), ' ', label_16;
+    JUMP label_17;
+  label_16:
+    CJNE PRF_PERSONAL_PATH_JUMPWORD_1(P8), '\x00', label_18;
+  label_17:
+    MOVE '1', SYS_PATH_PTR;
+  label_18:
+    MOVE SYS_PATH_PTR, P8;
+    ADD '9', P8;
+    SET_CURSOR P8;
+    RETURN ;
+  label_2:
+    CJNE SYS_CURRENT_CURSOR_POS, '0', label_19;
+    RETURN ;
+  label_19:
+    CJNE SYS_CURRENT_CURSOR_POS, '22', label_20;
+    NAV 'TAOTVP00MAP\x00\x04';
+  label_20:
+    CJNE SYS_CURRENT_CURSOR_POS, '23', label_21;
+    CLOSE_WINDOW ;
+  label_21:
+    MOVE SYS_PATH_PTR, P6;
+    MOVE SYS_CURRENT_CURSOR_POS, P8;
+    MOVE &1(P8), P1;
+    SUB '9', P8;
+    MOVE P8, SYS_PATH_PTR;
+  label_10:
+    ADD '1', SYS_PATH_PTR;
+    LINK 'XXOPKWRDPGM\x00\x0c', P1;
+    CJNE SYS_RETURN_CODE, '0', label_22;
+    POP P7;
+    FETCH P7;
+    FETCH P7;
+    LINK 'XXOPKWRDPGM\x00\x0c', PRF_PERSONAL_PATH_JUMPWORD_1(P6), '1';
+    NAV P7;
+  label_22:
+    MOVE P1, SYS_ERROR_TEXT;
+    LINK 'XXOPMSGSPGM\x00\x0c', '1', '\x00g';
+    RETURN ;
+END_PROC;

@@ -1,0 +1,38 @@
+{ Program 'TLPD1110' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/10/88 18:390 }
+
+
+PROC main =
+    CJNE SYS_PATH_PTR, '-1', label_1;
+    FETCH $76, KEYWORD_TABLE;
+    MOVE $101, KEYWORD_LENGTH;
+    CJEQ SYS_NOCOMM, $99, label_2;
+    proc_1;
+    RESTORE 'ENROLL', P3;
+    CJNE SYS_RETURN_CODE, '0', label_3;
+    JUMP label_4;
+  label_3:
+    CJNE SYS_AD_LIST, '\x00', label_5;
+  label_4:
+    PUSH '\x00';
+    LINK 'TLPEADDSPGM\x00\x0c';
+    RELEASE 'ENROLL';
+  label_5:
+    FETCH $109;
+    FETCH $110;
+    JUMP label_1;
+  label_2:
+    MOVE $99, SYS_PATH_PTR;
+  label_1:
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MOVE '0', SYS_PATH_PTR;
+    LINK 'XXOPPROFPGM\x00\x0c', '1', '1', 'VWP';
+    CJEQ SYS_RETURN_CODE, '0', label_6;
+    RETURN ;
+  label_6:
+    MOVE '1', SYS_PATH_PTR;
+    RETURN ;
+END_PROC;

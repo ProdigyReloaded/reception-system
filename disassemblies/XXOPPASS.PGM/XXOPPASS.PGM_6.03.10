@@ -1,0 +1,11 @@
+{ Program 'XXPHPASS' compiled with TBOL COMPILER version 4.011 }
+{ Date Program compiled 11/05/87 13:330 }
+
+
+PROC main =
+    UPPER &1(P3);
+    CJNE &1(P3), P1, label_1;
+    NAV P2;
+  label_1:
+    RETURN ;
+END_PROC;

@@ -1,0 +1,164 @@
+{ Program 'MSZB016X' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/08/88 10:320 }
+
+
+PROC main =
+    CJNE P0, $24, label_1;
+    CLEAR P1;
+  label_1:
+    RESTORE 'MS_ZB1', P4;
+    CJEQ SYS_RETURN_CODE, '14', label_2;
+    RELEASE 'MS_ZB1';
+    proc_1;
+    proc_2 $36;
+    JUMP label_3;
+  label_2:
+    CJNE P1, $24, label_3;
+    MOVE $25, $36;
+    MOVE $25, $56;
+    SAVE 'MS_ZB0', $25, $25;
+    proc_3 $25;
+    CLEAR &98, &99;
+    proc_1;
+    proc_2 $25;
+    CJNE &192, $25, label_4;
+    STRING $48, '\x01', '\x0b', $170(&52);
+    CJEQ SYS_NOCOMM, $25, label_5;
+    SEND $48, $50, 0x0, 0x4;
+  label_5:
+    proc_3 $26;
+  label_4:
+    MOVE $36, &98;
+    MOVE $37, &99;
+  label_3:
+    CJNE P1, $24, label_6;
+    MOVE $178(&52), P8;
+    AND '\x05', P8;
+    CJEQ P8, '\x00', label_7;
+    MOVE 'k', P8;
+    JUMP label_8;
+  label_7:
+    MOVE 'A05REPLY', P8;
+  label_8:
+    STRING P8, P8, 'A06DELETEA09NEXT MAILA07OPTIONS';
+    LINK $54, $25, '64', P8;
+    MOVE $80, $47;
+    LINK $54, $27, $25, $25, $25;
+    JUMP label_9;
+  label_6:
+    proc_2 $36;
+  label_9:
+    TRANSFER $54, $30, $37;
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    CJNE $36, $37, label_10;
+    SET_CURSOR '64';
+  label_10:
+    MUL '480', P1;
+    SUB '479', P1;
+    SUBSTR $212, &15, P1, '480';
+    MOVE $24, SYS_WORD_WRAP;
+    REFRESH ;
+    MOVE $25, SYS_WORD_WRAP;
+    RETURN ;
+END_PROC;
+
+PROC proc_3 =
+    CJNE SYS_NOCOMM, $25, label_11;
+    FETCH $85(P1), $49;
+    JUMP label_12;
+  label_11:
+    RECEIVE $50, $49;
+  label_13:
+    CJEQ SYS_RETURN_CODE, '2', label_12;
+    CJEQ SYS_RETURN_CODE, '0', label_12;
+    RECEIVE $50, $49;
+    JUMP label_13;
+  label_12:
+    LENGTH $49, P2;
+    CJNE SYS_RETURN_CODE, '2', label_14;
+    JUMP label_15;
+  label_14:
+    CJNE P2, $25, label_16;
+  label_15:
+    proc_4 $60;
+  label_16:
+    CJNE P1, $25, label_17;
+    CLEAR $212;
+    MOVE $194(&52), I1, ABS;
+    SUB $31, I1;
+    SUBSTR $106($94), P6, I1, $25;
+    OR '\x10', P6;
+    SUB $25, I1;
+    SUBSTR $106($94), P7, $25, I1;
+    ADD $26, I1;
+    LENGTH $106($94), I2;
+    SUBSTR $106($94), P8, I1, I2;
+    STRING $106($94), P7, P6, P8;
+    MOVE $178(&52), P8;
+    AND '\x04', P8;
+    CJEQ P8, '\x00', label_18;
+    LINK $89;
+  label_18:
+    CJNE $212, $34, label_19;
+    SUBSTR $49, $190(&52), '9', $29;
+    proc_5 '14';
+  label_19:
+    JUMP label_20;
+  label_17:
+    proc_5 $25;
+  label_20:
+    MOVE $194(&52), I1, ABS;
+    SUB $25, I1;
+    SUBSTR $106($94), P7, $25, I1;
+    ADD $30, I1;
+    LENGTH $106($94), I2;
+    SUBSTR $106($94), P8, I1, I2;
+    STRING $106($94), P7, $190(&52), P8;
+    LENGTH $212, I1;
+    ADD '479', I1;
+    DIVIDE '480', I1;
+    MOVE I1, $37;
+    CLEAR $49;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MOVE $198(&52), &11;
+    MOVE $202(&52), &13;
+    MOVE $186(&52), &14;
+    MOVE $178(&52), P8;
+    AND '\x02', P8;
+    CJNE P8, '\x00', label_21;
+    STRING &12, '(', $174(&52), ')';
+    MOVE 'e', &193;
+    JUMP label_22;
+  label_21:
+    CLEAR &12;
+    MOVE 'd', &193;
+  label_22:
+    RETURN ;
+END_PROC;
+
+PROC proc_5 =
+    SUBSTR $49, P8, P1, $26;
+    MOVE P8, I1, ABS;
+    CJNE I1, '500', label_23;
+    MOVE $25, &192;
+    JUMP label_24;
+  label_23:
+    MOVE $24, &192;
+  label_24:
+    ADD $26, P1;
+    SUBSTR $49, P8, P1, I1;
+    STRING $212, $212, P8;
+    RETURN ;
+END_PROC;
+
+PROC proc_4 =
+    LINK $54, $25, '64', 'dddd';
+    OPEN_WINDOW P1;
+    RETURN ;
+END_PROC;

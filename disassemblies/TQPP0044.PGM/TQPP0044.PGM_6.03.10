@@ -1,0 +1,61 @@
+{ Program 'TQPP0044' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 09/26/88 15:160 }
+
+
+PROC main =
+    CJNE &10, '\x00', label_1;
+    FETCH 'TR000026D  \x01\x0c', P8;
+    TRANSFER 'XXOPMSGSPGM\x00\x0c', '1', '\x00\x00', P8;
+  label_1:
+    MOVE PRF_AA_ADVANTAGE_NUMBER, &9;
+    LINK 'TQPXCMMAPGM\x00\x0c', '\x0a\x0b';
+    LINK 'TQPXPARMPGM\x00\x0c', '4SIGNON', '\x09\x0b', '8\x00\x0b9\x00\x0a', '1';
+    CJNE $6, ':\x00', label_2;
+    JUMP label_3;
+  label_2:
+    CJNE $6, ';\x00', label_4;
+  label_3:
+    proc_1;
+  label_4:
+    CJEQ $6, '5\x00', label_5;
+    CJEQ $6, 'G\x00', label_5;
+    LINK 'TQPI003APGM\x00\x0c';
+    SET_FUNCTION NAVIGATION, 00;
+    NAV 'TR000004MAP\x00\x04';
+  label_5:
+    CJEQ PRF_TRAVEL_AGENT_CODE, '     ', label_6;
+    SAVE 'APRF', $3, $14;
+    CLEAR $60;
+    MOVE '/PRO', $2;
+    LINK 'TQPXSENDPGM\x00\x0c', '2';
+    LINK 'TQPXINITPGM\x00\x0c', '1';
+    MOVE &3, $62;
+    MOVE &4, $63;
+    MOVE &5, $64;
+    MOVE &6, $65;
+    MOVE &7, $61;
+    MOVE &8, $60;
+    MOVE &9, $80;
+    RESTORE 'APRF', $3;
+    RELEASE 'APRF';
+    SUBSTR PRF_TRAVEL_AGENT_CODE, P1, '1', '3';
+    STRING PRF_TRAVEL_AGENT_CODE, P1, '0 ';
+  label_6:
+    CJNE $6, '5\x00', label_7;
+    proc_1;
+  label_7:
+    LINK 'TQPXTABLPGM\x00\x0c', $18, $17, '19', '13';
+    CJNE $16, '0', label_8;
+    MOVE 'M', $15;
+  label_8:
+    STRING $2, '/', $15;
+    LINK 'TQPXSENDPGM\x00\x0c', '2';
+    proc_1;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    SET_FUNCTION NAVIGATION, 00;
+    NAV $12;
+    RETURN ;
+END_PROC;

@@ -1,0 +1,21 @@
+{ Program 'XTG00041' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/25/89 11:360 }
+
+
+PROC main =
+    CJEQ SYS_WINDOW_ID, '\x00', label_1;
+    LINK 'XXOPMSGSPGM\x00\x0c', '1', '\xc4\xf2';
+  label_1:
+    PUSH I8;
+    PUSH P8;
+    LENGTH P1, I8;
+    CJNE I8, '26', label_2;
+    SUBSTR P1, P8, '14', '13';
+    SUBSTR P1, P1, '1', '13';
+    LINK P8;
+  label_2:
+    POP P8;
+    POP I8;
+    NAV P1;
+    RETURN ;
+END_PROC;

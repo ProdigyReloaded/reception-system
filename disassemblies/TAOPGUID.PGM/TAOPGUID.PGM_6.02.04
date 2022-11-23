@@ -1,0 +1,75 @@
+{ Program 'TAPXGUID' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 04/06/88 15:480 }
+
+
+PROC main =
+    RESTORE 'gpsb', P1;
+    MOVE '2', P8;
+    MOVE '1', P5;
+    CJEQ SYS_RETURN_CODE, '0', label_1;
+    MOVE P5, P6;
+    PUSH I1;
+  label_7:
+    CJGE P6, '4', label_2;
+    SUBSTR SYS_GUIDE, P7, P6, P5;
+    MOVE P7, I1;
+    MOVE I1, P7, ABS;
+    SUBSTR P7, P1(P6), P8, P5;
+    CJGE P1(P6), '\x01', label_3;
+    JUMP label_4;
+  label_3:
+    CJLE P1(P6), '\x09', label_5;
+  label_4:
+    JUMP label_6;
+  label_5:
+    ADD P5, P6;
+    JUMP label_7;
+  label_2:
+    MOVE P5, P4;
+    SAVE 'gpsb', P1, P4;
+    POP I1;
+    JUMP label_8;
+  label_1:
+    CJNE P4, P5, label_9;
+    MOVE P8, P4;
+    JUMP label_10;
+  label_9:
+    CJNE P4, P8, label_10;
+    MOVE '3', P4;
+  label_10:
+    SAVE 'gpsb', P1, P4;
+    CJEQ P4, '3', label_6;
+    CJEQ P4, '4', label_6;
+    JUMP label_8;
+  label_6:
+    LENGTH PRF_CUG_SERVICE_ID, P2;
+    CJNE PRF_CUG_SERVICE_ID, '\x00\x00', label_11;
+    JUMP label_12;
+  label_11:
+    CJNE P2, '0', label_13;
+  label_12:
+    STRING P3, 'XG', 'MT0001MAP\x00\x04';
+    JUMP label_14;
+  label_13:
+    STRING P3, PRF_CUG_SERVICE_ID, 'MT0001MAP\x00\x04';
+  label_14:
+    FETCH P3;
+    FETCH P3;
+    NAV P3;
+  label_8:
+    LENGTH PRF_CUG_SERVICE_ID, P2;
+    CJNE PRF_CUG_SERVICE_ID, '\x00\x00', label_15;
+    JUMP label_16;
+  label_15:
+    CJNE P2, '0', label_17;
+  label_16:
+    STRING P3, 'XG', 'MB0001MAP\x00\x04';
+    JUMP label_18;
+  label_17:
+    STRING P3, PRF_CUG_SERVICE_ID, 'MB0001MAP\x00\x04';
+  label_18:
+    FETCH P3;
+    FETCH P3;
+    NAV P3;
+    RETURN ;
+END_PROC;

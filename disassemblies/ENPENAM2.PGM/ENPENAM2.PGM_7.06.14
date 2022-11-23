@@ -1,0 +1,18 @@
+{ Program 'ENPENAM2' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/17/87 19:460 }
+
+
+PROC main =
+    LINK 'XXOPSETFPGM\x00\x0c', '3';
+    SET_FUNCTION PAGE_HELP, 00;
+    SET_FUNCTION FIELD_HELP, 00;
+    SET_ATT '1', 0x0, $95, $95, $95;
+    SET_ATT '2', 0x0, $95, $95, $95;
+    CJNE $1, $99, label_1;
+    MOVE $40, &1;
+    MOVE $38, &2;
+    MOVE $39, &3;
+    MOVE $37, &4;
+  label_1:
+    RETURN ;
+END_PROC;

@@ -1,0 +1,32 @@
+{ Program 'BN000102' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 03/07/89 15:590 }
+
+
+PROC main =
+    MOVE 'Y', TTX_ASST_ZIPPABLE_PTO;
+    CJEQ $1, 'BN000050', label_1;
+    MOVE '1', $3;
+  label_1:
+    CJNE TTX_ASST_EVENT, 'ZIP', label_2;
+    RESTORE 'ZIPDATA', $3;
+    RELEASE 'ZIPDATA';
+  label_2:
+    MOVE '1,5/7#2-8+', P1;
+    LOOKUP $3, P1, '2', '1', I1;
+    ADD '1', I1;
+    SUBSTR P1, $4, I1, '1';
+    CJNE $3, '1', label_3;
+    MOVE '72', P1;
+    JUMP label_4;
+  label_3:
+    CJNE $3, '5', label_5;
+    MOVE '73', P1;
+    JUMP label_4;
+  label_5:
+    CJNE $3, '8', label_4;
+    MOVE '74', P1;
+  label_4:
+    STRING SYS_SELECTED_OBJ_ID, 'BN0000', P1, 'BDY\x00\x08';
+    CLEAR $1;
+    RETURN ;
+END_PROC;

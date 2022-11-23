@@ -1,0 +1,26 @@
+{ Program 'BK001002' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 04/20/88 10:320 }
+
+
+PROC main =
+    STRING $118, $115, '1232', 'PGM\x00\x0c';
+    FETCH $118, $6;
+    FETCH 'BK001020PGM\x00\x0c';
+    FETCH 'BK001013PGM\x00\x0c';
+    MOVE SYS_NAVIGATE_KEYWORD, &191;
+    LINK 'BK001020PGM\x00\x0c', $6, &191, P2, P1;
+    CJNE $113, '0', label_1;
+    MOVE '*I        ', $112;
+    STRING $8, 'E', $112;
+    LINK 'BK001013PGM\x00\x0c', '1', $8;
+    STRING &193, 'ITTX00000', 'KYWD', &191;
+    LINK 'BK001013PGM\x00\x0c', '5', '\x00', &193;
+    JUMP label_2;
+  label_1:
+    STRING $8, 'E', '*', $112;
+    LINK 'BK001013PGM\x00\x0c', '1', $8;
+  label_2:
+    CLEAR $8;
+    EXIT ;
+    RETURN ;
+END_PROC;

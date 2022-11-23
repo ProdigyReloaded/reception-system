@@ -1,0 +1,101 @@
+{ Program 'PG000300' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 03/31/89 10:170 }
+
+
+PROC main =
+    LENGTH &32, I1;
+    MOVE 'One moment while we verify your password', &33;
+    REFRESH ;
+    MOVE '\x00', $10;
+    UPPER &32;
+    EDIT &32, '%-8.8s', &32;
+    MOVE &32, $46;
+    STRING &101, '110          011008', &32;
+    MOVE &101, &112;
+  label_14:
+    LINK $51, &101, '\x80"\x00\x06\x82\x01', '\x008';
+    LINK $52;
+    CJEQ SYS_RETURN_CODE, '0', label_1;
+    NAV $59;
+  label_1:
+    CLEAR &33;
+    POP &101;
+  label_13:
+    SUBSTR &101, &109, '15', '1';
+    CJNE &109, '0', label_2;
+    LINK $53, '\x00=', '1', '0', 'PBC00002LDR\x00\x08';
+    SUBSTR &101, &100, '16', '3';
+    MOVE &100, I1;
+    ADD '3', I1;
+    SUBSTR &101, &101, '16', I1;
+    LINK $58, &101, '1';
+    POP &101;
+    LENGTH &101, $7;
+    DIVIDE '27', $7;
+    MOVE '1', I1;
+    MOVE '1', I2;
+    MOVE '1', &108;
+    MOVE '0', $8;
+    CLEAR &120, &129;
+  label_9:
+    CJGT I1, $7, label_3;
+    SUBSTR &101, &102, &108, '27';
+    ADD '27', &108;
+    SUBSTR &102, &107, '1', '9';
+    SUBSTR &102, &106, '10', '15';
+    SUBSTR &102, &104, '27', '1';
+    CJNE &104, '1', label_4;
+    MOVE '  *', &103;
+    JUMP label_5;
+  label_4:
+    MOVE '   ', &103;
+  label_5:
+    CJNE $7, '1', label_6;
+    MOVE '    Your selected account is:', &120;
+    STRING &121, '    ', &106, '     ', &107, &103;
+    MOVE &107, $10;
+    MOVE &106, $11;
+    SUBSTR &102, &125, '25', '3';
+    JUMP label_7;
+  label_6:
+    STRING &120(I2), &106, '      ', &107, &103;
+    SUBSTR &102, &125(I2), '25', '3';
+  label_7:
+    MOVE '1', &110;
+    CJNE I2, '5', label_8;
+    ADD '1', $8;
+    STRING &111, 'ACCT', $8;
+    RELEASE &111;
+    SAVE &111, &120, &129;
+    CLEAR &120, &129;
+    MOVE '0', I2;
+    MOVE '0', I3;
+    MOVE '0', &110;
+  label_8:
+    ADD '1', I1;
+    ADD '1', I2;
+    ADD '1', I3;
+    JUMP label_9;
+  label_3:
+    CJNE &110, '1', label_10;
+    ADD '1', $8;
+    STRING &111, 'ACCT', $8;
+    RELEASE &111;
+    SAVE &111, &120, &129;
+  label_10:
+    MOVE '1', $38;
+    MOVE 'PG001900PGM\x00\x0c', $25;
+    FETCH 'PG001001BDY\x00\x08';
+    MOVE 'FINANCIAL NETWORK', $39;
+    NAV 'PG001000PG \x01\x04';
+    JUMP label_11;
+  label_2:
+    LINK 'PG000301PGM\x00\x0c';
+    CJNE SYS_RETURN_CODE, '1', label_12;
+    JUMP label_13;
+    JUMP label_11;
+  label_12:
+    JUMP label_14;
+  label_11:
+    RETURN ;
+END_PROC;

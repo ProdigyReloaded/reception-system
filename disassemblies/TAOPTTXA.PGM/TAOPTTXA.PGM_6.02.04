@@ -1,0 +1,223 @@
+{ Program 'TAPXTTXA' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/23/88 15:410 }
+
+
+PROC main =
+    CJNE SYS_LOGICAL_EVENT, '10', label_1;
+    RELEASE 'xx.h1';
+    RELEASE 'xx.h2';
+    RELEASE 'LOOK';
+    CLEAR SYS_SELECTOR_DATA;
+    RELEASE 'nlnb';
+    SUBSTR SYS_BASE_OBJ_ID, P6, '1', '11';
+    SUBSTR SYS_NAVIGATE_OBJ_ID, P5, '1', '11';
+    SUBSTR SYS_NAVIGATE_OBJ_ID, P4, '9', '1';
+    CJNE P5, P6, label_2;
+    JUMP label_3;
+  label_2:
+    CJNE P4, 'B', label_4;
+  label_3:
+    SAVE 'SMMF', $1, $1;
+    JUMP label_5;
+  label_4:
+    RELEASE 'xx.regs';
+  label_5:
+    LOOKUP SYS_NAVIGATE_OBJ_ID, SYS_PREVIOUS_SEEN_MENU, '13', '1', P5;
+    CJNE P5, '0', label_6;
+    JUMP label_7;
+  label_6:
+    SAVE 'SMMF', P5, P5;
+    LENGTH SYS_PREVIOUS_SEEN_MENU, P6;
+    ADD '12', P5;
+    CJNE P5, P6, label_8;
+    MOVE SYS_PREVIOUS_SEEN_MENU, P1;
+    CLEAR SYS_PREVIOUS_SEEN_MENU;
+    JUMP label_9;
+  label_8:
+    SUBSTR SYS_PREVIOUS_SEEN_MENU, P1, '1', P5;
+    ADD '1', P5;
+    SUB P5, P6;
+    ADD '1', P6;
+    SUBSTR SYS_PREVIOUS_SEEN_MENU, SYS_PREVIOUS_SEEN_MENU, P5, P6;
+  label_9:
+    CJEQ P1, '\x00', label_7;
+    PUSH I1;
+    MOVE '1', I1;
+    LENGTH P1, P6;
+  label_11:
+    CJGE I1, P6, label_10;
+    SUBSTR P1, P2, I1, '11';
+    STRING P2, 'm', P2;
+    RELEASE P2;
+    ADD '13', I1;
+    JUMP label_11;
+  label_10:
+    POP I1;
+  label_7:
+    RESTORE 'SMMF', $1;
+    CJEQ SYS_RETURN_CODE, '0', label_12;
+    CLEAR SYS_PREVIOUS_SEEN_MENU;
+    RELEASE 'nlms';
+    RELEASE 'MSMA';
+    JUMP label_13;
+  label_12:
+    RELEASE 'SMMF';
+  label_13:
+    RETURN ;
+  label_1:
+    CJNE SYS_LOGICAL_EVENT, '24', label_14;
+    TRANSFER 'TAOPGUIDPGM\x00\x0c';
+  label_14:
+    CJNE SYS_LOGICAL_EVENT, '33', label_15;
+    LINK 'XXOPKWRDPGM\x00\x0c', SYS_CURRENT_KEYWORD, '1';
+    NAV 'TAOTINDXMAP\x00\x04';
+  label_15:
+    CJNE SYS_LOGICAL_EVENT, '43', label_16;
+    LENGTH PRF_CUG_SERVICE_ID, P1;
+    CJNE PRF_CUG_SERVICE_ID, '\x00\x00', label_17;
+    JUMP label_18;
+  label_17:
+    CJNE P1, '0', label_19;
+  label_18:
+    STRING P2, 'LO', 'GOFF00MEN\x00\x04';
+    JUMP label_20;
+  label_19:
+    STRING P2, PRF_CUG_SERVICE_ID, 'GOFF00MEN\x00\x04';
+  label_20:
+    NAV P2;
+  label_16:
+    CJNE SYS_LOGICAL_EVENT, '31', label_21;
+    LENGTH PRF_CUG_SERVICE_ID, P1;
+    CJNE PRF_CUG_SERVICE_ID, '\x00\x00', label_22;
+    JUMP label_23;
+  label_22:
+    CJNE P1, '0', label_24;
+  label_23:
+    STRING P2, 'TO', 'OT1000MEN\x00\x04';
+    JUMP label_25;
+  label_24:
+    STRING P2, PRF_CUG_SERVICE_ID, 'OT1000MEN\x00\x04';
+  label_25:
+    NAV P2;
+  label_21:
+    CJNE SYS_LOGICAL_EVENT, '22', label_26;
+    NAV 'TAOTVP00MAP\x00\x04';
+  label_26:
+    CJNE SYS_LOGICAL_EVENT, '35', label_27;
+    SAVE 'mlv', SYS_PREVIOUS_SEEN_MENU, SYS_PREVIOUS_SEEN_MENU;
+    CLEAR SYS_PREVIOUS_SEEN_MENU;
+    RESTORE 'MSMA', P1;
+    CJNE SYS_RETURN_CODE, '0', label_28;
+    SAVE 'malv', P1, P1;
+  label_28:
+    SAVE 'glv', SYS_GUIDE, SYS_GUIDE;
+    SAVE! 0x1, 'klv', SYS_PREVIOUS_KEYWORD;
+    MOVE SYS_CURRENT_KEYWORD, SYS_ZIP;
+    POP P1;
+    SAVE 'LOOK', SYS_PREVIOUS_SEEN_MENU, SYS_PREVIOUS_SEEN_MENU;
+    NAV P1;
+  label_27:
+    CJNE SYS_LOGICAL_EVENT, '48', label_29;
+    RESTORE 'MSMA', P3;
+    CJEQ SYS_RETURN_CODE, '0', label_30;
+    TRIGGER_FUNCTION GUIDE;
+  label_30:
+    MOVE '1', P4;
+    LENGTH P3, P1;
+    SUBSTR P3, P2, P4, P4;
+    CJNE P1, P4, label_31;
+    RELEASE 'MSMA';
+    JUMP label_32;
+  label_31:
+    SUB P4, P1;
+    SUBSTR P3, P3, '2', P1;
+    SAVE 'MSMA', P3, P3;
+  label_32:
+    CJNE P2, '\x03', label_33;
+    TRANSFER 'XXOPSMU1PGM\x00\x0c', '15';
+  label_33:
+    RELEASE 'nlbs';
+    CJNE SYS_PREVIOUS_SEEN_MENU, '\x00', label_34;
+    TRIGGER_FUNCTION PREVIOUS_MENU;
+  label_34:
+    MOVE '13', P3;
+    SUBSTR SYS_PREVIOUS_SEEN_MENU, P1, P4, P3;
+    LENGTH SYS_PREVIOUS_SEEN_MENU, P2;
+    CJNE P2, P3, label_35;
+    CLEAR SYS_PREVIOUS_SEEN_MENU;
+    JUMP label_36;
+  label_35:
+    SUB P3, P2;
+    ADD P4, P3;
+    SUBSTR SYS_PREVIOUS_SEEN_MENU, SYS_PREVIOUS_SEEN_MENU, P3, P2;
+  label_36:
+    SAVE 'nlnb', $1, $1;
+    SAVE 'SMMF', $1, $1;
+    NAV P1;
+  label_29:
+    CJNE SYS_LOGICAL_EVENT, '14', label_37;
+    TRANSFER 'TAOPPATHPGM\x00\x0c';
+  label_37:
+    MOVE 'Unable to perform: ', P7;
+    MOVE ' right now.  Please try another selection.', P8;
+    CJNE SYS_LOGICAL_EVENT, '36', label_38;
+  label_41:
+    CJNE SYS_ZIP, '\x00', label_39;
+    STRING P6, P7, 'ZIP', P8;
+    LINK 'XXOPMSGSPGM\x00\x0c', '1', '\x00\x00', P6;
+    RETURN ;
+  label_39:
+    LINK 'XXOPKWRDPGM\x00\x0c', SYS_ZIP;
+    CJEQ SYS_RETURN_CODE, '0', label_40;
+    CLEAR SYS_ZIP;
+    JUMP label_41;
+  label_40:
+    POP P1;
+    CLEAR SYS_ZIP;
+    RESTORE 'mlv', P2;
+    MOVE P2, SYS_PREVIOUS_SEEN_MENU;
+    RELEASE 'mlv';
+    RESTORE 'glv', P2;
+    MOVE P2, SYS_GUIDE;
+    RELEASE 'glv';
+    RESTORE 'klv', P2;
+    MOVE P2, SYS_CURRENT_KEYWORD;
+    RELEASE 'klv';
+    SAVE 'SMMF', P1, P1;
+    RESTORE 'malv', P2;
+    CJNE SYS_RETURN_CODE, '0', label_42;
+    SAVE 'MSMA', P2, P2;
+    RELEASE 'malv';
+    JUMP label_43;
+  label_42:
+    RELEASE 'MSMA';
+  label_43:
+    RELEASE 'nlms';
+    NAV P1;
+  label_38:
+    CJNE SYS_LOGICAL_EVENT, '26', label_44;
+    CJNE SYS_PREVIOUS_KEYWORD, SYS_CURRENT_KEYWORD, label_45;
+    EXIT '1';
+  label_45:
+    CJNE SYS_PREVIOUS_KEYWORD, '\x00', label_46;
+    JUMP label_47;
+  label_46:
+    CJNE SYS_PREVIOUS_KEYWORD, '\x00\x00\x00\x00\x00\x00\x00\x00\x00', label_48;
+  label_47:
+    STRING P6, P7, 'UNDO', P8;
+    LINK 'XXOPMSGSPGM\x00\x0c', '1', '\x00\x00', P6;
+    RETURN ;
+  label_48:
+    LINK 'XXOPKWRDPGM\x00\x0c', SYS_PREVIOUS_KEYWORD;
+    CJNE SYS_RETURN_CODE, '0', label_49;
+    POP P1;
+    NAV P1;
+    JUMP label_44;
+  label_49:
+    STRING P6, P7, 'UNDO', P8;
+    LINK 'XXOPMSGSPGM\x00\x0c', '1', '\x00\x00', P6;
+    RETURN ;
+  label_44:
+    SOUND '469', '15';
+    RETURN ;
+END_PROC;

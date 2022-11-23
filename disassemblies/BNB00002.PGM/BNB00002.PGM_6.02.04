@@ -1,0 +1,113 @@
+{ Program 'BNB00002' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 04/07/88 11:330 }
+
+
+PROC main =
+    SET_FUNCTION PREVIOUS_MENU, FILTER_ON, 'BN000020PGM\x00\x0c';
+    CLEAR &30, &33;
+    SET_ATT '30', $31, 0x0, 0x4, 0x2;
+    SET_ATT '31', $31, 0x0, 0x4, 0x2;
+    SET_ATT '32', $31, 0x0, 0x4, 0x2;
+    SET_ATT '33', $31, 0x0, 0x4, 0x2;
+    CLEAR &1, &34;
+    MOVE '1', I1;
+  label_2:
+    CJGT I1, '15', label_1;
+    MOVE '\xff', $1(I1);
+    ADD '1', I1;
+    JUMP label_2;
+  label_1:
+    CJNE $17, '\x00', label_3;
+    MOVE '0', $25;
+    MOVE '1', $38;
+    CLEAR $17;
+    LINK 'BNB00011PGM\x00\x0c';
+    SET_ATT '32', $31, 0x0, 0x4, 0x2;
+    CLEAR &32;
+    TRANSFER 'BNB00004PGM\x00\x0c';
+    JUMP label_4;
+  label_3:
+    MOVE 'PLEASE WAIT, ACCESSING YOUR LIST.', &12;
+    REFRESH ;
+  label_4:
+    proc_1;
+    CJEQ SYS_RETURN_CODE, '0', label_5;
+    CLEAR &12;
+    LINK 'BN000017PGM\x00\x0c', '1', 'XXME47FED  \x01\x0c';
+    NAV 'BN000001MAP\x00\x04';
+  label_5:
+    LINK 'BNB00011PGM\x00\x0c';
+    MOVE '1', $38;
+    TRANSFER 'BNB00004PGM\x00\x0c';
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    STRING &123, '02', '23', '15', SYS_USER_ID, $17;
+    LENGTH &123, I1;
+    MOVE I1, &111, ABS;
+    STRING &123, 'HI50001000012Y\x00\x00\x00\x00', &111, &123;
+    LINK 'BN000002PGM\x00\x0c', &123, '2';
+    LINK 'BN000003PGM\x00\x0c', '2';
+    CJEQ SYS_RETURN_CODE, '0', label_6;
+    RETURN SYS_RETURN_CODE;
+  label_6:
+    POP $47;
+    SUBSTR $47, &124, '1', '1';
+    CJEQ &124, '0', label_7;
+    RETURN '1';
+  label_7:
+    SUBSTR $47, &129, '8', '1';
+    CJLE &129, '1', label_8;
+    RETURN '1';
+  label_8:
+    SUBSTR $47, $25, '9', '2';
+    CJLE $25, '15', label_9;
+    RETURN '1';
+    JUMP label_10;
+  label_9:
+    CJGT $25, '0', label_10;
+    CLEAR $17;
+    TRANSFER 'BNB00002PGM\x00\x0c';
+  label_10:
+    MOVE '1', I1;
+    MOVE '11', I2;
+  label_15:
+    CJGT I1, $25, label_11;
+    SUBSTR $47, &111, I2, '2';
+    MOVE &111, I3, ABS;
+    ADD '2', I2;
+    SUBSTR $47, &136, I2, I3;
+    SUBSTR &136, &135, '1', '1';
+    SUBSTR &136, &104, '2', '5';
+    ADD I3, I2;
+    SUB '6', I3;
+    CJLE I3, '0', label_12;
+    SUBSTR &136, &133, '7', I3;
+    JUMP label_13;
+  label_12:
+    CLEAR &133;
+  label_13:
+    proc_2 &135, '1ST5BD8FD', '3', '1';
+    CJLE SYS_RETURN_CODE, '0', label_14;
+    MOVE '  ', &134;
+  label_14:
+    STRING $1(I1), &135, &104, '  ', &134, ' ', &133;
+    ADD '1', I1;
+    JUMP label_15;
+  label_11:
+    RETURN '0';
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    LOOKUP P1, P2, P3, '1', P5;
+    CJNE P5, '0', label_16;
+    RETURN '1';
+  label_16:
+    ADD '1', P5;
+    SUB P4, P3;
+    SUBSTR P2, &134, P5, P3;
+    RETURN '0';
+    RETURN ;
+END_PROC;
