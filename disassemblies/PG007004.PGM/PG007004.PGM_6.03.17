@@ -1,0 +1,32 @@
+{ Program 'PG007004' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 03/07/89 10:230 }
+
+
+PROC main =
+    CJNE SYS_CURRENT_CURSOR_POS, '100', label_1;
+    CLOSE_WINDOW ;
+  label_1:
+    CJNE SYS_CURRENT_CURSOR_POS, '1', label_2;
+    MOVE 'BUY ', $74;
+    OPEN_WINDOW 'PBAG0090WND\x00\x0e';
+    JUMP label_3;
+  label_2:
+    CJNE SYS_CURRENT_CURSOR_POS, '2', label_4;
+    MOVE 'SELL', $74;
+    SET_FUNCTION NAVIGATION, 00;
+    NAV 'PBAG0012PG \x01\x04';
+    JUMP label_3;
+  label_4:
+    CJNE SYS_CURRENT_CURSOR_POS, '3', label_5;
+    MOVE 'SELL', $74;
+    SET_FUNCTION NAVIGATION, 00;
+    NAV 'PBAG0004PG \x01\x04';
+    JUMP label_3;
+  label_5:
+    CJNE SYS_CURRENT_CURSOR_POS, '4', label_3;
+    SET_FUNCTION NAVIGATION, 00;
+    NAV 'PBAG0015PG \x01\x04';
+  label_3:
+    EXIT ;
+    RETURN ;
+END_PROC;
