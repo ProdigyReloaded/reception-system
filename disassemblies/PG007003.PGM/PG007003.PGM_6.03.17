@@ -1,0 +1,16 @@
+{ Program 'PG007003' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/13/89 12:220 }
+
+
+PROC main =
+  label_2:
+    CJEQ SYS_RETURN_CODE, '19', label_1;
+    POP P1;
+    JUMP label_2;
+  label_1:
+    CLEAR $71;
+    MOVE '1202209876', $71;
+    LINK 'PG007911PGM\x00\x0c';
+    EXIT ;
+    RETURN ;
+END_PROC;

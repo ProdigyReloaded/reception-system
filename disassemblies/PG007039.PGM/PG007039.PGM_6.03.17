@@ -1,0 +1,22 @@
+{ Program 'PG007039' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/13/89 12:470 }
+
+
+PROC main =
+    SET_FUNCTION PREVIOUS_MENU, FILTER_ON, 'PG007912PGM\x00\x0c';
+    SET_FUNCTION NAVIGATION, FILTER_ON, 'PG009600PGM\x00\x0c';
+    CJNE SYS_CURRENT_CURSOR_POS, '1', label_1;
+    MOVE 'BUY ', $74;
+    SET_FUNCTION NAVIGATION, 00;
+    NAV 'PG006105PG \x01\x04';
+    JUMP label_2;
+  label_1:
+    CJLT SYS_CURRENT_CURSOR_POS, '22', label_3;
+    JUMP label_4;
+  label_3:
+    CJGT SYS_CURRENT_CURSOR_POS, '24', label_2;
+  label_4:
+    LINK 'PG007910PGM\x00\x0c';
+  label_2:
+    RETURN ;
+END_PROC;
