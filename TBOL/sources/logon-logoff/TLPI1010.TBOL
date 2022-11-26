@@ -1,0 +1,155 @@
+{ Program 'TLPI1010' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 04/10/89 15:370 }
+
+COPY XXCGTSYS;
+COPY TLCOPY;
+
+PROC main =
+    CLEAR $79;
+    IF SYS_CURRENT_CURSOR_POS = '1' AND SCR_PASSWORD = '\x00' THEN DO
+        SET_CURSOR '2';
+        EXIT '99';
+    END; ELSE DO
+        LINK TLPG1010_PGM, ONE, ONE, ONE, ONE, ZERO;
+        IF SYS_RETURN_CODE <> '0' THEN
+            proc_1;
+
+        LENGTH SCR_PASSWORD, I3;
+        IF I3 < TWO THEN DO
+            MOVE 'p', $79;
+            proc_1;
+        END;
+
+        IF SYS_NOCOMM <> ONE AND $55 <> ONE AND SYS_LINE_STATS <> ZERO THEN DO
+            MOVE ONE, $111;
+            OPEN_WINDOW TLOW1010_WND;
+            WHILE SYS_LINE_STATUS <> '0' THEN
+                OPEN_WINDOW TLOW1050_WND;
+        END;
+
+        LENGTH SCR_PASSWORD, I3;
+        MOVE I3, PASSWORD_LEN, ABS;
+        SUBSTR PASSWORD_LEN, PASSWORD_LEN, TWO, ONE;
+        MOVE '\x01', REQUEST, ABS;
+        MOVE SCR_USER_ID, USER_ID;
+        UPPER USER_ID;
+        MOVE SCR_PASSWORD, PASSWORD;
+        UPPER PASSWORD;
+        LENGTH &10, I3;
+        IF I3 < '8' THEN
+            STRING P6, '0', &10;
+        STRING REQUEST, REQUEST, USER_ID, PASSWORD_LEN, PASSWORD, P6;
+        IF SYS_NOCOMM = ONE THEN
+            LINK TLPHLONE_PGM;
+        ELSE DO
+            SEND REQUEST, MSG_ID, 0x0, 0x0;
+            proc_2;
+        END;
+
+        WHILE TRUE THEN DO
+            IF SYS_RETURN_CODE = '1' THEN DO
+                proc_3;
+                IF PWA_LOGON_STATUS = '\x00' THEN
+                    GOTO DONE;
+                IF PWA_LOGON_STATUS = '\x01' OR PWA_LOGON_STATUS = '\x02' THEN DO
+                    proc_4;
+                    GOTO DONE;
+                END;
+                proc_5;
+                proc_1;
+            END;
+            SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
+            OPEN_WINDOW TLOW7070_WND;
+        END;
+
+      DONE:
+        SUBSTR RESPONSE, PRF_CUG_SERVICE_ID, '29', '2';
+        CJEQ PRF_CUG_SERVICE_ID, '\x00\x00', label_21;
+        CJEQ PRF_CUG_SERVICE_ID, '\x00', label_21;
+        SUBSTR $60, P3, '3', TWO;
+        STRING $60, PRF_CUG_SERVICE_ID, P3;
+      label_21:
+        MOVE $60, SYS_ACCESS_KEY_OBJ_ID;
+        FETCH SYS_ACCESS_KEY_OBJ_ID;
+        proc_6;
+      label_2:
+    END;
+END_PROC;
+
+PROC proc_3 =
+    SUBSTR REQUEST, PRF_USER_PROFILE_USER_ID, '2', '7';
+    MOVE PRF_USER_PROFILE_USER_ID, SYS_USER_ID;
+    SUBSTR RESPONSE, PWA_LOGON_STATUS, ONE, ONE;
+    IF PWA_LOGON_STATUS <> '\x00' THEN
+        RETURN;
+
+    MOVE '0', $53;
+
+    IF SYS_NOCOMM <> ONE THEN
+        MOVE ZERO, SYS_SESSION_STATUS;
+END_PROC;
+
+PROC proc_4 =
+    IF PWA_LOGON_STATUS = '\x02' THEN
+        MOVE ONE, $2;
+    ELSE IF PWA_LOGON_STATUS = '\x01' THEN
+        MOVE ZERO, $2;
+
+    IF SYS_NOCOMM <> ONE THEN
+        MOVE ZERO, SYS_SESSION_STATUS;
+
+    proc_6;
+END_PROC;
+
+PROC proc_6 =
+    PUSH PWA_LOGON_STATUS;
+    OPEN_WINDOW TLOWIBMC_WND;
+END_PROC;
+
+PROC proc_5 =
+    IF PWA_LOGON_STATUS = '\x0d' OR PWA_LOGON_STATUS = '\x04' THEN DO
+        SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
+        MOVE 'There is a problem with your account.  Please call', P3;
+        MOVE ' Membership Services at 800 759 8000.', P4;
+        STRING P2, P3, P4;
+        LINK XXOPMSGS_PGM, '1', '\x00\x00', P2;
+    END;
+
+    IF PWA_LOGON_STATUS = '\x07' THEN DO
+        SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
+        LINK XXOPMSGS_PGM, '2', '\x00\x00', '1', 'Your ID is in use. Is it correct? Could anyone else be using it?';
+    END;
+
+    IF PWA_LOGON_STATUS = '\x09' THEN DO
+        SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
+        MOVE 'You don't have the recent PRODIGY software version. ', P3;
+        MOVE 'Sorry - you can't run the service now. Please call Membership ', P4;
+        MOVE 'Services: 800 759 8000.', P5;
+        STRING P2, P3, P4, P5;
+        LINK XXOPMSGS_PGM, '1', '\x00\x00', P2;
+    END;
+
+    IF PWA_LOGON_STATUS = '\x05' THEN
+        MOVE 'p', $79;
+    ELSE IF PWA_LOGON_STATUS <> '\x08' and PWA_LOGON_STATUS <> '\x86' THEN
+        OPEN_WINDOW TLOW7070_WND;
+END_PROC;
+
+PROC proc_1 =
+    ADD ONE, TRIES;
+    MOVE PWA_LOGON_STATUS, $108;
+    CLEAR SCR_USER_ID, SCR_PASSWORD;
+    REFRESH ;
+    OPEN_WINDOW TLOXSGON_WND;
+    CJGT $4, 0x1, label_34;                     { <-- this is implausible; binary is 84 48 25 00 01 30 09, which would imply complex instruction }
+    OR '0', I1;
+  label_37:
+    CJEQ SYS_RETURN_CODE, '2', label_35;
+    RECEIVE MSG_ID, RESPONSE;
+    CJNE SYS_RETURN_CODE, '0', label_36;
+    RETURN '1';
+  label_36:
+    JUMP label_37;
+  label_35:
+    RETURN ;
+END_PROC;

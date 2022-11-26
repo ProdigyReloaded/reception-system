@@ -1,0 +1,24 @@
+{ Program 'PG009940' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/30/88 16:000 }
+
+
+PROC main =
+    SAVE 'PEV', &191, &195;
+    LINK 'XXOPIRGSPGM\x00\x0c', '1';
+    MOVE P0, I1;
+    CLEAR P2(I1), P8;
+    STRING &194, SYS_USER_ID, SYS_DATE, SYS_TIME;
+    STRING &194, &194, P2, P3, P4, P5, P6, P7;
+    STRING &194, &194, P8;
+    LENGTH &194, I1;
+    MOVE I1, &195, ABS;
+    STRING &194, P1, &195, &194;
+    LENGTH &194, I1;
+    MOVE I1, &195, ABS;
+    STRING &194, &195, &194;
+    STRING &194, '\x05', '\x00\x01', &194;
+    LINK $51, &194, '\x00\x00\x00\x00\xd2\x00';
+    RESTORE 'PEV', &191;
+    LINK 'XXOPIRGSPGM\x00\x0c', '2';
+    RETURN ;
+END_PROC;

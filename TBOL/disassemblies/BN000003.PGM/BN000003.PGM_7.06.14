@@ -1,0 +1,50 @@
+{ Program 'BN000003' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 03/07/89 15:480 }
+
+
+PROC main =
+    CJNE P1, '1', label_1;
+    MOVE 'DJMESSAGE', P1;
+    JUMP label_2;
+  label_1:
+    MOVE 'HFHMESSAGE', P1;
+  label_2:
+    RESTORE P1, P2;
+    PUSH SYS_RETURN_CODE;
+    RELEASE P1;
+    POP P1;
+    CJEQ P1, '0', label_3;
+    RETURN P1;
+  label_3:
+    MOVE '0', P1;
+    proc_1 P1, P2;
+    RETURN SYS_RETURN_CODE;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+  label_8:
+    CJNE P1, '0', label_4;
+    RECEIVE P2, P3;
+    CJNE SYS_RETURN_CODE, '0', label_5;
+    MOVE '1', P1;
+    JUMP label_6;
+  label_5:
+    CJNE SYS_RETURN_CODE, '14', label_7;
+    RETURN '14';
+    JUMP label_6;
+  label_7:
+    CJNE SYS_RETURN_CODE, '2', label_6;
+    RETURN '2';
+  label_6:
+    JUMP label_8;
+  label_4:
+    CJEQ SYS_FM64_RXHDR, '\x00', label_9;
+    RETURN '64';
+    JUMP label_10;
+  label_9:
+    PUSH P3;
+  label_10:
+    RETURN '0';
+    RETURN ;
+END_PROC;

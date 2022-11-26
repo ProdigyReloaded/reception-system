@@ -1,0 +1,103 @@
+{ Program 'MSZW010H' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 08/10/88 11:480 }
+
+
+PROC main =
+    CJNE SYS_API_EVENT, $29, label_1;
+    MOVE SYS_CURRENT_FIELD, $122;
+    JUMP label_2;
+  label_1:
+    MOVE SYS_CURRENT_CURSOR_POS, $122;
+    CJLE $122, '71', label_2;
+    EXIT ;
+  label_2:
+    MOVE $122, I1;
+    CJGE $122, '64', label_3;
+    CJNE SYS_API_EVENT, $30, label_4;
+    CJNE SYS_CURRENT_CURSOR_POS, '10', label_5;
+    SET_CURSOR '13';
+    JUMP label_6;
+  label_5:
+    SET_CURSOR '15';
+  label_6:
+    EXIT ;
+  label_4:
+    SUB '9', I1;
+    GOTO_DEPENDING_ON I1, label_7, label_8, label_8, label_9, label_8, label_10;
+  label_3:
+    JUMP label_11;
+  label_7:
+    CJNE $117, $24, label_12;
+    CJGT $112, $25, label_12;
+    CJEQ &10, $34, label_13;
+    MOVE $25, $112;
+    MOVE &10, $101($25);
+    UPPER $101($25);
+    JUMP label_14;
+    JUMP label_12;
+  label_13:
+    MOVE $24, $112;
+  label_12:
+    RETURN ;
+  label_9:
+    MOVE &13, $111;
+    JUMP label_14;
+  label_10:
+    MOVE &15, $91($36);
+  label_14:
+    CJNE $53, $24, label_15;
+    SET_ATT '64', $95, 0x0, 0x0, 0x4;
+    MOVE 'SEND', &64;
+    MOVE $25, $53;
+  label_15:
+    RETURN ;
+  label_11:
+    SUB '63', I1;
+    GOTO_DEPENDING_ON I1, label_16, label_17, label_18, label_19, label_20;
+  label_16:
+    TRANSFER $76;
+  label_18:
+    TRANSFER $78;
+  label_17:
+    CLEAR $91($25), $100;
+    CLEAR &15;
+    CJEQ $118, $25, label_21;
+    CLEAR $111;
+    CLEAR &13;
+  label_21:
+    MOVE $24, $53;
+    MOVE $25, $36;
+    MOVE $25, $37;
+    CJNE $114, $24, label_22;
+    CJGT $112, $25, label_22;
+    MOVE $24, $112;
+    CLEAR &10;
+  label_22:
+    SET_ATT '64', $31, 0x0, 0x0, 0x4;
+    CJNE $114, '0', label_23;
+    SET_CURSOR '10';
+    JUMP label_24;
+  label_23:
+    SET_CURSOR '13';
+  label_24:
+    TRANSFER $54, $30, $24, $24, $137;
+  label_19:
+    SET_FUNCTION NAVIGATION, 00;
+    PUSH SYS_BASE_OBJ_ID;
+    MOVE 'DISTRIBUTION LIST', $45;
+    NAV 'MSZW0100MAP\x00\x04';
+  label_20:
+    OPEN_WINDOW $63;
+    CJNE $52, $24, label_25;
+    EXIT $33;
+  label_25:
+    MOVE $52, P1;
+    LINK $79;
+    CJNE P1, '70', label_26;
+    NAV 'MSPL0000PG \x01\x04';
+  label_26:
+    NAV $121;
+  label_8:
+    EXIT ;
+    RETURN ;
+END_PROC;

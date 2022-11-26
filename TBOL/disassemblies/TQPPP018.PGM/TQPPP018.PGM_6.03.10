@@ -1,0 +1,25 @@
+{ Program 'TQPPP018' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/22/88 15:450 }
+
+
+PROC main =
+    SET_FUNCTION NAVIGATION, 00;
+    STRING $2, '/RMK,H-PRODIGY MEMBER: ', PRF_USER_PROFILE_USER_ID;
+    LINK 'TQPXSENDPGM\x00\x0c', '2';
+    CJEQ $6, '\x99\x01', label_1;
+    NAV 'TQ0000EFMAP\x00\x04';
+  label_1:
+    STRING $2, '/TKT,QP,', PRF_TRAVEL_AGENT_CODE;
+    LINK 'TQPXSENDPGM\x00\x0c', '2';
+    CJNE $6, '\x91\x01', label_2;
+    JUMP label_3;
+  label_2:
+    CJNE $6, '\x93\x01', label_4;
+  label_3:
+    LINK 'TQPXPARMPGM\x00\x0c', '2\x0d';
+    JUMP label_5;
+  label_4:
+    NAV 'TQ0000EFMAP\x00\x04';
+  label_5:
+    RETURN ;
+END_PROC;

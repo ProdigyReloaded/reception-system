@@ -1,0 +1,67 @@
+{ Program 'XXPXMFNC' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/13/87 08:430 }
+
+
+PROC main =
+    LINK 'XXOPIRGSPGM\x00\x0c', '1';
+    MOVE '1', I1;
+    MOVE '2', I2;
+    MOVE '0', P8;
+    SUBSTR P2, P3, I1, I1;
+    MOVE P3, I4, ABS;
+    LENGTH P1, I7;
+    SUB I1, I7;
+    DIVIDE '13', I7;
+    MOVE I2, I6;
+  label_10:
+    CJEQ I4, '0', label_1;
+    SUBSTR P2, P7, I6, I1;
+    MOVE P7, I3, ABS;
+    ADD I1, I6;
+    SUBSTR P2, P6, I6, I1;
+    MOVE P6, I5, ABS;
+    CJLE I5, I7, label_2;
+    JUMP label_3;
+  label_2:
+    CJGE I5, I1, label_4;
+  label_3:
+    MOVE I1, P8;
+    JUMP label_1;
+  label_4:
+    SUB I1, I5;
+    MUL '13', I5;
+    ADD I2, I5;
+    SUBSTR P1, P4, I5, '13';
+    ADD I1, I6;
+    GOTO_DEPENDING_ON I3, label_5, label_6;
+  label_5:
+    FETCH P4;
+    JUMP label_7;
+  label_6:
+    CLEAR P7;
+    SUBSTR P2, P5, I6, I1;
+    MOVE I1, I5;
+    CJNE P5, 'P', label_8;
+    ADD I1, I6;
+    SUBSTR P2, P6, I6, I2;
+    MOVE P6, I5, ABS;
+    ADD I2, I6;
+    SUBSTR P2, P7, I6, I5;
+  label_8:
+    LINK 'XXOPIRGSPGM\x00\x0c', '1';
+    LINK P4, P1, P7;
+    MOVE SYS_RETURN_CODE, P7;
+    LINK 'XXOPIRGSPGM\x00\x0c', '2';
+    CJEQ P7, '0', label_9;
+    MOVE I2, P8;
+    JUMP label_1;
+  label_9:
+    ADD I5, I6;
+  label_7:
+    SUB I1, I4;
+    JUMP label_10;
+  label_1:
+    LINK 'XXOPIRGSPGM\x00\x0c', '2';
+    RETURN P8;
+    RETURN ;
+END_PROC;

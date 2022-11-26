@@ -1,0 +1,8 @@
+{ Program 'XXPBSHLL' compiled with TBOL COMPILER version 04.08 }
+{ Date Program compiled 01/12/87 14:24  }
+
+
+PROC main =
+    MOVE $1, SYS_SELECTED_OBJ_ID;
+    RETURN ;
+END_PROC;

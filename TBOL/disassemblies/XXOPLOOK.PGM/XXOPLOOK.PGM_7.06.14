@@ -1,0 +1,23 @@
+{ Program 'XXPHLOOK' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/13/87 08:350 }
+
+
+PROC main =
+    PUSH I1;
+    MOVE P1, I1, ABS;
+    CJEQ SYS_CURRENT_CURSOR_POS, I1, label_1;
+    POP I1;
+    RETURN ;
+  label_1:
+    POP I1;
+    CJNE P0, '4', label_2;
+    SAVE 'W.SMPARM', P4, P4;
+  label_2:
+    GOTO_DEPENDING_ON P2, label_3, label_4;
+  label_3:
+    PUSH P3;
+    TRIGGER_FUNCTION LEAVE;
+  label_4:
+    OPEN_WINDOW P3;
+    RETURN ;
+END_PROC;

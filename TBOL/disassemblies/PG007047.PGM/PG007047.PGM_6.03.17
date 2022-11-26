@@ -1,0 +1,9 @@
+{ Program 'PG007047' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/13/89 12:520 }
+
+
+PROC main =
+    SET_FUNCTION PREVIOUS_MENU, FILTER_ON, 'PG007914PGM\x00\x0c';
+    SET_FUNCTION NAVIGATION, FILTER_ON, 'PG009600PGM\x00\x0c';
+    RETURN ;
+END_PROC;

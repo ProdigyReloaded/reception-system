@@ -1,0 +1,260 @@
+{ Program 'XXPXDATE' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 10/17/88 14:080 }
+
+
+PROC main =
+    LINK 'XXOPIRGSPGM\x00\x0c', '1';
+    SAVE 'w.date', $1, $5;
+    MOVE '1.0.8', $1;
+    proc_1;
+    GOTO_DEPENDING_ON P1, label_1, label_2, label_3;
+  label_1:
+    proc_2 P2, P3;
+    JUMP label_4;
+  label_2:
+    proc_3 P2, P3;
+    JUMP label_4;
+  label_3:
+    proc_4 P2, P3;
+  label_4:
+    MOVE $5, P1;
+    RESTORE 'w.date', $1;
+    RELEASE 'w.date';
+    LINK 'XXOPIRGSPGM\x00\x0c', '2';
+    RETURN P1;
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    proc_5 P1, P2;
+    proc_4 P1, P2;
+    POP P3;
+    proc_3 P3, P2;
+    POP P3;
+    CJEQ P1, P3, label_5;
+    MOVE I3, $5;
+  label_5:
+    CJGE I5, I4, label_6;
+    JUMP label_7;
+  label_6:
+    CJLE I5, I8, label_8;
+  label_7:
+    MOVE I4, $5;
+  label_8:
+    GOTO_DEPENDING_ON P2, label_9, label_10, label_11;
+  label_9:
+    SUBSTR P1, P8, '7', '2';
+    CJEQ P8, I7, label_12;
+    MOVE '3', $5;
+  label_12:
+    JUMP label_13;
+  label_10:
+    SUBSTR P1, P8, '4', '2';
+    CJEQ P8, I7, label_14;
+    MOVE '3', $5;
+  label_14:
+    JUMP label_13;
+  label_11:
+    CJGE P1, '1900', label_15;
+    JUMP label_16;
+  label_15:
+    CJLT P1, '2000', label_13;
+  label_16:
+    MOVE '3', $5;
+  label_13:
+    RETURN ;
+END_PROC;
+
+PROC proc_4 =
+    proc_5 P1, P2;
+    MOVE I5, $4;
+    MOVE I7, $3;
+    CJGT I5, I3, label_17;
+    SUB I4, $3;
+  label_17:
+    MUL $1, $3;
+    proc_6 $3;
+    POP $3;
+    ADD I4, $4;
+    CJGT I5, I3, label_18;
+    ADD I8, $4;
+  label_18:
+    MUL $2, $4;
+    proc_6 $4;
+    POP $4;
+    ADD $4, $3;
+    ADD I6, $3;
+    SUB '62', $3;
+    PUSH $3;
+    RETURN ;
+END_PROC;
+
+PROC proc_3 =
+    ADD '62', P1;
+    MOVE P1, P8;
+    SUB '122.1', P8;
+    DIVIDE $1, P8;
+    proc_6 P8;
+    POP P8;
+    MOVE P8, P6;
+    MUL $1, P6;
+    proc_6 P6;
+    POP P6;
+    MOVE P1, P7;
+    SUB P6, P7;
+    DIVIDE $2, P7;
+    proc_6 P7;
+    POP P7;
+    MOVE P7, P5;
+    MUL $2, P5;
+    proc_6 P5;
+    POP P5;
+    SUB P6, P1;
+    SUB P5, P1;
+    MOVE P7, P4;
+    SUB I4, P4;
+    CJLT P7, '14', label_19;
+    SUB I8, P4;
+  label_19:
+    CJGT P4, I3, label_20;
+    ADD I4, P8;
+  label_20:
+    proc_7 P4, P1, P8, P2;
+    RETURN ;
+END_PROC;
+
+PROC proc_7 =
+    ADD '1900', P3;
+    CJGT P4, I3, label_21;
+    SUBSTR P3, P6, '3', I3;
+    JUMP label_22;
+  label_21:
+    MOVE P3, P6;
+  label_22:
+    CJGE P1, '10', label_23;
+    STRING P1, '0', P1;
+  label_23:
+    CJGE P2, '10', label_24;
+    STRING P2, '0', P2;
+  label_24:
+    CJNE P4, I3, label_25;
+    MOVE P6, P2;
+  label_25:
+    STRING P5, P1, '/', P2;
+    CJNE P4, '3', label_26;
+    MOVE P6, P5;
+    JUMP label_27;
+  label_26:
+    CJGE P4, I3, label_27;
+    STRING P5, P5, '/', P6;
+  label_27:
+    PUSH P5;
+    RETURN ;
+END_PROC;
+
+PROC proc_6 =
+    INSTR P1, '.', I1;
+    CJNE I1, '0', label_28;
+    MOVE P1, P2;
+    JUMP label_29;
+  label_28:
+    SUB I4, I1;
+    SUBSTR P1, P2, I4, I1;
+  label_29:
+    PUSH P2;
+    RETURN ;
+END_PROC;
+
+PROC proc_5 =
+    SUBSTR P1, P7, I4, I3;
+    proc_8 P7;
+    POP P5;
+    CJNE P5, '0', label_30;
+    MOVE P7, I5;
+    JUMP label_31;
+  label_30:
+    MOVE P5, I5;
+  label_31:
+    SUBSTR P1, P8, '4', I3;
+    proc_8 P8;
+    POP P5;
+    CJNE P5, '0', label_32;
+    MOVE P8, I6;
+    JUMP label_33;
+  label_32:
+    MOVE P5, I6;
+  label_33:
+    GOTO_DEPENDING_ON P2, label_34, label_35, label_36, label_37;
+  label_34:
+    SUBSTR P1, P6, '7', I3;
+    proc_8 P7;
+    POP P5;
+    CJNE P5, '0', label_38;
+    MOVE P6, I7;
+    JUMP label_39;
+  label_38:
+    MOVE P5, I7;
+  label_39:
+    RETURN ;
+  label_35:
+    MOVE I6, I7;
+    proc_9;
+    RETURN ;
+  label_36:
+    MOVE P1, I7;
+    SUB '1900', I7;
+    proc_9;
+    proc_10;
+    RETURN ;
+  label_37:
+    proc_11;
+    RETURN ;
+END_PROC;
+
+PROC proc_9 =
+    SUBSTR SYS_DATE, P1, '3', I3;
+    MOVE P1, I6;
+    RETURN ;
+END_PROC;
+
+PROC proc_10 =
+    SUBSTR SYS_DATE, P1, I4, I3;
+    MOVE P1, I5;
+    RETURN ;
+END_PROC;
+
+PROC proc_11 =
+    SUBSTR SYS_DATE, P1, '7', I3;
+    MOVE P1, I7;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MOVE '365.2501', $1;
+    MOVE '30.6001', $2;
+    MOVE '1', I4;
+    MOVE '2', I3;
+    MOVE '12', I8;
+    MOVE '0', $5;
+    RETURN ;
+END_PROC;
+
+PROC proc_8 =
+    LOOKUP '$', P1, '1', '1', P8;
+    CJEQ P8, '0', label_40;
+    PUSH '-1';
+    RETURN ;
+  label_40:
+    LOOKUP '-', P1, '1', '1', P8;
+    CJEQ P8, '0', label_41;
+    PUSH '-1';
+    RETURN ;
+  label_41:
+    LOOKUP '.', P1, '1', '1', P8;
+    CJEQ P8, '0', label_42;
+    PUSH '-1';
+    RETURN ;
+  label_42:
+    PUSH '0';
+    RETURN ;
+END_PROC;

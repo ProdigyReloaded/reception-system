@@ -1,0 +1,240 @@
+{ Program 'MSZX010X' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 08/25/88 15:430 }
+
+COPY XXCGTSYS;
+COPY MSZXCOPY;
+
+PROC main =
+    IF P0 = ONE THEN DO
+        LENGTH P1, I1;
+        IF I1 > TWO THEN DO
+            SUBSTR P1, P2, THREE, I1;
+            SUBSTR P1, P1, ONE, TWO;
+        END; ELSE
+            CLEAR P2;
+    END;
+
+    GOTO_DEPENDING_ON P1, MANIPULATE_FIELDS, B, C, D, E, F, E, G, H, I;
+
+  E:
+    IF SYS_WINDOW_ID <> $34 THEN
+        EXIT ;
+
+    SUB SIX, P1;
+    ADD P1, CURRENT_PAGE;
+
+    IF CURRENT_PAGE > LAST_PAGE THEN DO
+        MOVE CURRENT_PAGE, LAST_PAGE;
+        MOVE LAST_PAGE, SCR_LAST_PAGE;
+    END;
+
+    MOVE CURRENT_PAGE, SCR_CURRENT_PAGE;
+    IF APPLICATION_MODE <> MODE_REVIEW THEN DO
+        SUBSTR P2, P4, ONE, TWO;
+        IF SYS_CURRENT_CURSOR_POS > '0' AND SYS_CURRENT_CURSOR_POS < P4 THEN DO
+            SUBSTR P2, P2, THREE, OBJECT_ID_LENGTH;
+            TRANSFER P2, $47, P1;
+        END;
+    END;
+
+    TRANSFER $47, P1;
+
+  MANIPULATE_FIELDS:
+    MOVE ONE, I1;
+    MOVE P2, I2;                                { put first field to act on into I2 }
+    LENGTH P3, I3;                              { length of the manipulation string }
+    WHILE I1 <= I3 THEN DO                      { loop through the manipulation string }
+        SUBSTR P3, P5, I1, ONE;                 { get a character from the manipulation string }
+        ADD ONE, I1;
+
+        IF P5 = 'A' THEN
+            SET_ATT I2, $95, 0x0, 0x0, 0x4;
+        ELSE IF P5 = 'K' OR P5 = 'k' THEN
+            SET_ATT I2, SEVEN, 0x0, 0x0, 0x4;
+        ELSE IF P5 = 'D' OR P5 = 'd' THEN       { think this means to change field to a display field }
+            SET_ATT I2, SEVEN, 0x0, 0x7, 0x2;
+        ELSE IF P5 = 'I' OR P5 = 'i' THEN
+            SET_ATT I2, P7, 0x0, 0x7, 0x0;
+
+        IF P5 = 'N' THEN
+            SET_ATT I2, SEVEN, 0x0, $95, $95;
+        ELSE IF P5 = 'R' THEN
+            REFRESH;
+        ELSE IF P5 < 'a' THEN DO
+            SUBSTR P3, P6, I1, TWO;             { get next two bytes from string }
+            ADD TWO, I1;
+            IF P6 <> ZERO THEN DO
+                IF P5 = 'F' THEN DO             { P5 = F, so set I2 to the field to act upon }
+                    MOVE P6, I2;
+                    SUB ONE, I2;                { subtract one because field is referenced by index access, that is one-based }
+                END; ELSE DO
+                    SUBSTR P3, &1(I2), I1, P6;
+                    ADD P6, I1;
+                END;
+            END;
+        ELSE
+           CLEAR &1(I2);
+
+        IF P5 <> 'R' THEN
+            ADD ONE, I2;
+    END;
+    RETURN ;
+
+  I:
+    LENGTH $45, I5;
+    MOVE I5, P5, ABS;
+    MOVE CURRENT_PAGE, I6;
+    MOVE I6, P6, ABS;
+    MOVE LAST_PAGE, I7;
+    MOVE I7, P7, ABS;
+    MOVE SYS_CURRENT_CURSOR_POS, I8;
+    MOVE I8, P8, ABS;
+    STRING $44, SYS_BASE_OBJ_ID, P5, $45, P6, P7, P8, $44;
+    IF P0 = ONE THEN
+        RETURN;
+
+    IF P0 >= THREE THEN
+        MOVE P3, $45;
+
+    MOVE ONE, CURRENT_PAGE;
+    SET_FUNCTION NAVIGATION, 00;
+    NAV P2;
+
+  B:
+    IF $57 = ONE THEN
+        EXIT HALT;
+
+    SUBSTR $44, SYS_NAVIGATE_OBJ_ID, ONE, OBJECT_ID_LENGTH;
+
+    IF $56 < ONE THEN DO
+        IF APPLICATION_MODE <> MODE_REVIEW AND MSZX0XIT <> $34 AND $53 = ONE THEN
+            LINK MSZX0XIT_PGM, ZERO;
+
+        SET_FUNCTION NAVIGATION, 00;
+
+        IF $59 <> $34 THEN
+            LINK $59, ZERO;
+
+        IF $56 < ZERO THEN
+            RELEASE MS_ZX;
+    END; ELSE
+        SET_FUNCTION NAVIGATION, 00;
+
+    LENGTH $44, I1;
+    SUBSTR $44, $44, '14', I1;
+
+    IF P2 = ONE THEN DO
+        CLEAR P7;
+        MAKE_FORMAT P8,
+          P7::2,
+          CURRENT_PAGE:2,
+          LAST_PAGE:2,
+          $51:2;
+        FORMAT $44, P8, I8;
+        MOVE CURRENT_PAGE, I3, ABS;
+        MOVE I3, CURRENT_PAGE;
+        MOVE LAST_PAGE, I3, ABS;
+        MOVE I3, LAST_PAGE;
+        MOVE $51, I3, ABS;
+        MOVE I3, $51;
+        IF P7 <> $34 THEN
+            MOVE P7, $45;
+        LENGTH P7, I3;
+        ADD '9', I3;
+        SUBSTR $44, $44, I3, I1;
+    END;
+
+    IF MS_ZX <> $34 THEN DO
+        SUBSTR SYS_NAVIGATE_OBJ_ID, P7, ONE, TWO;
+        SUBSTR SYS_BASE_OBJ_ID, P8, ONE, TWO;
+        IF P7 <> P8 THEN
+            RELEASE MS_ZX;
+    END;
+
+    NAV SYS_NAVIGATE_OBJ_ID;
+
+  C:
+    MOVE ONE, I1;
+    MOVE '243315431431262236', P8;
+
+    WHILE I1 <= '19' THEN DO
+        SUBSTR P8, P1, I1, TWO;
+        IF P3 = ONE THEN
+            SET_FUNCTION UNDO, FILTER, MSZX0XIT_PGM, ONE;
+        ELSE
+            SET_FUNCTION UNDO, 00;
+        ADD TWO, I1;
+    END;
+
+    IF P2 = ONE THEN
+        SET_FUNCTION PREVIOUS_MENU, FILTER, MSZX010X_PGM, '0201';
+
+    IF P4 = ONE THEN
+        SET_FUNCTION NAVIGATION, FILTER, $59, ONE;
+
+    SET_FUNCTION LEAVE, FILTER, LOOKZIP_PGM;
+    RETURN;
+
+  D:
+    IF SYS_CURRENT_CURSOR_POS <> '98' THEN
+        EXIT;
+
+    IF SCR_CURRENT_PAGE <> CURRENT_PAGE THEN DO
+        IF SCR_CURRENT_PAGE = $34 THEN
+            MOVE CURRENT_PAGE, SCR_CURRENT_PAGE;
+        ELSE DO
+            MOVE SCR_CURRENT_PAGE, I1;
+
+            IF I1 <> SCR_CURRENT_PAGE OR I1 < ONE OR I1 > LAST_PAGE THEN DO
+               MOVE CURRENT_PAGE, SCR_CURRENT_PAGE;
+               TRANSFER XXOPMSGS_PGM, TWO, '\x18\xa7', '98';
+            END;
+
+            MOVE I1, CURRENT_PAGE;
+            MOVE '11', SYS_API_EVENT;
+            TRANSFER $47;
+        END;
+    END;
+    EXIT HALT;
+
+  F:
+    IF LAST_PAGE < ONE THEN
+        MOVE ONE, LAST_PAGE;
+
+    IF P0 < FOUR THEN
+        MOVE LAST_PAGE, P4;
+
+    MOVE CURRENT_PAGE, SCR_CURRENT_PAGE;
+    MOVE LAST_PAGE, SCR_LAST_PAGE;
+
+    IF LAST_PAGE = ONE THEN
+        SET_ATT '98', SEVEN, 0x0, 0x7, 0x2;
+    ELSE
+        SET_ATT '98', P7, 0x0, 0x7, 0x0;
+
+    IF P0 < THREE THEN
+        CLEAR P2, P3;
+
+    IF CURRENT_PAGE > ONE THEN DO
+        STRING P1, ZERO, FIVE, P2, P3;
+        SET_FUNCTION BACK, FILTER_ON, MSZX010X_PGM, P1;
+    END; ELSE
+        SET_FUNCTION BACK, DISABLE;
+
+    IF CURRENT_PAGE < P4 THEN DO
+        STRING P1, ZERO, SEVEN, P2, P3;
+        SET_FUNCTION NEXT, FILTER_ON, MSZX010X_PGM, P1;
+    END; ELSE
+        SET_FUNCTION NEXT, DISABLE;
+
+    RETURN ;
+
+  G:
+    MOVE ZERO, $52;
+    RETURN ;
+
+  H:
+    IF SYS_CURRENT_CURSOR_POS <> '97' THEN
+        MOVE SYS_CURRENT_CURSOR_POS, $52;
+    CLOSE_WINDOW;
+END_PROC;

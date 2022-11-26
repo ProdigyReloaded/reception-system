@@ -1,0 +1,26 @@
+{ Program 'PG007037' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/13/89 12:460 }
+
+
+PROC main =
+    CJNE SYS_CURRENT_CURSOR_POS, '1', label_1;
+    MOVE '  3 mo  5.35  AT MATURITY  BAY VIEW S&L', $75;
+    SET_FUNCTION NAVIGATION, 00;
+    NAV 'PG006101PG \x01\x04';
+    JUMP label_2;
+  label_1:
+    CJNE SYS_CURRENT_CURSOR_POS, '2', label_3;
+    MOVE '  6 mo  6.25  AT MATURITY  FIRST FED', $75;
+    SET_FUNCTION NAVIGATION, 00;
+    NAV 'PG006111PG \x01\x04';
+    JUMP label_2;
+  label_3:
+    CJLT SYS_CURRENT_CURSOR_POS, '22', label_4;
+    JUMP label_5;
+  label_4:
+    CJGT SYS_CURRENT_CURSOR_POS, '24', label_2;
+  label_5:
+    LINK 'PG007911PGM\x00\x0c';
+  label_2:
+    RETURN ;
+END_PROC;

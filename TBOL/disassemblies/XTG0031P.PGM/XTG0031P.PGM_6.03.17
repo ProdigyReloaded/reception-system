@@ -1,0 +1,13 @@
+{ Program 'XTG0031P' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/18/89 09:440 }
+
+
+PROC main =
+    CJNE SYS_CURRENT_CURSOR_POS, '10', label_1;
+    POP P1;
+    PUSH 'E';
+  label_1:
+    CLOSE_WINDOW ;
+    RETURN ;
+    RETURN ;
+END_PROC;

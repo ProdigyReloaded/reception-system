@@ -1,0 +1,15 @@
+{ Program 'BN000103' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 12/01/88 13:210 }
+
+
+PROC main =
+    CLEAR &1;
+    CJNE $3, '1', label_1;
+    MOVE 'OVER 15-MIN.    DELAYED', &1;
+    JUMP label_2;
+  label_1:
+    CJNE $3, '8', label_2;
+    MOVE 'PREVIOUS DAY', &1;
+  label_2:
+    RETURN ;
+END_PROC;

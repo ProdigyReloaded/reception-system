@@ -1,0 +1,110 @@
+{ Program 'TQPXPRNT' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 05/19/88 14:360 }
+
+
+PROC main =
+    SAVE 'ARDA', $1, $222;
+    MOVE SYS_BASE_OBJ_ID, P1;
+    CJEQ SYS_WINDOW_ID, '\x00', label_1;
+    MOVE SYS_WINDOW_ID, P1;
+  label_1:
+    SUBSTR P1, P2, '5', '4';
+    EDIT P3, '%2.2sPR%4.4s%5.5s', P1, P2, 'D  \x01\x0c';
+    FETCH P3, &241;
+    LENGTH &241, I1;
+    CLEAR $1;
+    MOVE '1', I6;
+    MAKE_FORMAT P1,
+  $111:1,
+  $112:1,
+  $113:1,
+  $114:1,
+  $115::1;
+  label_12:
+    CJLE I1, '0', label_2;
+    SUBSTR &241, &241, I6, I1;
+    FORMAT &241, P1, I3;
+    LENGTH $115, I2;
+    MOVE '1', I6;
+    MOVE I2, I7;
+    ADD '5', I7;
+    ADD I7, I6;
+    SUB I7, I1;
+    MOVE $112, I3, ABS;
+    MOVE $113, I4, ABS;
+    MOVE $114, I5, ABS;
+    CJNE I3, '1', label_3;
+    MOVE $1(I4), &242;
+    LENGTH &242, I7;
+    ADD '1', I7;
+    MOVE I5, I8;
+    SUB I7, I8;
+    MOVE '\x00', &244;
+    CJLE I8, '0', label_4;
+    FILL &244, ' ', I8;
+  label_4:
+    STRING $1(I4), &242, &244, $115;
+  label_3:
+    CJNE I3, '2', label_5;
+    JUMP label_6;
+  label_5:
+    CJNE I3, '3', label_7;
+  label_6:
+    MOVE $115, I7;
+    MOVE &1(I7), $115;
+  label_7:
+    STRING $115, $115, '\x0a';
+    LENGTH $115, I2;
+  label_11:
+    CJLE I2, '0', label_8;
+    INSTR $115, '\x0a', I7;
+    SUB I7, I2;
+    MOVE I7, I8;
+    SUB '1', I7;
+    SUBSTR $115, &243, '1', I7;
+    CJLE I2, '0', label_9;
+    ADD '1', I8;
+    SUBSTR $115, $115, I8, I2;
+  label_9:
+    MOVE $56(I4), &242;
+    LENGTH &242, I7;
+    ADD '1', I7;
+    MOVE I5, I8;
+    SUB I7, I8;
+    MOVE '\x00', &244;
+    CJLE I8, '0', label_10;
+    FILL &244, ' ', I8;
+  label_10:
+    STRING $56(I4), &242, &244, &243;
+    ADD '1', I4;
+    JUMP label_11;
+  label_8:
+    JUMP label_12;
+  label_2:
+    SUBSTR SYS_DATE, P1, '1', '2';
+    SUBSTR SYS_DATE, P2, '3', '2';
+    SUBSTR SYS_DATE, P3, '7', '2';
+    STRING P2, P1, '/', P2, '/', P3;
+    OPEN 'PRINTER', 'a';
+    MOVE '       The PRODIGY(sm) Service', P3;
+    STRING P3, '\x0c', P3, '\x0d', P3, '\x0d\x0a';
+    WRITE 'PRINTER', P3, '66';
+    STRING P3, '               ', P2, '\x0d\x0a', '\x0d\x0a';
+    WRITE 'PRINTER', P3, '28';
+    MOVE '1', I7;
+  label_14:
+    CJGE I7, '56', label_13;
+    LENGTH $1(I7), I8;
+    WRITE 'PRINTER', $1(I7), I8;
+    WRITE 'PRINTER', '\x0d', '1';
+    LENGTH $56(I7), I8;
+    WRITE 'PRINTER', $56(I7), I8;
+    WRITE 'PRINTER', '\x0d\x0a', '2';
+    ADD '1', I7;
+    JUMP label_14;
+  label_13:
+    CLOSE 'PRINTER';
+    RESTORE 'ARDA', $1;
+    RELEASE 'ARDA';
+    RETURN ;
+END_PROC;

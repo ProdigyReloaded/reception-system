@@ -1,0 +1,74 @@
+{ Program 'TLPG2010' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 12/10/87 13:490 }
+
+
+PROC main =
+    MOVE P7, I7, ABS;
+    MOVE '0', P7;
+    CJNE P2, '1', label_1;
+    MOVE &1(P3), P8;
+    JUMP label_2;
+  label_1:
+    MOVE $1(P3), P8;
+  label_2:
+    CJNE P8, '\x00', label_3;
+    MOVE '30', P7;
+    JUMP label_4;
+  label_3:
+    LENGTH P8, I1;
+    CJGE I1, P1, label_4;
+    MOVE '40', P7;
+  label_4:
+    CJNE P4, '@', label_5;
+    MOVE P5, P2;
+    JUMP label_6;
+  label_5:
+    MOVE 'ABCDEFGHIJKLMONPQRSTUVWXYZ0123456789', P2;
+    CJNE P4, '+', label_7;
+    STRING P2, P2, P5;
+    JUMP label_6;
+  label_7:
+    CJNE P4, '-', label_6;
+    LENGTH P2, I5;
+    LENGTH P5, I6;
+  label_9:
+    CJEQ I6, '0', label_6;
+    SUBSTR P5, P1, I6, '1';
+    INSTR P2, P1, I3;
+    CJNE I3, '0', label_8;
+    RETURN ;
+  label_8:
+    SUB '1', I3;
+    SUBSTR P2, P1, '1', I3;
+    ADD '2', I3;
+    SUBSTR P2, P2, I3, I5;
+    STRING P2, P1, P2;
+    SUB '1', I6;
+    JUMP label_9;
+  label_6:
+    MOVE '\x01', I2, ABS;
+    UPPER P8;
+  label_12:
+    CJGT I2, I1, label_10;
+    CJNE P7, '0', label_10;
+    SUBSTR P8, P1, I2, '1';
+    INSTR P2, P1, I3;
+    CJNE I3, '0', label_11;
+    MOVE I2, P7;
+  label_11:
+    ADD '1', I2;
+    JUMP label_12;
+  label_10:
+    CJLE P6, '0', label_13;
+    CJLE P7, '0', label_13;
+    MOVE I7, P4, ABS;
+    MOVE 'XXOPMSGSPGM\x00\x0c', P1;
+    CJNE P6, '1', label_14;
+    TRANSFER P1, '2', P4, P3;
+    JUMP label_13;
+  label_14:
+    TRANSFER P1, '1', P4;
+  label_13:
+    RETURN P7;
+    RETURN ;
+END_PROC;

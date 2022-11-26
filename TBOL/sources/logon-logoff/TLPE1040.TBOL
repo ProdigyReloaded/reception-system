@@ -1,0 +1,9 @@
+{ Program 'TLPE1040' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/01/89 15:170 }
+
+
+PROC main =
+    DISCONNECT ;
+    TRIGGER_FUNCTION BYE;
+    EXIT '99';
+END_PROC;

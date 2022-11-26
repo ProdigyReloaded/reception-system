@@ -1,0 +1,91 @@
+{ Program 'TLPF1110' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 01/30/90 18:480 }
+
+
+PROC main =
+    SUBSTR SYS_MESSAGING_STATUS, P7, '1', '1';
+    AND '\x01', P7;
+    CJEQ P7, '\x00', label_1;
+    SET_ATT '10', $95, 0x0, $95, $95;
+    MOVE 'NEW MAIL', &10;
+  label_1:
+    CJNE SYS_PATH_PTR, '-1', label_2;
+    CJEQ SYS_NOCOMM, $99, label_3;
+    proc_1;
+  label_3:
+    MOVE $101, KEYWORD_LENGTH;
+    MOVE $99, SYS_PATH_PTR;
+    FETCH $109;
+    FETCH $110;
+    CJEQ PRF_CUG_SERVICE_ID, '\x00\x00', label_4;
+    CJEQ PRF_CUG_SERVICE_ID, '\x00', label_4;
+    SUBSTR $76, P3, '3', $101;
+    STRING $76, PRF_CUG_SERVICE_ID, P3;
+  label_4:
+    FETCH $76;
+    FETCH 'TLPG1010PGM\x00\x0c';
+    FETCH 'TLPG2010PGM\x00\x0c';
+    LENGTH SYS_VERSION, P2;
+    CJNE P2, '7', label_5;
+    SUBSTR SYS_VERSION, P3, $99, $99;
+    JUMP label_6;
+  label_5:
+    SUBSTR SYS_VERSION, P3, $99, '2';
+  label_6:
+    MOVE P3, I1;
+    CJGE I1, '8', label_7;
+    FETCH 'TLOT0010PG \x01\x04';
+    FETCH 'TLOW1050WND\x00\x0e';
+    JUMP label_2;
+  label_7:
+    CJEQ CUG_LOGON_CS, 'TL', label_8;
+    CJNE CUG_LOGON_CS, $97, label_8;
+    LINK 'TL80FD00PGM\x00\x0c';
+    JUMP label_2;
+  label_8:
+    FETCH $116;
+  label_2:
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    CLEAR SYS_FM0_TXRID, SYS_FM64_TXDATA;
+    MOVE '13', P1;
+    MOVE '\x00 ', SYS_FM0_TXHDR;
+    MOVE '\x02V', $36;
+    MOVE '\x00', SYS_FM0_TXRID;
+    MOVE '\x00\xd2\x00', SYS_FM0_TXDID;
+    SEND $36, $34, 0x0, 0x0;
+    proc_2;
+  label_10:
+    CJEQ SYS_RETURN_CODE, '1', label_9;
+    CLEAR SYS_RETURN_CODE;
+    SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
+    OPEN_WINDOW 'TLOW7070WND\x00\x0e';
+    JUMP label_10;
+  label_9:
+    SUBSTR $35, $117, $99, $99;
+    CJEQ $117, '\x02', label_11;
+    CLEAR SYS_RETURN_CODE;
+    JUMP label_10;
+  label_11:
+    SUBSTR $35, $118, $100, $99;
+    SUBSTR $35, $109, '3', $101;
+    SUBSTR $35, $110, '16', $101;
+    SUBSTR $35, SYS_AD_LIST, '1', '132';
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    MOVE '0', I1;
+    OR '0', I1;
+  label_14:
+    CJEQ SYS_RETURN_CODE, '2', label_12;
+    RECEIVE $34, $35;
+    CJNE SYS_RETURN_CODE, '0', label_13;
+    RETURN '1';
+  label_13:
+    JUMP label_14;
+  label_12:
+    RETURN ;
+END_PROC;

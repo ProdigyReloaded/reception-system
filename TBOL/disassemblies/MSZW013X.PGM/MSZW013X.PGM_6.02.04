@@ -1,0 +1,89 @@
+{ Program 'MSZW013X' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 05/25/88 13:270 }
+
+
+PROC main =
+    OPEN 'PRINTER', 'a';
+    CJEQ $140, '\x00', label_1;
+    CJLE $112, $25, label_1;
+    proc_1 $34, $26;
+    proc_1 'DISTRIBUTION LIST', $26;
+    MOVE $25, I1;
+  label_2:
+    CJGT I1, $112, label_1;
+    proc_1 $101(I1), $25;
+    ADD $25, I1;
+    JUMP label_2;
+  label_1:
+    proc_1 $34, $27;
+    proc_1 'WRITE A MESSAGE', $26;
+    SUBSTR SYS_DATE, P5, $25, $26;
+    SUBSTR SYS_DATE, P6, $27, $26;
+    SUBSTR SYS_DATE, P7, $31, $26;
+    STRING P8, P5, '/', P6, '/', P7;
+    MOVE 'TO: ', P1;
+    CJNE $117, $25, label_3;
+    STRING P1, P1, $116;
+  label_3:
+    LENGTH P1, I1;
+    MOVE '21', I2;
+    SUB I1, I2;
+    FILL P2, $35, I2;
+    STRING P1, P1, P2, 'SUBJECT:     ', P8;
+    proc_1 P1, $25;
+    CJLE $112, $25, label_4;
+    JUMP label_5;
+  label_4:
+    CJNE $117, $25, label_6;
+  label_5:
+    MOVE $115, P1;
+    JUMP label_7;
+  label_6:
+    CJLE $112, $24, label_8;
+    MOVE $101($25), P1;
+    JUMP label_7;
+  label_8:
+    CLEAR P1;
+  label_7:
+    MOVE '21', I1;
+    LENGTH P1, I2;
+    SUB I2, I1;
+    FILL P2, $35, I1;
+    STRING P1, P1, P2, $111;
+    proc_1 P1, $26;
+    MOVE $25, I1;
+  label_12:
+    CJGT I1, $37, label_9;
+    LENGTH $91(I1), I4;
+    MOVE $25, I2;
+    MOVE I2, I3;
+  label_11:
+    CJGT I3, I4, label_10;
+    SUBSTR $91(I1), P1, I3, '40';
+    proc_1 P1, $25;
+    ADD '40', I3;
+    ADD $25, I2;
+    JUMP label_11;
+  label_10:
+    MOVE $32, I3;
+    SUB I2, I3;
+    FILL P1, '\x0d', I3;
+    WRITE 'PRINTER', P1;
+    ADD $25, I1;
+    JUMP label_12;
+  label_9:
+    CLOSE 'PRINTER';
+    EXIT $33;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    WRITE 'PRINTER', P1;
+  label_14:
+    CJLE P2, $25, label_13;
+    WRITE 'PRINTER', '\x0d';
+    SUB $25, P2;
+    JUMP label_14;
+  label_13:
+    RETURN ;
+END_PROC;

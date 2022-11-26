@@ -1,0 +1,263 @@
+{ Program 'MSZX010X' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 08/03/88 11:430 }
+
+
+PROC main =
+    CJNE P0, $25, label_1;
+    LENGTH P1, I1;
+    CJLE I1, $26, label_2;
+    SUBSTR P1, P2, $27, I1;
+    SUBSTR P1, P1, $25, $26;
+    JUMP label_1;
+  label_2:
+    CLEAR P2;
+  label_1:
+    GOTO_DEPENDING_ON P1, label_3, label_4, label_5, label_6, label_7, label_8, label_7, label_9, label_10, label_11;
+  label_7:
+    CJEQ SYS_WINDOW_ID, $34, label_12;
+    EXIT ;
+  label_12:
+    SUB $30, P1;
+    ADD P1, $36;
+    CJLE $36, $37, label_13;
+    MOVE $36, $37;
+    MOVE $37, &99;
+  label_13:
+    MOVE $36, &98;
+    CJEQ $58, $27, label_14;
+    SUBSTR P2, P4, $25, $26;
+    CJLE SYS_CURRENT_CURSOR_POS, '0', label_14;
+    CJGT SYS_CURRENT_CURSOR_POS, P4, label_14;
+    SUBSTR P2, P2, $27, $32;
+    TRANSFER P2, $47, P1;
+  label_14:
+    TRANSFER $47, P1;
+  label_3:
+    MOVE $25, I1;
+    MOVE P2, I2;
+    LENGTH P3, I3;
+  label_33:
+    CJGT I1, I3, label_15;
+    SUBSTR P3, P5, I1, $25;
+    ADD $25, I1;
+    CJNE P5, 'A', label_16;
+    SET_ATT I2, $95, 0x0, 0x0, 0x4;
+    JUMP label_17;
+  label_16:
+    CJNE P5, 'K', label_18;
+    JUMP label_19;
+  label_18:
+    CJNE P5, 'k', label_20;
+  label_19:
+    SET_ATT I2, $31, 0x0, 0x0, 0x4;
+    JUMP label_17;
+  label_20:
+    CJNE P5, 'D', label_21;
+    JUMP label_22;
+  label_21:
+    CJNE P5, 'd', label_23;
+  label_22:
+    SET_ATT I2, $31, 0x0, 0x7, 0x2;
+    JUMP label_17;
+  label_23:
+    CJNE P5, 'I', label_24;
+    JUMP label_25;
+  label_24:
+    CJNE P5, 'i', label_17;
+  label_25:
+    SET_ATT I2, P7, 0x0, 0x7, 0x0;
+  label_17:
+    CJNE P5, 'N', label_26;
+    SET_ATT I2, $31, 0x0, $95, $95;
+    JUMP label_27;
+  label_26:
+    CJNE P5, 'R', label_28;
+    REFRESH ;
+    JUMP label_27;
+  label_28:
+    CJGE P5, 'a', label_29;
+    SUBSTR P3, P6, I1, $26;
+    ADD $26, I1;
+    CJEQ P6, $24, label_30;
+    CJEQ P5, 'F', label_31;
+    SUBSTR P3, &1(I2), I1, P6;
+    ADD P6, I1;
+    JUMP label_30;
+  label_31:
+    MOVE P6, I2;
+    SUB $25, I2;
+  label_30:
+    JUMP label_27;
+  label_29:
+    CLEAR &1(I2);
+  label_27:
+    CJEQ P5, 'R', label_32;
+    ADD $25, I2;
+  label_32:
+    JUMP label_33;
+  label_15:
+    RETURN ;
+  label_11:
+    LENGTH $45, I5;
+    MOVE I5, P5, ABS;
+    MOVE $36, I6;
+    MOVE I6, P6, ABS;
+    MOVE $37, I7;
+    MOVE I7, P7, ABS;
+    MOVE SYS_CURRENT_CURSOR_POS, I8;
+    MOVE I8, P8, ABS;
+    STRING $44, SYS_BASE_OBJ_ID, P5, $45, P6, P7, P8, $44;
+    CJNE P0, $25, label_34;
+    RETURN ;
+  label_34:
+    CJLT P0, $27, label_35;
+    MOVE P3, $45;
+  label_35:
+    MOVE $25, $36;
+    SET_FUNCTION NAVIGATION, 00;
+    NAV P2;
+  label_4:
+    CJNE $57, $25, label_36;
+    EXIT '99';
+  label_36:
+    SUBSTR $44, SYS_NAVIGATE_OBJ_ID, $25, $32;
+    CJGE $56, $25, label_37;
+    CJEQ $58, $27, label_38;
+    CJEQ $46, $34, label_38;
+    CJNE $53, $25, label_38;
+    LINK $46, $24;
+  label_38:
+    SET_FUNCTION NAVIGATION, 00;
+    CJEQ $59, $34, label_39;
+    LINK $59, $24;
+  label_39:
+    CJGE $56, $24, label_40;
+    RELEASE $23;
+  label_40:
+    JUMP label_41;
+  label_37:
+    SET_FUNCTION NAVIGATION, 00;
+  label_41:
+    LENGTH $44, I1;
+    SUBSTR $44, $44, '14', I1;
+    CJNE P2, $25, label_42;
+    CLEAR P7;
+    MAKE_FORMAT P8,
+  P7::2,
+  $36:2,
+  $37:2,
+  $51:2;
+    FORMAT $44, P8, I8;
+    MOVE $36, I3, ABS;
+    MOVE I3, $36;
+    MOVE $37, I3, ABS;
+    MOVE I3, $37;
+    MOVE $51, I3, ABS;
+    MOVE I3, $51;
+    CJEQ P7, $34, label_43;
+    MOVE P7, $45;
+  label_43:
+    LENGTH P7, I3;
+    ADD '9', I3;
+    SUBSTR $44, $44, I3, I1;
+  label_42:
+    CJEQ $23, $34, label_44;
+    SUBSTR SYS_NAVIGATE_OBJ_ID, P7, $25, $26;
+    SUBSTR SYS_BASE_OBJ_ID, P8, $25, $26;
+    CJEQ P7, P8, label_44;
+    RELEASE $23;
+  label_44:
+    NAV SYS_NAVIGATE_OBJ_ID;
+  label_5:
+    MOVE $25, I1;
+    MOVE '24331535431431262236', P8;
+  label_48:
+    CJGT I1, '19', label_45;
+    SUBSTR P8, P1, I1, $26;
+    CJNE P3, $25, label_46;
+    SET_FUNCTION UNDO, FILTER, $46, $25;
+    JUMP label_47;
+  label_46:
+    SET_FUNCTION UNDO, 00;
+  label_47:
+    ADD $26, I1;
+    JUMP label_48;
+  label_45:
+    CJNE P2, $25, label_49;
+    SET_FUNCTION PREVIOUS_MENU, FILTER, $54, '0201';
+  label_49:
+    CJNE P4, $25, label_50;
+    SET_FUNCTION NAVIGATION, FILTER, $59, $25;
+  label_50:
+    RETURN ;
+  label_6:
+    CJEQ SYS_CURRENT_CURSOR_POS, '98', label_51;
+    EXIT ;
+  label_51:
+    CJEQ &98, $36, label_52;
+    CJNE &98, $34, label_53;
+    MOVE $36, &98;
+    JUMP label_52;
+  label_53:
+    MOVE &98, I1;
+    CJEQ I1, &98, label_54;
+    JUMP label_55;
+  label_54:
+    CJGE I1, $25, label_56;
+  label_55:
+    JUMP label_57;
+  label_56:
+    CJLE I1, $37, label_58;
+  label_57:
+    MOVE $36, &98;
+    TRANSFER $40, $26, '\x18\xa7', '98';
+  label_58:
+    MOVE I1, $36;
+    MOVE '11', SYS_API_EVENT;
+    TRANSFER $47;
+  label_52:
+    EXIT $33;
+  label_8:
+    CJGE $37, $25, label_59;
+    MOVE $25, $37;
+  label_59:
+    CJGE P0, $28, label_60;
+    MOVE $37, P4;
+  label_60:
+    MOVE $36, &98;
+    MOVE $37, &99;
+    CJNE $37, $25, label_61;
+    SET_ATT '98', $31, 0x0, 0x7, 0x2;
+    JUMP label_62;
+  label_61:
+    SET_ATT '98', P7, 0x0, 0x7, 0x0;
+  label_62:
+    CJGE P0, $27, label_63;
+    CLEAR P2, P3;
+  label_63:
+    CJLE $36, $25, label_64;
+    STRING P1, $24, $29, P2, P3;
+    SET_FUNCTION BACK, FILTER_ON, $54, P1;
+    JUMP label_65;
+  label_64:
+    SET_FUNCTION BACK, DISABLE;
+  label_65:
+    CJGE $36, P4, label_66;
+    STRING P1, $24, $31, P2, P3;
+    SET_FUNCTION NEXT, FILTER_ON, $54, P1;
+    JUMP label_67;
+  label_66:
+    SET_FUNCTION NEXT, DISABLE;
+  label_67:
+    RETURN ;
+  label_9:
+    MOVE $24, $52;
+    RETURN ;
+  label_10:
+    CJEQ SYS_CURRENT_CURSOR_POS, '97', label_68;
+    MOVE SYS_CURRENT_CURSOR_POS, $52;
+  label_68:
+    CLOSE_WINDOW ;
+    RETURN ;
+    RETURN ;
+END_PROC;

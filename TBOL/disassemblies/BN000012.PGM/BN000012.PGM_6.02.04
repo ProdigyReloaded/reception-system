@@ -1,0 +1,58 @@
+{ Program 'BN000012' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 01/29/88 16:400 }
+
+
+PROC main =
+    CJNE $26, '1', label_1;
+    FETCH 'BNA00005PGM\x00\x0c';
+    FETCH 'BNA00009PGM\x00\x0c';
+  label_1:
+    RESTORE &103, &21;
+    CJNE &103, &105, label_2;
+    SET_FUNCTION NEXT, DISABLE;
+    CLEAR &20;
+    MOVE '1', I1;
+    MOVE '11', I2;
+  label_6:
+    CJGT I1, '2', label_3;
+    CJNE &21(I1), '\x00', label_4;
+    SET_ATT I2, $31, 0x0, $95, $95;
+    ADD '10', I2;
+    SET_ATT I2, $31, 0x0, $95, $95;
+    JUMP label_5;
+  label_4:
+    SET_ATT I2, $95, 0x0, 0x0, 0x4;
+    MOVE I1, &11(I1);
+    ADD '10', I2;
+    SET_ATT I2, $31, 0x0, 0x7, 0x4;
+  label_5:
+    ADD '1', I1;
+    MOVE I1, I2;
+    ADD '10', I2;
+    JUMP label_6;
+  label_3:
+    JUMP label_7;
+  label_2:
+    SET_FUNCTION NEXT, FILTER_ON, 'BN000007PGM\x00\x0c';
+    MOVE '<NEXT> for more choices', &20;
+    MOVE '1', I1;
+    MOVE '11', I2;
+  label_8:
+    CJGT I1, '2', label_7;
+    SET_ATT I2, $95, 0x0, 0x0, 0x4;
+    MOVE I1, &11(I1);
+    ADD '10', I2;
+    SET_ATT I2, $31, 0x0, 0x7, 0x4;
+    ADD '1', I1;
+    MOVE I1, I2;
+    ADD '10', I2;
+    JUMP label_8;
+  label_7:
+    CJNE &103, '1', label_9;
+    SET_FUNCTION BACK, DISABLE;
+    JUMP label_10;
+  label_9:
+    SET_FUNCTION BACK, FILTER_ON, 'BN000008PGM\x00\x0c';
+  label_10:
+    RETURN ;
+END_PROC;

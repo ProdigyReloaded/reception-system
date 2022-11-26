@@ -1,0 +1,66 @@
+{ Program 'BNA00015' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/17/88 18:060 }
+
+
+PROC main =
+    CJNE $69, '\x04', label_1;
+    JUMP label_2;
+  label_1:
+    CJNE $69, '\x05', label_3;
+  label_2:
+    JUMP label_4;
+  label_3:
+    CJNE $69, '\x0e', label_5;
+  label_4:
+    MOVE 'LAST', &21;
+    MOVE 'CHANGE FROM PREVIOUS CLOSE', &23;
+    MOVE 'OPEN', &25;
+    MOVE 'HIGH', &27;
+    MOVE 'LOW', &31;
+    MOVE 'VOLUME(100 S)', &29;
+    MOVE $64, &26;
+    MOVE $65, &28;
+    MOVE $66, &32;
+    MOVE $222, &22;
+    EDIT $67, '%10.10s', $67;
+    MOVE $67, &30;
+    MOVE $68, &24;
+    JUMP label_6;
+  label_5:
+    CJNE $69, '\x01', label_7;
+    JUMP label_8;
+  label_7:
+    CJNE $69, '\x0b', label_9;
+  label_8:
+    MOVE 'CLOSE', &23;
+    MOVE 'DATE', &25;
+    MOVE $222, &24;
+    MOVE $67, &28;
+    JUMP label_6;
+  label_9:
+    CJNE $69, '\x02', label_10;
+    JUMP label_11;
+  label_10:
+    CJNE $69, '\x0c', label_12;
+  label_11:
+    MOVE 'BID', &23;
+    MOVE 'ASKED', &25;
+    MOVE 'VOLUME(100 S)', &29;
+    MOVE $68, &24;
+    MOVE $64, &28;
+    EDIT $67, '%10.10s', $67;
+    MOVE $67, &32;
+    JUMP label_6;
+  label_12:
+    CJNE $69, '\x03', label_13;
+    JUMP label_14;
+  label_13:
+    CJNE $69, '\x0d', label_6;
+  label_14:
+    MOVE 'BID', &23;
+    MOVE 'ASKED', &25;
+    MOVE $68, &24;
+    MOVE $64, &28;
+  label_6:
+    RETURN ;
+END_PROC;

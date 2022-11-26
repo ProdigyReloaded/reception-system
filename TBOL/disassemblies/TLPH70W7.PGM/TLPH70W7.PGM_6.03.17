@@ -1,0 +1,22 @@
+{ Program 'TLPH70W7' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 01/26/88 09:490 }
+
+
+PROC main =
+    CJNE SYS_CURRENT_FIELD, '1', label_1;
+    DISCONNECT ;
+    TRIGGER_FUNCTION BYE;
+  label_1:
+    SEND $36, $34, 0x0, 0x0;
+  label_4:
+    CJEQ SYS_RETURN_CODE, '2', label_2;
+    RECEIVE $34, $35;
+    CJNE SYS_RETURN_CODE, '0', label_3;
+    RETURN '1';
+    CLOSE_WINDOW ;
+  label_3:
+    JUMP label_4;
+  label_2:
+    CLOSE_WINDOW ;
+    RETURN ;
+END_PROC;

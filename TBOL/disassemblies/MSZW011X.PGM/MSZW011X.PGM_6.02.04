@@ -1,0 +1,91 @@
+{ Program 'MSZW011X' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 01/19/88 14:270 }
+
+
+PROC main =
+    CJNE $112, $24, label_1;
+    TRANSFER $42, $26, '\x18\xa6', '10';
+  label_1:
+    CJNE $91($25), $34, label_2;
+    TRANSFER $42, $26, '\x18\xa5', '15';
+  label_2:
+    OPEN_WINDOW $64;
+    CJNE $52, '10', label_3;
+    proc_1;
+    MOVE '\x00\x00', SYS_FM0_TXHDR;
+    MOVE '\x00\xd2\x00', SYS_FM0_TXDID;
+    MOVE '\x00', SYS_FM0_TXRID;
+    CJEQ SYS_NOCOMM, $25, label_4;
+    SEND $48, 0x0, 0x0;
+  label_4:
+    MOVE $24, $53;
+    CLEAR $48;
+    CJNE $117, $25, label_5;
+    proc_2;
+  label_5:
+    CJNE SYS_RETURN_CODE, '0', label_3;
+    OPEN_WINDOW $65;
+    SET_CURSOR '65';
+    SET_ATT '64', $31, 0x0, $95, $95;
+  label_3:
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    proc_3;
+    CLEAR P1;
+    MOVE $25, I1;
+  label_7:
+    CJGT I1, $112, label_6;
+    STRING P1, P1, $101(I1);
+    ADD $25, I1;
+    JUMP label_7;
+  label_6:
+    UPPER P1;
+    MOVE $112, I1;
+    MOVE I1, P2, ABS;
+    LENGTH &13, I2;
+    MOVE I2, P3, ABS;
+    SUBSTR P3, P3, $26, $25;
+    LENGTH $48, I2;
+    MOVE I2, P4, ABS;
+    STRING $48, P2, P1, P3, &13, P4, $48;
+    STRING $48, '\x01', '\x01', $120, $48;
+    RETURN ;
+END_PROC;
+
+PROC proc_3 =
+    CLEAR $48;
+    MOVE $25, I1;
+  label_10:
+    CJGT I1, $37, label_8;
+    STRING $48, $48, $91(I1);
+    CJGE I1, $37, label_9;
+    LENGTH $91(I1), I2;
+    CJGE I2, '480', label_9;
+    MOVE '480', I3;
+    SUB I2, I3;
+    FILL P1, $35, I3;
+    STRING $48, $48, P1;
+  label_9:
+    ADD $25, I1;
+    JUMP label_10;
+  label_8:
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    ADD $25, $113;
+    CJGE $113, $136, label_11;
+    RETURN '0';
+  label_11:
+    OPEN_WINDOW $66;
+    LINK $54, $25, '13', 'NF15NF64kkF67kF98N';
+    SET_CURSOR &66;
+    MOVE $37, $137;
+    CJNE $36, $37, label_12;
+    SET_FUNCTION NEXT, DISABLE;
+  label_12:
+    RETURN $25;
+    RETURN ;
+END_PROC;

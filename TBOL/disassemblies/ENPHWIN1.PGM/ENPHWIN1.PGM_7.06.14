@@ -1,0 +1,16 @@
+{ Program 'ENPHWIN1' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 10/19/87 12:420 }
+
+
+PROC main =
+    PUSH P1;
+    SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
+    CJNE SYS_BASE_OBJ_ID, $64, label_1;
+    OPEN_WINDOW $75;
+    JUMP label_2;
+  label_1:
+    OPEN_WINDOW $87;
+  label_2:
+    SET_CURSOR '1';
+    RETURN ;
+END_PROC;

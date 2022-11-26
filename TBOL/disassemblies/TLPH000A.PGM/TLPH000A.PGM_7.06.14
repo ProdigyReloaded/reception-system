@@ -1,0 +1,35 @@
+{ Program 'TLPH000A' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/17/89 11:490 }
+
+
+PROC main =
+    CJNE SYS_API_EVENT, '10', label_1;
+    CJNE SYS_CURRENT_CURSOR_POS, '2', label_2;
+    CJEQ SYS_NOCOMM, '1', label_3;
+    MOVE '1', SYS_SESSION_STATUS;
+    proc_1 '\x00\xd2\x02';
+  label_3:
+    NAV 'TLOT0010PG \x01\x04';
+  label_2:
+    OPEN_WINDOW 'TLOWDISCWND\x00\x0e';
+    EXIT ;
+  label_1:
+    CJEQ SYS_NOCOMM, '1', label_4;
+    proc_1 '\x00\xd2\x01';
+  label_4:
+    DISCONNECT ;
+    CLOSE_WINDOW ;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MOVE P1, SYS_FM0_TXDID;
+    MOVE '\x80\x00\x00\x00', SYS_DATA_COLLECT;
+    CLEAR SYS_FM0_TXRID, SYS_FM64_TXDATA;
+    MOVE '\x0f\x01', $36;
+    MOVE '\x00 ', SYS_FM0_TXHDR;
+    MOVE '\x00', SYS_FM0_TXRID;
+    SEND $36, $34, 0x0, 0x0;
+    RECEIVE $34, $35;
+    RETURN ;
+END_PROC;

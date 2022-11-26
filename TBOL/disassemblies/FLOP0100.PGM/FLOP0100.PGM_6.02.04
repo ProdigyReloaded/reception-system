@@ -1,0 +1,748 @@
+{ Program 'FLPX0100' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 06/15/88 15:010 }
+
+
+PROC main =
+    SUBSTR $59, P7, '1', '1';
+    STRING P8, 'FLOT1000MEN', '\x00\x04';
+    CJEQ SYS_BASE_OBJ_ID, P8, label_1;
+    CJNE P7, '2', label_1;
+    SAVE 'SH_TEMP', $1, $222;
+  label_1:
+    CLEAR $60, $222;
+    MOVE P8, $93;
+    MOVE P7, $95;
+    MOVE '0', $1;
+    MOVE '19', $75;
+    MOVE '1', I1;
+  label_3:
+    CJGE I1, '16', label_2;
+    MOVE I1, $60(I1);
+    ADD $60, I1;
+    JUMP label_3;
+  label_2:
+    CLEAR $76;
+    MOVE ' ', $77;
+    MOVE '\x00', $78;
+    MOVE '\x01', $79;
+    STRING $80, 'XXOWYESNWND', '\x00\x0e';
+    STRING $81, 'XXOPMSGSPGM', '\x00\x0c';
+    STRING $82, 'XXOW1INPWND', '\x00\x0e';
+    STRING $83, 'XXOWDLSTWND', '\x00\x0e';
+    SAVE 'FLC', $60, $83;
+    RESTORE 'FLI', $104;
+    CJEQ SYS_RETURN_CODE, $1, label_4;
+    CLEAR $26, $58;
+    FILL $26, $1, '30';
+    STRING $26, $26, '\x00\x00';
+    MOVE '99', $27;
+    MOVE '25', $28;
+  label_4:
+    MAKE_FORMAT $104,
+  $84:5,
+  $85:1,
+  $86:2,
+  $87:15,
+  $89:2,
+  $90:2,
+  $91:2,
+  $92:4;
+    FORMAT $26, $104, I1;
+    CJNE $85, $62, label_5;
+    JUMP label_6;
+  label_5:
+    GOTO_DEPENDING_ON $95, label_7, label_8, label_8, label_8, label_9, label_7;
+  label_8:
+    proc_1;
+    SUBSTR $59, $104, $61, $61;
+    MOVE $104, I1;
+    CJNE I1, $1, label_10;
+    RESTORE 'SH_TEMP', $1;
+    RELEASE 'SH_TEMP';
+    RELEASE 'FLC';
+    RETURN ;
+  label_10:
+    RELEASE 'SH_TEMP';
+    GOTO_DEPENDING_ON $85, label_11, label_12;
+    JUMP label_11;
+  label_7:
+    SUBSTR $59, $104, '32', $60;
+    MOVE $104, I1;
+    SUBSTR $59, $104, $61, $61;
+    MOVE $104, I2;
+    GOTO_DEPENDING_ON $85, label_13, label_8;
+  label_15:
+    proc_2;
+    JUMP label_11;
+  label_13:
+    proc_3;
+    CJNE $106, $60, label_14;
+    JUMP label_15;
+  label_14:
+    MOVE $34($86), $103;
+    proc_4;
+    SUBSTR $103, $104, $61, $61;
+    MOVE $104, I1;
+    MOVE I1, $94;
+    PUSH I1;
+    SUBSTR $59, $104, $61, $61;
+    MOVE $104, I2;
+    MOVE '130', I4;
+    MOVE '38', I5;
+    MOVE '1', I6;
+  label_21:
+    CJLT I2, I6, label_16;
+    SUBSTR $59, $104, I4, $61;
+    MOVE '130', I7;
+    MOVE '1', I8;
+    MOVE $78, $106;
+  label_19:
+    CJLT I1, I8, label_17;
+    SUBSTR $103, $105, I7, $61;
+    CJNE $104, $105, label_18;
+    PUSH I4;
+    PUSH I7;
+    SUB '21', I4;
+    SUBSTR $59, $105, I4, $61;
+    SUB '22', I7;
+    SUBSTR $103, $104, '1', I7;
+    ADD '3', I7;
+    LENGTH $103, I4;
+    SUB I7, I4;
+    ADD $60, I4;
+    SUBSTR $103, $103, I7, I4;
+    STRING $103, $104, $105, $103;
+    POP I7;
+    POP I4;
+    MOVE I1, I8;
+    MOVE $79, $106;
+  label_18:
+    ADD I3, I7;
+    ADD '1', I8;
+    JUMP label_19;
+  label_17:
+    CJNE $106, $78, label_20;
+    ADD $60, $94;
+    SUBSTR $59, $104, I5, I3;
+    STRING $103, $103, $104;
+  label_20:
+    ADD I3, I4;
+    ADD I3, I5;
+    ADD $60, I6;
+    JUMP label_21;
+  label_16:
+    MOVE $103, $59;
+    LENGTH $59, I1;
+    SUB $62, I1;
+    SUBSTR $59, $104, $60, $60;
+    SUBSTR $59, $105, $63, I1;
+    proc_5 $94, $61, $62, $1;
+    POP $94;
+    STRING $59, $104, $94, $105;
+    POP I1;
+    SUB I1, $94;
+    proc_2;
+    JUMP label_22;
+  label_9:
+    GOTO_DEPENDING_ON $85, label_23, label_24;
+    JUMP label_11;
+  label_23:
+    proc_3;
+    GOTO_DEPENDING_ON $106, label_11, label_12;
+  label_6:
+    proc_4;
+    MOVE $89, I4;
+    SUB $60, I4;
+    MUL I3, I4;
+    ADD '108', I4;
+    LENGTH $34($86), I2;
+    SUBSTR $34($86), $104, $60, I4;
+    ADD '2', I4;
+    SUB I4, I2;
+    ADD '1', I4;
+    SUBSTR $34($86), $105, I4, I2;
+    STRING $34($86), $104, $1, $1, $105;
+    JUMP label_25;
+  label_11:
+    CJNE $91, $28, label_26;
+    LINK $81, '1', '\x00\x13';
+    JUMP label_25;
+  label_26:
+    SUBSTR $59, $94, $61, $61;
+    ADD $60, $91;
+    MOVE $91, $86;
+    JUMP label_22;
+  label_12:
+    SUBSTR $34($86), $104, $61, $61;
+    SUBSTR $59, $94, $61, $61;
+    SUB $104, $94;
+    JUMP label_22;
+  label_24:
+    MOVE '0', $94;
+  label_22:
+    ADD $94, $90;
+    CJLE $90, $27, label_27;
+    LINK $81, '1', '\x00\x13';
+    SUB $94, $90;
+    JUMP label_25;
+  label_27:
+    MOVE $59, $34($86);
+  label_25:
+    MOVE $1, $85;
+    proc_5 $86, $61, $62, $1;
+    POP $86;
+    proc_5 $89, $61, $62, $1;
+    POP $89;
+    proc_5 $90, $61, $62, $1;
+    POP $90;
+    proc_5 $91, $61, $62, $1;
+    POP $91;
+    STRING $26, $84, $85, $86, $87;
+    STRING $26, $26, $89, $90, $91, $92;
+    CLEAR $59;
+    CJEQ SYS_BASE_OBJ_ID, $93, label_28;
+    STRING $169, 'SHOPSHOPPGM', '\x00\x0c';
+    MOVE $64, $170;
+    SAVE 'SMNAVP', $169, $170;
+    NAV $93;
+  label_28:
+    STRING $104, 'XXOPSM02PGM', '\x00\x0c';
+    SET_FUNCTION NEXT, FILTER_ON, $104, '0';
+    TRIGGER_FUNCTION NEXT;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    CLEAR $107, $222;
+    MAKE_FORMAT $112,
+  $95:1,
+  $94:2,
+  $153:15,
+  $154:13,
+  $155:1,
+  $99:1,
+  $100:4;
+    MAKE_FORMAT $113,
+  $156:50,
+  $102:20,
+  $101:1,
+  $157:2,
+  $158:6,
+  $159:13,
+  $160:2;
+    MAKE_FORMAT $114,
+  $161:15,
+  $162:2,
+  $163:2;
+    FORMAT $59, $112, I1;
+    CJNE $85, $61, label_29;
+    MOVE $61, $107;
+    proc_6;
+    FETCH $159, $96;
+    MOVE $60, $108;
+  label_31:
+    CJGT $108, $99, label_30;
+    proc_7;
+    ADD $60, $108;
+    JUMP label_31;
+  label_30:
+    JUMP label_32;
+  label_29:
+    MOVE $60, $107;
+    MOVE $94, $89;
+    ADD $60, $89;
+    proc_6;
+    MOVE $60, I2;
+    proc_2;
+    SUBSTR $59, $59, $60, '37';
+  label_32:
+    SUBSTR $96, $99, $60, $61;
+    MOVE $99, I1, ABS;
+    MOVE I1, $99;
+    MOVE $99, $109;
+    MUL $75, $109;
+    ADD '94', $109;
+  label_71:
+    CJNE $99, $1, label_33;
+    JUMP label_34;
+  label_33:
+    MOVE $1, $106;
+    MOVE $60, $108;
+  label_50:
+    GOTO_DEPENDING_ON $107, label_35, label_36, label_36;
+  label_35:
+    CJLE $108, $99, label_37;
+    JUMP label_34;
+  label_37:
+    proc_7;
+    ADD I1, I2;
+    MOVE $60, I5;
+    MOVE $60, I6;
+    MOVE $60, I7;
+    MOVE $77, $115;
+    MOVE I5, $116;
+    CLEAR $133, $152;
+    CLEAR $123($108);
+  label_41:
+    CJGT I6, $117, label_38;
+    SUBSTR $96, $105, I2, $61;
+    CJNE $105, $162, label_39;
+    MOVE I7, $115;
+    MOVE I5, $116;
+  label_39:
+    STRING $123($108), $123($108), $105;
+    ADD $61, I2;
+    SUBSTR $96, $105, I2, $60;
+    MOVE $105, I1, ABS;
+    ADD $60, I2;
+    SUBSTR $96, $105, I2, I1;
+    proc_5 $105, $74, $60, $77;
+    POP $105;
+    STRING $133(I5), $133(I5), '\x00\x0f', $60, $105;
+    ADD I1, I2;
+    ADD '1', I6;
+    ADD '1', I7;
+    CJNE I7, $69, label_40;
+    CJGT I6, $117, label_40;
+    STRING $133(I5), $68, $133(I5);
+    ADD $60, I5;
+    MOVE $60, I7;
+  label_40:
+    JUMP label_41;
+  label_38:
+    SUB $60, I7;
+    STRING $133(I5), I7, $133(I5);
+    MOVE I5, I1;
+  label_43:
+    CJLE I1, $1, label_42;
+    PUSH $133(I1);
+    SUB $60, I1;
+    JUMP label_43;
+  label_42:
+    MOVE '11', I1;
+    MOVE $77, $104;
+  label_45:
+    CJNE $104, $77, label_44;
+    SUB $60, I1;
+    SUBSTR $118($108), $104, I1, $60;
+    JUMP label_45;
+  label_44:
+    SUBSTR $118($108), $104, $60, I1;
+    STRING $104, 'Use [TAB] to select ', $104, ' you want and press [RETURN]';
+    PUSH $104;
+    MOVE I5, $104, ABS;
+    MOVE $116, I1;
+    MOVE I1, $116, ABS;
+    STRING $104, $104, $115, $116, $60;
+    PUSH $104;
+    OPEN_WINDOW $83;
+    RESTORE 'FLC', $60;
+    POP I1;
+    CJNE I1, $1, label_46;
+    JUMP label_47;
+  label_46:
+    POP I2;
+    MOVE I2, I3;
+    SUB $60, I3;
+    MUL '18', I3;
+    ADD $64, I3;
+    SUBSTR $133(I1), $161, I3, $74;
+    MUL $61, I2;
+    SUB $60, I2;
+    SUBSTR $123($108), $162, I2, $61;
+    CJNE $107, $60, label_48;
+    STRING $164, $164, $161, $162, $163;
+    ADD $60, $108;
+    CLEAR $162;
+    JUMP label_49;
+  label_48:
+    LENGTH $164, I1;
+    MOVE $108, I2;
+    SUB $60, I2;
+    MUL $75, I2;
+    CLEAR $104, $105;
+    SUBSTR $164, $104, $60, I2;
+    ADD '17', I2;
+    SUB I2, I1;
+    ADD $60, I2;
+    SUBSTR $164, $105, I2, I1;
+    STRING $164, $104, $161, $162, $105;
+  label_49:
+    MOVE $79, $171;
+    JUMP label_50;
+  label_59:
+    CJNE $99, $1, label_51;
+    JUMP label_52;
+  label_51:
+    CJNE $95, $60, label_47;
+  label_52:
+    JUMP label_53;
+  label_47:
+    GOTO_DEPENDING_ON $107, label_54, label_36, label_36;
+  label_54:
+    CJNE $94, $1, label_55;
+    JUMP label_53;
+  label_55:
+    SUB $60, $94;
+    SUB $60, $89;
+    proc_6;
+    MOVE $94, I1;
+    MUL $109, I1;
+    ADD '37', I1;
+    SUBSTR $59, $59, $60, I1;
+    JUMP label_36;
+  label_34:
+    PUSH $1;
+    MOVE $157, I1;
+    CJNE $107, $60, label_56;
+    PUSH $76;
+    JUMP label_57;
+  label_56:
+    PUSH I1;
+  label_57:
+    PUSH '99';
+    PUSH $60;
+    PUSH 'Please type QUANTITY and press [RETURN]';
+    SET_FUNCTION NEXT, 00;
+    SET_FUNCTION BACK, 00;
+    OPEN_WINDOW $82;
+    RESTORE 'FLC', $60;
+    POP I1;
+    CJNE I1, $1, label_58;
+    JUMP label_59;
+  label_58:
+    MOVE I1, $157;
+    proc_5 $157, $61, $62, $77;
+    POP $157;
+    CJNE $99, $1, label_36;
+    JUMP label_60;
+  label_36:
+    STRING $104, '\x00\x13', $60, 'Complete this order', '\x00\x00', $61;
+    MOVE $99, I1;
+    ADD $64, I1;
+    GOTO_DEPENDING_ON $107, label_61, label_62;
+  label_61:
+    STRING $104, '\x00\x1a', $60, 'Order another of same item', $104;
+    ADD $60, I1;
+  label_62:
+    MOVE I1, $105;
+    STRING $104, $105, $104, '\x00\x17', $61, 'OR CHANGE current item:';
+    STRING $104, $104, '\x00\x00', $61;
+    MOVE $60, I3;
+  label_64:
+    CJGT I3, $99, label_63;
+    MOVE I3, I2;
+    SUB $60, I2;
+    MUL $75, I2;
+    ADD $60, I2;
+    SUBSTR $164, $105, I2, $74;
+    STRING $104, $104, '\x00\x1a', $60, $118(I3), $77, $105;
+    ADD $60, I3;
+    JUMP label_64;
+  label_63:
+    MOVE $77, $105;
+    CJGE $157, $68, label_65;
+    MOVE $76, $105;
+  label_65:
+    STRING $104, $104, '\x00\x0d', $60, 'QUANTITY  ', $105, $157;
+    PUSH $104;
+    PUSH 'Use [TAB] to select the option you want and press [RETURN].';
+    PUSH '\x00\x01 \x00\x011';
+    OPEN_WINDOW $83;
+    RESTORE 'FLC', $60;
+    POP $104;
+    CJNE $104, '\x00\x00', label_66;
+    JUMP label_60;
+  label_66:
+    POP $111;
+    MOVE $111, I2;
+    CJNE $107, $61, label_67;
+    ADD $60, $111;
+    ADD $60, I2;
+    ADD $60, I1;
+  label_67:
+    GOTO_DEPENDING_ON $111, label_68, label_60;
+    SUB $61, I2;
+    SUB $64, I1;
+    CJNE $107, $60, label_69;
+    MOVE $62, $107;
+  label_69:
+    CJNE I2, I1, label_70;
+    JUMP label_34;
+  label_70:
+    MOVE I2, $108;
+    SUB $60, I2;
+    MUL $75, I2;
+    ADD $60, I2;
+    SUBSTR $164, $104, I2, $75;
+    FORMAT $104, $114, I8;
+    JUMP label_37;
+  label_75:
+    MOVE $60, $107;
+    ADD $60, $89;
+    ADD $109, $110;
+    CLEAR $157;
+    CLEAR $164;
+    CLEAR $161, $162;
+    JUMP label_71;
+  label_68:
+    MOVE $60, $106;
+  label_60:
+    CJNE $95, $60, label_72;
+    CJNE $171, $79, label_72;
+    proc_8;
+  label_72:
+    CLEAR $104, $105;
+    MOVE $110, I1;
+    SUB '38', I1;
+    SUBSTR $59, $104, '38', I1;
+    ADD '37', I1;
+    LENGTH $59, I2;
+    CJNE $107, $61, label_73;
+    ADD $109, I1;
+    JUMP label_74;
+  label_73:
+    ADD $60, $94;
+  label_74:
+    SUB I1, I2;
+    ADD $60, I1;
+    SUBSTR $59, $105, I1, I2;
+    proc_5 $94, $61, $62, $1;
+    POP $94;
+    STRING $59, $95, $94, $153, $154, $155, $99;
+    STRING $59, $59, $100, $104, $156, $102, $101;
+    STRING $59, $59, $157, $158, $159, $160, $164;
+    STRING $59, $59, $105;
+    GOTO_DEPENDING_ON $106, label_75;
+  label_53:
+    RETURN ;
+END_PROC;
+
+PROC proc_8 =
+    SUBSTR $154, $169, $60, $63;
+    SUBSTR $154, $170, $65, $67;
+    STRING $169, $169, 'Q', $170;
+    FETCH $169, $166;
+    MOVE $60, I1;
+    SUBSTR $159, $165, $64, $63;
+    CLEAR $169;
+  label_82:
+    CJEQ $165, $169, label_76;
+    JUMP label_77;
+  label_76:
+    CJEQ $162, $168, label_78;
+  label_77:
+    SUBSTR $166, $167, I1, $60;
+    ADD $60, I1;
+    MOVE $60, I2;
+  label_81:
+    CJGE I2, $63, label_79;
+    SUBSTR $166, $169, I1, $60;
+    MOVE $169, I8, ABS;
+    CJNE I8, $1, label_80;
+    ADD $60, I1;
+    SUBSTR $166, $169, I1, $60;
+    MOVE $169, I8, ABS;
+    ADD $60, I1;
+    ADD I8, I1;
+  label_80:
+    ADD $60, I1;
+    ADD $60, I2;
+    JUMP label_81;
+  label_79:
+    SUBSTR $166, $169, I1, $63;
+    ADD $64, I1;
+    SUBSTR $166, $168, I1, $61;
+    ADD $61, I1;
+    SUBSTR $166, $170, I1, $60;
+    MOVE $170, I8, ABS;
+    ADD $60, I1;
+    ADD I8, I1;
+    JUMP label_82;
+  label_78:
+    SUBSTR $160, $169, $60, $60;
+    STRING $160, $169, $167;
+    MOVE $60, I1;
+    MOVE '130', I2;
+  label_87:
+    CJGT I1, $94, label_83;
+    CJEQ I1, $89, label_84;
+    SUBSTR $59, $104, I2, $61;
+    CJNE $104, $160, label_84;
+    SUB '93', I2;
+    SUBSTR $59, $104, $60, I2;
+    ADD '72', I2;
+    SUBSTR $59, $105, I2, $61;
+    ADD $105, $157;
+    CJLE $157, '99', label_85;
+    MOVE '99', $157;
+  label_85:
+    proc_5 $157, $61, $62, $77;
+    POP $157;
+    SUB '72', I2;
+    ADD $109, I2;
+    LENGTH $59, I3;
+    SUB I2, I3;
+    ADD $60, I2;
+    SUBSTR $59, $105, I2, I3;
+    STRING $59, $104, $105;
+    SUB $60, $94;
+    CJGE I1, $89, label_86;
+    SUB $60, $89;
+    SUB $109, $110;
+  label_86:
+    MOVE '999', I1;
+  label_84:
+    ADD $109, I2;
+    ADD $60, I1;
+    JUMP label_87;
+  label_83:
+    RETURN ;
+END_PROC;
+
+PROC proc_7 =
+    MOVE $108, I2;
+    MUL $65, I2;
+    ADD $62, I2;
+    SUBSTR $96, $163, I2, $61;
+    ADD $61, I2;
+    SUBSTR $96, $117, I2, $61;
+    MOVE $117, I1, ABS;
+    MOVE I1, $117;
+    ADD $61, I2;
+    SUBSTR $96, $104, I2, $61;
+    MOVE $104, I2, ABS;
+    SUBSTR $96, $105, I2, $60;
+    MOVE $105, I1, ABS;
+    ADD $60, I2;
+    SUBSTR $96, $118($108), I2, I1;
+    proc_5 $118($108), $69, $60, $77;
+    POP $118($108);
+    RETURN ;
+END_PROC;
+
+PROC proc_6 =
+    proc_4;
+    MOVE $89, I1;
+    SUB $60, I1;
+    MUL I3, I1;
+    ADD '38', I1;
+    MOVE I1, $110;
+    SUBSTR $59, $104, I1, '94';
+    FORMAT $104, $113, I8;
+    MOVE $99, I2;
+    MUL $75, I2;
+    ADD '94', I1;
+    SUBSTR $59, $164, I1, I2;
+    RETURN ;
+END_PROC;
+
+PROC proc_3 =
+    SUBSTR $59, $97, '6', $67;
+    SUBSTR $59, $98, $75, '8';
+    MOVE $60, I1;
+    MOVE $60, $106;
+  label_90:
+    CJNE $106, $60, label_88;
+    CJLT $91, I1, label_88;
+    SUBSTR $34(I1), $104, '6', $67;
+    SUBSTR $34(I1), $105, $75, '8';
+    CJNE $97, $104, label_89;
+    CJNE $98, $105, label_89;
+    MOVE I1, $86;
+    MOVE $61, $106;
+  label_89:
+    ADD $60, I1;
+    JUMP label_90;
+  label_88:
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    proc_4;
+    MOVE '88', I4;
+    MOVE $60, I5;
+  label_93:
+    CJLT I2, I5, label_91;
+    SUBSTR $59, $104, I4, '20';
+    FILL $105, $77, '20';
+    CJNE $104, $105, label_92;
+    MOVE I4, I6;
+    ADD '29', I6;
+    SUBSTR $59, $104, I6, $72;
+    FETCH $104, $96;
+    SUBSTR $96, $104, $64, $61;
+    MOVE $104, I7, ABS;
+    ADD '1', I7;
+    SUBSTR $96, $100, I7, $63;
+    ADD $64, I7;
+    SUBSTR $96, $101, I7, $60;
+    ADD $60, I7;
+    SUBSTR $96, $104, I7, $60;
+    MOVE $104, I8, ABS;
+    ADD $60, I7;
+    SUBSTR $96, $102, I7, I8;
+    proc_5 $102, '20', $60, $77;
+    POP $102;
+    SUB '30', I6;
+    SUBSTR $59, $104, '1', I6;
+    ADD '22', I6;
+    LENGTH $59, I7;
+    SUB I6, I7;
+    ADD '1', I7;
+    SUBSTR $59, $105, I6, I7;
+    STRING $59, $104, $102, $101, $105;
+  label_92:
+    ADD I3, I4;
+    ADD $60, I5;
+    JUMP label_93;
+  label_91:
+    CJEQ $100, $76, label_94;
+    LENGTH $59, I1;
+    SUBSTR $59, $104, '1', '33';
+    SUB '37', I1;
+    SUBSTR $59, $105, '38', I1;
+    STRING $59, $104, $100, $105;
+  label_94:
+    RETURN ;
+END_PROC;
+
+PROC proc_4 =
+    SUBSTR $59, $105, '33', $60;
+    MOVE $105, I3;
+    MUL $75, I3;
+    ADD '94', I3;
+    RETURN ;
+END_PROC;
+
+PROC proc_5 =
+    PUSH I3;
+    CJNE P0, '3', label_95;
+    MOVE ' ', P4;
+  label_95:
+    LENGTH P1, P5;
+    CJGT P2, P5, label_96;
+    JUMP label_97;
+  label_96:
+    SUB P5, P2;
+    GOTO_DEPENDING_ON P3, label_98, label_99, label_100;
+  label_98:
+    FILL P6, P4, P2;
+    STRING P1, P1, P6;
+    JUMP label_97;
+  label_99:
+    DIVIDE '2', P2, I3;
+    FILL P6, P4, P2;
+    STRING P1, P6, P1, P6;
+    CJLE I3, '0', label_101;
+    STRING P1, P1, P4;
+  label_101:
+    JUMP label_97;
+  label_100:
+    FILL P6, P4, P2;
+    STRING P1, P6, P1;
+  label_97:
+    POP I3;
+    PUSH P1;
+    RETURN ;
+END_PROC;

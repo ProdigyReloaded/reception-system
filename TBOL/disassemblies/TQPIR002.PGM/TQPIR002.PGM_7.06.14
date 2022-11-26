@@ -1,0 +1,63 @@
+{ Program 'TQPIR002' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 05/17/89 10:470 }
+
+
+PROC main =
+    MOVE 'TQPXSAFEPGM\x00\x0c', SYS_SAFE_PAGE;
+    LINK 'XXOPPROFPGM\x00\x0c', '1', '4', '\x01\x83\x01\x8a\x01\x07\x01^\x01_\x01`\x01N';
+    LINK 'TQPXSENDPGM\x00\x0c', '1', 'TQPXTIDSPGM\x00\x0c';
+    FETCH 'TQPDKYWDD  \x01\x0c', $18;
+    MOVE '1', I1;
+    MOVE '1', I2;
+    MOVE '1', I3;
+    MOVE '13', I4;
+    STRING P1, 'JANUARY  FEBRUARY MARCH    APRIL    MAY      ', 'JUNE     JULY     AUGUST   SEPTEMBEROCTOBER  ', 'NOVEMBER DECEMBER ';
+    MOVE '312931303130313130313031', P2;
+  label_2:
+    CJGE I1, I4, label_1;
+    SUBSTR P1, $31(I1), I2, '9';
+    SUBSTR $31(I1), $19(I1), '1', '3';
+    SUBSTR P2, $43(I1), I3, '2';
+    ADD '9', I2;
+    ADD '1', I1;
+    ADD '2', I3;
+    JUMP label_2;
+  label_1:
+    CJNE PRF_AA_ADVANTAGE_NUMBER, '\x00\x00\x00\x00\x00\x00\x00', label_3;
+    JUMP label_4;
+  label_3:
+    CJNE PRF_AA_ADVANTAGE_NUMBER, ' ', label_5;
+  label_4:
+    JUMP label_6;
+  label_5:
+    CJNE PRF_AA_ADVANTAGE_NUMBER, '       ', label_7;
+  label_6:
+    MOVE '/M', $2;
+    LINK 'TQPXSENDPGM\x00\x0c', '2';
+    MOVE '1', $69;
+    NAV 'TQ000096MAP\x00\x04';
+  label_7:
+    CJNE PRF_TRAVEL_AGENT_CODE, ' ', label_8;
+    MOVE '     ', PRF_TRAVEL_AGENT_CODE;
+  label_8:
+    CJEQ PRF_TRAVEL_AGENT_CODE, '     ', label_9;
+    CJEQ PRF_TRAVEL_AGENT_CODE, 'KX40 ', label_9;
+    CJEQ PRF_TRAVEL_AGENT_CODE, '4QL0 ', label_9;
+    STRING P8, 'SERV. PLUS CODE= ', PRF_TRAVEL_AGENT_CODE;
+    LINK 'TQPXGLOGPGM\x00\x0c', P8, 'SON', '0007';
+    MOVE '     ', PRF_TRAVEL_AGENT_CODE;
+  label_9:
+    CJEQ SYS_NAVIGATE_KEYWORD, '\x00', label_10;
+    CJEQ SYS_NAVIGATE_KEYWORD, 'EAASY SABRE', label_10;
+    MOVE SYS_NAVIGATE_KEYWORD, $17;
+  label_10:
+    MOVE '00', $115;
+    MOVE '00', $116;
+    MOVE '00', $117;
+    MOVE '00', $118;
+    CLEAR $110, $113;
+    MOVE '1', $114;
+    MOVE '1', $112;
+    NAV 'TQ000044MAP\x00\x04';
+    RETURN ;
+END_PROC;

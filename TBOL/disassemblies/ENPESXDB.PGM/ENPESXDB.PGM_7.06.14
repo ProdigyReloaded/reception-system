@@ -1,0 +1,29 @@
+{ Program 'ENPESXDB' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/13/87 10:140 }
+
+
+PROC main =
+    LINK $66, '3';
+    SET_FUNCTION PAGE_HELP, 00;
+    SET_FUNCTION FIELD_HELP, 00;
+    SET_ATT $99, 0x0, P7, $95, $95, 'NN/NN/NN';
+    MOVE ' ', &1;
+    SET_ATT '2', 0x0, P7, $95, $95, 'A';
+    CJNE $1, $99, label_1;
+    CJEQ $42, '999999', label_2;
+    MOVE $42, &1;
+    JUMP label_3;
+  label_2:
+    MOVE ' ', &1;
+  label_3:
+    CJEQ $41, 'X', label_4;
+    MOVE $41, &2;
+    JUMP label_5;
+  label_4:
+    MOVE ' ', &2;
+  label_5:
+    CJNE I4, '22', label_1;
+    SET_CURSOR $100;
+  label_1:
+    RETURN ;
+END_PROC;

@@ -1,0 +1,308 @@
+{ Program 'DXGRCAPT' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 06/20/88 16:140 }
+
+
+PROC main =
+    CJNE &216, 'GROC-ITEM', label_1;
+    CJNE &201, '\x00', label_1;
+    MOVE $23, P8;
+    MOVE '13', P7;
+    MOVE '15', P6;
+  label_10:
+    CJGT P8, $152, label_2;
+    proc_1 &1(P7), P8, &1(P6);
+    MOVE SYS_RETURN_CODE, P5;
+    POP P4;
+    GOTO_DEPENDING_ON P5, label_3, label_4, label_5, label_5, label_5, label_6, label_7;
+  label_4:
+    CJEQ P0, $22, label_8;
+    JUMP label_3;
+  label_8:
+    CJNE $137, '5', label_9;
+    LINK $30, $24, '\xa4\x8f', P7;
+    JUMP label_5;
+  label_9:
+    LINK $30, $24, '\xa4\x8d', P7;
+  label_5:
+    proc_2 P8, P4, &1(P6), P5;
+    JUMP label_3;
+  label_6:
+    CJNE P0, $22, label_7;
+    LINK $30, $24, '\xa4\x8e', P7;
+  label_7:
+    CJNE P0, $22, label_3;
+    LINK $30, $24, '\xa4\x90', P7;
+  label_3:
+    ADD $23, P8;
+    ADD $25, P7;
+    ADD $25, P6;
+    JUMP label_10;
+  label_2:
+    INSTR $36, '.', P3;
+    CJNE P3, $22, label_11;
+    STRING $36, $36, '.00';
+    JUMP label_1;
+  label_11:
+    LENGTH $36, P8;
+    ADD $24, P3;
+    CJEQ P8, P3, label_1;
+    STRING $36, $36, $22;
+  label_1:
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    CJEQ P1, $21, label_12;
+    LENGTH P1, P8;
+    MOVE P1, I1;
+    CJLE I1, $22, label_13;
+    CJGT I1, '99', label_13;
+    CJGE I1, '10', label_14;
+    CJNE P8, $24, label_15;
+    INSTR P1, $26, P7;
+    INSTR P1, $22, P8;
+    CJNE P7, $22, label_16;
+    CJNE P8, $22, label_16;
+    PUSH P1;
+    RETURN $24;
+  label_16:
+    SUBSTR P1, P1, $24, $23;
+  label_15:
+    STRING P1, P1, ' ';
+  label_14:
+    PUSH P1;
+    CJEQ P3, $21, label_17;
+    CJEQ P1, &251(P2), label_18;
+    RETURN '5';
+    JUMP label_19;
+  label_18:
+    RETURN $23;
+  label_19:
+    JUMP label_13;
+  label_17:
+    RETURN '7';
+  label_13:
+    UPPER P1;
+    proc_3 'D', P1, P8;
+    CJNE &226, '\x01', label_20;
+    PUSH 'D ';
+    CJNE &251(P2), 'D ', label_21;
+    RETURN $23;
+    JUMP label_20;
+  label_21:
+    CJNE $137, '5', label_22;
+    RETURN '3';
+    JUMP label_20;
+  label_22:
+    RETURN $25;
+  label_20:
+    proc_3 '0', P1, P8;
+    CJNE &226, '\x00', label_23;
+    CJNE P1, $26, label_24;
+    JUMP label_25;
+  label_24:
+    CJNE P1, '  ', label_26;
+  label_25:
+    JUMP label_12;
+    JUMP label_27;
+  label_26:
+    CJNE P1, '00', label_28;
+    MOVE P1, &214;
+    DIVIDE $23, &214;
+    CJNE SYS_RETURN_CODE, '0', label_28;
+    JUMP label_12;
+  label_28:
+    PUSH P1;
+    RETURN $24;
+  label_27:
+    JUMP label_29;
+  label_23:
+    JUMP label_12;
+  label_29:
+    JUMP label_30;
+  label_12:
+    PUSH '0 ';
+    CJNE &251(P2), $21, label_31;
+    JUMP label_32;
+  label_31:
+    CJNE &251(P2), $22, label_33;
+  label_32:
+    RETURN '1';
+    JUMP label_30;
+  label_33:
+    RETURN '4';
+  label_30:
+    RETURN ;
+END_PROC;
+
+PROC proc_3 =
+    CJNE P3, $24, label_34;
+    INSTR P2, $26, P8;
+    JUMP label_35;
+  label_34:
+    MOVE $23, P8;
+  label_35:
+    INSTR P2, P1, P7;
+    CJEQ P8, $22, label_36;
+    CJEQ P7, $22, label_36;
+    MOVE '\x01', &226;
+    JUMP label_37;
+  label_36:
+    MOVE '\x00', &226;
+  label_37:
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    CJEQ &245(P1), '0', label_38;
+    MOVE &245(P1), P8;
+    proc_4 P8, '\x01';
+    POP P6;
+    proc_5 P2, P8, P1, P3;
+    SUBSTR $45, &209, P6, '2';
+    GOTO_DEPENDING_ON P4, label_39, label_39, label_40, label_41, label_42;
+  label_40:
+    CJNE &209, $22, label_43;
+    SUB $23, $42;
+    JUMP label_44;
+  label_43:
+    SUB $23, $41;
+  label_44:
+    ADD $23, $39;
+    JUMP label_39;
+  label_41:
+    ADD $23, $42;
+    CJEQ &209, 'D ', label_45;
+    SUB $23, $41;
+    JUMP label_46;
+  label_45:
+    SUB $23, $39;
+  label_46:
+    JUMP label_39;
+  label_42:
+    CJNE &209, $22, label_47;
+    ADD $23, $41;
+    SUB $23, $42;
+    JUMP label_39;
+  label_47:
+    CJNE &209, 'D ', label_39;
+    ADD $23, $41;
+    SUB $23, $39;
+  label_39:
+    SUB $23, P6;
+    CJEQ P6, $23, label_48;
+    SUBSTR $45, &209, '1', P6;
+    JUMP label_49;
+  label_48:
+    CLEAR &209;
+  label_49:
+    ADD '3', P6;
+    SUBSTR $45, &208, P6, $44;
+    STRING $45, &209, P2, &208;
+    JUMP label_50;
+  label_38:
+    ADD '1', $40;
+    proc_5 P2, $40, P1, P3;
+    MOVE $40, &245(P1);
+    ADD $24, $44;
+    STRING $45, $45, P2;
+    STRING $43, $43, $144(P1);
+    CJEQ P2, 'D ', label_51;
+    ADD $23, $41;
+    JUMP label_50;
+  label_51:
+    ADD $23, $39;
+  label_50:
+    MOVE P2, &251(P1);
+    RETURN ;
+END_PROC;
+
+PROC proc_5 =
+    CJNE &239(P3), $21, label_52;
+    proc_6 P1, P2, P3, P4;
+    JUMP label_53;
+  label_52:
+    LINK 'DXGRISPRPGM\x00\x0c', P1, P2, P3, P4;
+  label_53:
+    CJNE $137, '5', label_54;
+    MOVE $23, P8;
+    JUMP label_55;
+  label_54:
+    MOVE $22, P8;
+  label_55:
+    STRING $47(P2), P8, $144(P3);
+    MOVE '1', I7;
+  label_57:
+    CJGT I7, '3', label_56;
+    LENGTH &217(I7), I8;
+    MOVE I8, P7, ABS;
+    SUBSTR P7, P7, '2', '1';
+    STRING $47(P2), $47(P2), P7, &217(I7);
+    ADD &217(I7), $36(I7);
+    ADD '1', I7;
+    JUMP label_57;
+  label_56:
+    LENGTH $138(P3), I8;
+    MOVE I8, P7, ABS;
+    SUBSTR P7, P7, '2', '1';
+    STRING $47(P2), $47(P2), P7, $138(P3);
+    RETURN ;
+END_PROC;
+
+PROC proc_6 =
+    CJEQ &245(P3), $22, label_58;
+    proc_7 P2;
+  label_58:
+    MOVE P1, I6;
+    MOVE P4, D8;
+    MUL I6, D8;
+    MOVE D8, &217;
+    SUBSTR &233(P3), &218, '1', '2';
+    MOVE &218, I7, ABS;
+    MOVE I7, &218;
+    MUL I6, &218;
+    proc_8 P1, P3;
+    RETURN ;
+END_PROC;
+
+PROC proc_7 =
+    MOVE $122, P8;
+    ADD $24, P8;
+    MOVE $23, I7;
+  label_60:
+    CJGT I7, '3', label_59;
+    SUBSTR $47(P1), P7, P8, $23;
+    MOVE P7, I8, ABS;
+    ADD $23, P8;
+    SUBSTR $47(P1), &217(I7), P8, I8;
+    SUB &217(I7), $36(I7);
+    ADD I8, P8;
+    ADD $23, I7;
+    JUMP label_60;
+  label_59:
+    RETURN ;
+END_PROC;
+
+PROC proc_8 =
+    MOVE P1, I6;
+    SUBSTR &233(P2), &219, '3', $24;
+    MOVE &219, I7, ABS;
+    MUL I6, I7;
+    MOVE I7, &219;
+    RETURN ;
+END_PROC;
+
+PROC proc_4 =
+    CJEQ P1, $23, label_61;
+    MUL $24, P1;
+    SUB $23, P1;
+  label_61:
+    CJNE P2, '\x01', label_62;
+    PUSH P1;
+    JUMP label_63;
+  label_62:
+    SUBSTR $45, P3, P1, $24;
+    PUSH P3;
+  label_63:
+    RETURN ;
+END_PROC;

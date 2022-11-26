@@ -1,0 +1,107 @@
+{ Program 'TLPEADDS' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 03/02/90 17:230 }
+
+COPY XXCGTSYS;
+COPY TLCOPY;
+
+PROC main =
+    POP P1;
+    IF PE = NULL THEN DO
+        process_logon_response;
+        proc_2 TLOT0011_PG, NULL;
+    END; ELSE DO
+        IF P1 <> '\x04' THEN DO
+            SAVE 'ENROLL', P1, P1;
+            NAV ENOT0001_PG;
+        END; ELSE DO
+            process_logon_response;
+            IF PWA_LOGON_STATUS = NULL THEN DO
+                IF SYS_SURROGATE = '6' THEN
+                    LINK 'XTG00094PGM\x00\x0c', PASSWORD;
+                MOVE '0', $53;
+                proc_2 $82, '\x04';
+            END; ELSE DO
+                SET_FUNCTION LOGOFF, DISABLE;
+                SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
+                CLOSE_OPEN_WINDOW $93;
+            END;
+        END;
+    END;
+END_PROC;
+
+PROC process_logon_response =
+    MAKE_FORMAT LOGON_RESPONSE_FORMAT,
+      PWA_LOGON_STATUS:1,
+      PRF_GENDER:1,
+      PWA_DATA_COLLECTION:4,
+      &168:1,
+      PRF_BUS_CLIENT_CODE:1,
+      PRF_USER_SECURITY_LEVEL:1,
+      PRF_AUTO_SKIP:1,
+      PRF_GAME_PROFILE:1,
+      PWA_DATE:6,
+      PWA_TIME:6,
+      NEW_MAIL_INDICATOR:1,
+      PRF_CUG_ID:2,
+      &167:2,
+      PRF_CUG_SERVICE_ID:2,
+      PRF_USER_CLASS:2,
+      &169:2,
+      PRF_TIER_OF_SERVICE:2,
+      PRF_CCL_VERSION_NUM:1,
+      PRF_SEL_NUM_ITEMS:1,
+      &172:2,
+      PRF_LAST_LOGON_DATE:8,
+      PRF_LAST_LOGON_TIME:5,
+      PRF_SEL_ITEM_LIST::2;
+    FORMAT RESPONSE, LOGON_RESPONSE_FORMAT, &150;
+    MOVE NEW_MAIL_INDICATOR, SYS_MESSAGING_STATUS, ABS;
+    SUBSTR PWA_TPF_DATE, PWA_TWO_DIGIT_YEAR, '5', TWO;
+    SUBSTR PWA_TPF_DATE, PWA_TPF_DATE, ONE, '4';
+    STRING PWA_DATE, PWA_TPF_DATE, '19', PWA_TWO_DIGIT_YEAR;
+    MOVE PWA_DATE, SYS_DATE;
+    MOVE PWA_TIME, SYS_TIME;
+    MOVE SYS_DATE, $77;
+    MOVE SYS_TIME, $78;
+    MOVE PWA_DATA_COLLECTION, SYS_DATA_COLLECT;
+    SUBSTR PRF_TIER_OF_SERVICE, PRF_OBJ_MEM_CLASS, ONE, ONE;
+    OR PRF_SEL_NUM_ITEMS, PRF_SEL_NUM_ITEMS;
+    IF SYS_RETURN_CODE = RET_ZERO THEN
+        MOVE NULL, PRF_SEL_STATUS;
+    ELSE
+        MOVE '\x01', PRF_SEL_STATUS;
+END_PROC;
+
+PROC proc_2 =
+    LENGTH SYS_VERSION, P4;
+    IF P4 = '7' THEN
+        SUBSTR SYS_VERSION, P3, ONE, '4';
+    ELSE
+        SUBSTR SYS_VERSION, P3, ONE, '5';
+
+    MOVE P3, D1;
+
+    IF D1 >= '8' THEN DO
+        AND SYS_DATA_COLLECT, '\x00\x00\x00\x80';
+        IF SYS_RETRUN_CODE <> RET_ZERO OR P2 = '\x04' THEN
+            LINK 'TL80INFOPGM\x00\x0c';
+    END; ELSE DO
+        IF D1 < '6.03' THEN
+            OPEN_WINDOW 'TL80WO60WND\x00\x0e';
+    END;
+
+    IF SYS_SURROGATE = '6' THEN DO
+        IF SYS_VERSION = '6.03.17' THEN
+            LINK 'XTG00093PGM\x00\x0c';
+        IF SYS_LOGON_CHOICE = 'A' AND PRF_CUG_SERVICE_ID = '\x00\x00' AND PRF_OBJ_MEM_CLASS = '\x01' THEN
+            MOVE 'X200VI00PG \x01\x04', P1;
+    END;
+
+    IF PRF_CUG_SERVICE_ID <> '\x00\x00' THEN DO
+        SUBSTR P1, P3, '3', OBJECT_ID_LENGTH;
+        STRING P1, PRF_CUG_SERVICE_ID, P3;
+    END;
+
+    MOVE P1, SYS_ACCESS_KEY_OBJ_ID;
+    NAV P1;
+END_PROC;

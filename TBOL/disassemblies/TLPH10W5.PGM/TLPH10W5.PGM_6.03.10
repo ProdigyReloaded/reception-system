@@ -1,0 +1,14 @@
+{ Program 'TLPH10W5' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/28/88 11:430 }
+
+
+PROC main =
+    CJNE SYS_CURRENT_CURSOR_POS, '1', label_1;
+    DISCONNECT ;
+    TRIGGER_FUNCTION BYE;
+    JUMP label_2;
+  label_1:
+    CLOSE_OPEN_WINDOW $57;
+  label_2:
+    RETURN ;
+END_PROC;

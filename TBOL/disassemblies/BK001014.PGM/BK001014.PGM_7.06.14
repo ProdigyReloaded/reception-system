@@ -1,0 +1,73 @@
+{ Program 'BK001014' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/21/88 15:410 }
+
+
+PROC main =
+    MOVE '0', I4;
+    SET_FUNCTION ACTION, DISABLE;
+    SET_FUNCTION SCAN, DISABLE;
+    SET_FUNCTION FIND, DISABLE;
+    SET_FUNCTION UNDO, DISABLE;
+    SET_FUNCTION SRNPRT, FILTER_ON, 'BK001012PGM\x00\x0c', P4;
+    SUBSTR $22, P6, '1', '1';
+    MOVE P6, I1, ABS;
+    MOVE '128', I2;
+  label_2:
+    CJLT I2, '64', label_1;
+    ADD '1', I4;
+    TEST I2, I1;
+    proc_1 SYS_RETURN_CODE, P1, P2;
+    DIVIDE '2', I2;
+    JUMP label_2;
+  label_1:
+    SUBSTR $22, P6, '3', '1';
+    MOVE P6, I1, ABS;
+    MOVE '8', I2;
+  label_4:
+    CJLT I2, '4', label_3;
+    ADD '1', I4;
+    TEST I2, I1;
+    proc_1 SYS_RETURN_CODE;
+    DIVIDE '2', I2;
+    JUMP label_4;
+  label_3:
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    GOTO_DEPENDING_ON I4, label_5, label_6, label_7, label_8;
+    RETURN ;
+  label_5:
+    CJNE P1, '11', label_9;
+    SET_FUNCTION NEXT, DISABLE;
+    JUMP label_10;
+  label_9:
+    SET_FUNCTION NEXT, FILTER_ON, 'BK001011PGM\x00\x0c', P2;
+  label_10:
+    RETURN ;
+  label_6:
+    CJNE P1, '11', label_11;
+    SET_FUNCTION BACK, DISABLE;
+    JUMP label_12;
+  label_11:
+    SET_FUNCTION BACK, FILTER_ON, 'BK001011PGM\x00\x0c', P3;
+  label_12:
+    RETURN ;
+  label_7:
+    CJNE P1, '11', label_13;
+    SET_FUNCTION PREVIOUS_MENU, DISABLE;
+    JUMP label_14;
+  label_13:
+    SET_FUNCTION PREVIOUS_MENU, FILTER_ON, 'BK001011PGM\x00\x0c', P3;
+  label_14:
+    RETURN ;
+  label_8:
+    CJNE P1, '11', label_15;
+    MOVE '0', $4;
+    JUMP label_16;
+  label_15:
+    MOVE '1', $4;
+  label_16:
+    SET_FUNCTION NAVIGATION, FILTER_ON, 'BK001009PGM\x00\x0c';
+    RETURN ;
+END_PROC;

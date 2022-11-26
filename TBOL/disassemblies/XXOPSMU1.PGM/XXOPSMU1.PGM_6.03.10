@@ -1,0 +1,323 @@
+{ Program 'XXPXSMU1' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 08/16/88 09:540 }
+
+
+PROC main =
+    RESTORE 'SMNL', P8;
+    CJNE SYS_RETURN_CODE, '0', label_1;
+    MOVE '1', I6;
+    MOVE '2', I8;
+  label_1:
+    STRING P8, 'SMA', P8;
+    CJNE P1, '15', label_2;
+    JUMP label_3;
+  label_2:
+    CJNE P1, '16', label_4;
+  label_3:
+    JUMP label_5;
+  label_4:
+    GOTO_DEPENDING_ON P1, label_6, label_7, label_8, label_7, label_9, label_7, label_10;
+  label_7:
+    RETURN ;
+  label_8:
+    RELEASE P8;
+    JUMP label_7;
+  label_9:
+    SAVE 'SMp', P1, P8;
+    PUSH I8;
+    MOVE P3, I8;
+    CLEAR P1, P8;
+    RESTORE 'SMNAVP', P1;
+    CJNE I8, '5', label_11;
+    CJNE SYS_RETURN_CODE, $1, label_11;
+    POP I8;
+    RELEASE 'SMNAVP';
+    RELEASE 'SMp';
+    TRANSFER P1, P2, P3, P4, P5, P6, P7, P8;
+  label_11:
+    POP I8;
+    RESTORE 'SMp', P1;
+    RELEASE 'SMp';
+  label_10:
+    proc_1;
+    GOTO_DEPENDING_ON P3, label_12, label_12, label_13, label_12;
+  label_6:
+    CLEAR P5;
+    RESTORE P8, P5;
+    CJNE SYS_RETURN_CODE, $1, label_14;
+    JUMP label_15;
+  label_14:
+    SUBSTR $9, $3, I8, '6';
+    SUBSTR $11, P1, I8, I8;
+    MOVE P1, I1, ABS;
+    SUBSTR $11, $5, '4', I1;
+    SUBSTR $12, P1, I8, I8;
+    MOVE P1, I1, ABS;
+    SUBSTR $12, $6, '4', I1;
+  label_15:
+    GOTO_DEPENDING_ON P3, label_16, label_17, label_13;
+  label_16:
+    CLEAR $9, $12;
+    RETURN ;
+  label_12:
+    RETURN ;
+  label_17:
+    CJNE P5, '\x00', label_18;
+    JUMP label_19;
+  label_18:
+    MOVE '\x00', $5;
+    CJLE $10, $13, label_20;
+    MOVE $11, P1;
+    JUMP label_21;
+  label_20:
+    MOVE $12, P1;
+  label_21:
+    MOVE P1, I7;
+    MOVE I7, P1, ABS;
+    LINK 'XXOPHELPPGM\x00\x0c', P1, '\x00', '3', $1;
+  label_19:
+    POP P1;
+    SUBSTR P1, P4, I6, I6;
+    LENGTH P1, I7;
+    MOVE I7, P2, ABS;
+    CJNE P5, '\x00', label_22;
+    POP I3;
+    MOVE I3, P5, ABS;
+    SUBSTR P5, P5, I8, I6;
+    SAVE P8, P5, P5;
+  label_22:
+    STRING $5, $5, P5, '\xff\xff\x02', P2, P1, '\x00';
+    CJEQ P4, '~', label_23;
+    RETURN ;
+  label_23:
+    SUBSTR $5, P3, I6, '5';
+    SUB '11', I7;
+    MOVE I7, P2, ABS;
+    SUBSTR $5, P4, '19', I7;
+    STRING $5, P3, P2, P4, '\x00';
+    SUBSTR P1, P3, I8, '5';
+    MOVE P3, I1;
+    SUBSTR P1, P4, '7', '5';
+    MOVE P4, I2;
+    MOVE I1, $11;
+    MOVE I2, $12;
+    MOVE I8, $13;
+    MOVE $13, $2;
+    MOVE $13, $10;
+    CJEQ I1, $1, label_24;
+    CJNE I2, $1, label_24;
+    RETURN ;
+  label_24:
+    CJEQ I1, $1, label_25;
+    CJEQ I2, $1, label_25;
+    MOVE '3', $2;
+    RETURN ;
+  label_25:
+    MOVE I6, $13;
+    MOVE $13, $10;
+    CJNE I1, $1, label_26;
+    CJNE I2, $1, label_26;
+    MOVE $13, $2;
+  label_26:
+    RETURN ;
+  label_13:
+    GOTO_DEPENDING_ON P1, label_27, label_27, label_27, label_27, label_5, label_27, label_5;
+  label_27:
+    CJNE P5, '\x00', label_28;
+    CJNE TTX_ASST_EVENT, 'ZIP', label_29;
+    SAVE 'LZtmp', $1, $4;
+    RESTORE 'ZIPDATA', $1;
+    RELEASE 'ZIPDATA';
+    CJEQ $1, '\x00', label_30;
+    SAVE 'nlpg', $1, $1;
+  label_30:
+    CJEQ $2, '\x00', label_31;
+    SAVE 'nlbs', $2, $2;
+  label_31:
+    CJEQ $3, '\x00', label_32;
+    SAVE 'nlnb', $3, $3;
+  label_32:
+    CJEQ $4, '\x00', label_33;
+    SAVE 'nlms', $4, $4;
+  label_33:
+    RESTORE 'LZtmp', $1;
+    RELEASE 'LZtmp';
+  label_29:
+    SET_FUNCTION LEAVE, FILTER, 'XXOPSMU1PGM\x00\x0c', '16';
+    CLEAR $11, $12;
+    RESTORE 'W.SMPARM', $12;
+    SAVE P8, $1, $1;
+    FILL $3, '\x00', '6';
+    RESTORE 'nlmc', P4;
+    CJNE SYS_RETURN_CODE, $1, label_34;
+    MOVE P4, I3, ABS;
+    SET_CURSOR I3;
+    RELEASE 'nlmc';
+  label_34:
+    JUMP label_35;
+  label_28:
+    RESTORE 'nlpg', P1;
+    CJGE $13, P1, label_36;
+    MOVE '16', I1;
+    RESTORE 'nlbs', P1;
+    LENGTH P1, P2;
+    SUBSTR P1, P3, '15', '2';
+    MOVE P3, I2, ABS;
+    ADD I2, I1;
+    SUBSTR P1, $6, I6, I1;
+    STRING $6, '\x01\x01\x00', $6, '\x00';
+    CJNE I1, P2, label_37;
+    RELEASE 'nlbs';
+    JUMP label_38;
+  label_37:
+    SUB I1, P2;
+    ADD I6, I1;
+    SUBSTR P1, P1, I1, P2;
+    JUMP label_39;
+  label_36:
+    MOVE $11, $6;
+    CLEAR P1;
+    RESTORE 'nlbs', P1;
+    STRING $12, 'X', '\x00\x01', SYS_SELECTOR_DATA, $12;
+    LENGTH $12, P2;
+    MOVE P2, I1;
+    MOVE I1, P2, ABS;
+    STRING P1, SYS_BASE_OBJ_ID, 'P', P2, $12, P1;
+  label_39:
+    SAVE 'nlbs', P1, P1;
+  label_38:
+    SAVE 'nlnb', P1, P1;
+    TRANSFER 'XXOPSM01PGM\x00\x0c', I6;
+  label_35:
+    CJNE $9, '\x00', label_40;
+    MOVE $13, $2;
+    JUMP label_41;
+  label_40:
+    ADD I6, $2;
+    LENGTH $9, P7;
+    SUB I6, P7;
+    SUBSTR $9, $9, I8, P7;
+    STRING $11, '\x01\x01\x00', $9, '\x00';
+  label_41:
+    RESTORE 'nlbs', P1;
+    CJNE SYS_RETURN_CODE, $1, label_42;
+    ADD I6, $13;
+    ADD I6, $2;
+  label_42:
+    SAVE 'nlpg', $13, $13;
+    RETURN ;
+  label_5:
+    CJNE P1, '16', label_43;
+    MOVE 'Y', TTX_ASST_ZIPPABLE_PTO;
+    SAVE 'LZtmp', $1, $4;
+    CLEAR $1, $4;
+    RESTORE 'nlpg', $1;
+    RESTORE 'nlbs', $2;
+    RESTORE 'nlnb', $3;
+    RESTORE 'nlms', $4;
+    SAVE 'ZIPDATA', $1, $4;
+    STRING SYS_ZIP_SMPARM, 'X\x00\x01', SYS_SELECTOR_DATA;
+    RESTORE 'LZtmp', $1;
+    RELEASE 'LZtmp';
+    RETURN ;
+  label_43:
+    RELEASE 'nlpg';
+    RESTORE 'nlnb', P1;
+    CJNE SYS_RETURN_CODE, '0', label_44;
+    RELEASE 'nlnb';
+    RETURN ;
+  label_44:
+    CJNE P1, '15', label_45;
+    RELEASE 'nlbs';
+    CLEAR P1;
+    RESTORE 'nlms', P1;
+    LENGTH P1, P2;
+    CJNE P2, '0', label_46;
+    TRIGGER_FUNCTION PREVIOUS_MENU;
+  label_46:
+    RESTORE 'SMNL', P6;
+    CJEQ SYS_RETURN_CODE, '0', label_47;
+    SAVE 'NLTMP', $1, $20;
+    LINK 'XXOPIRGSPGM\x00\x0c', '1';
+    MOVE '1', I6;
+    MOVE '2', I8;
+    MOVE '0', $1;
+    SAVE 'SMNL', $1, $1;
+    MOVE 'XXOPSMU1PGM\x00\x0c', $14;
+    MOVE '000000', $3;
+    MOVE '\x03', $4;
+  label_47:
+    MOVE '17', I1;
+    SUBSTR P1, P3, '18', '2';
+    MOVE P3, I2, ABS;
+    ADD I2, I1;
+    SUBSTR P1, $6, '4', I1;
+    STRING $6, '\x01\x01\x00', $6, '\x00';
+    SUBSTR P1, P4, '3', I6;
+    SAVE 'nlmc', P4, P4;
+    SUBSTR P1, P4, I6, I8;
+    MOVE P4, I3, ABS;
+    ADD I8, I1;
+    CJNE I1, P2, label_48;
+    RELEASE 'nlms';
+    RELEASE 'nlms';
+    JUMP label_38;
+  label_48:
+    CJEQ I3, $1, label_49;
+    ADD I6, I1;
+    SUBSTR P1, P4, I1, I3;
+    SAVE 'nlbs', P4, P4;
+    SUB I6, I3;
+    ADD I3, I1;
+  label_49:
+    SUB I1, P2;
+    ADD I6, I1;
+    SUBSTR P1, P1, I1, P2;
+    JUMP label_50;
+  label_45:
+    RESTORE 'SMMF', P8;
+    CJEQ SYS_RETURN_CODE, $1, label_51;
+    RELEASE 'nlbs';
+    RETURN ;
+  label_51:
+    CLEAR P1;
+    RESTORE 'nlms', P1;
+    STRING $12, 'X', '\x00\x01', SYS_SELECTOR_DATA, $12;
+    LENGTH $12, P2;
+    MOVE P2, I1;
+    MOVE I1, P2, ABS;
+    CLEAR P8;
+    RESTORE 'nlbs', P8;
+    RELEASE 'nlbs';
+    LENGTH P8, P3;
+    MOVE P3, I2;
+    MOVE I2, P3, ABS;
+    MOVE SYS_CURRENT_CURSOR_POS, I2;
+    MOVE I2, P4, ABS;
+    SUBSTR P4, P4, I8, I6;
+    STRING P3, P3, P4, SYS_BASE_OBJ_ID, 'P';
+    STRING P1, P3, P2, $12, P8, P1;
+    SAVE 'nlms', P1, P1;
+    CLEAR P1;
+    RESTORE 'MSMA', P1;
+    STRING P1, '\x03', P1;
+    SAVE 'MSMA', P1, P1;
+    RETURN ;
+  label_50:
+    SAVE 'nlms', P1, P1;
+    JUMP label_38;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    RESTORE 'SMNL', P8;
+    MOVE I6, P7;
+  label_53:
+    CJGT P7, P8, label_52;
+    STRING P1, 'SMA', P7;
+    RELEASE P1;
+    ADD I6, P7;
+    JUMP label_53;
+  label_52:
+    RETURN ;
+END_PROC;

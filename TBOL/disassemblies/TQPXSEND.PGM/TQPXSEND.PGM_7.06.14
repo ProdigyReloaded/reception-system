@@ -1,0 +1,94 @@
+{ Program 'TQPXSEND' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 05/19/89 15:500 }
+
+
+PROC main =
+    GOTO_DEPENDING_ON P1, label_1, label_2;
+  label_1:
+    CLEAR SYS_FM0_TXHDR, SYS_FM64_TXHDR;
+    CLEAR SYS_FM0_RXHDR, SYS_FM64_RXHDR;
+    CLEAR $1, $222;
+    MOVE '\x80"', SYS_FM0_TXHDR;
+    MOVE '\x062\x01', SYS_FM0_TXDID;
+    MOVE '\x00', SYS_FM0_TXRID;
+    MOVE '00000000', SYS_FM4_TXCORID;
+    MOVE PRF_USER_PROFILE_USER_ID, SYS_FM4_TXUSEID;
+    MOVE '\x00', SYS_FM4_TXHDR;
+    CLEAR $2;
+    proc_1;
+    RETURN ;
+  label_2:
+    MOVE '\x00 ', SYS_FM0_TXHDR;
+    proc_1;
+    RETURN ;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    CJNE P0, '2', label_3;
+    FETCH P2;
+  label_3:
+    UPPER $2;
+    CJNE $2, '/SIGNOFF', label_4;
+    CLEAR SYS_SAFE_PAGE, SYS_SAFE_PAGE_2;
+  label_4:
+    SEND $2, $1, #14849, 0x6;
+    CLEAR $3, $14;
+    RECEIVE $1, $3;
+    CJNE SYS_RETURN_CODE, '21', label_5;
+  label_6:
+    CJNE SYS_RETURN_CODE, '21', label_5;
+    RECEIVE $1, $3;
+    JUMP label_6;
+  label_5:
+    MOVE SYS_BASE_OBJ_ID, $83;
+    SUBSTR SYS_FM0_RXHDR, $5, '1', '1';
+    SUBSTR SYS_FM0_TXHDR, P8, '2', '1';
+    CJNE SYS_RETURN_CODE, '2', label_7;
+    proc_2 'PC TIMEOUT', 'GEN', '0004';
+    CLEAR SYS_SAFE_PAGE, SYS_SAFE_PAGE_2;
+    CJEQ P8, '"', label_8;
+    MOVE '/SIGNOFF', $2;
+    MOVE '\x00"', SYS_FM0_TXHDR;
+    SEND $2, $1, 0x0, 0x6;
+  label_8:
+    proc_3;
+  label_7:
+    CJNE $5, '\x82', label_9;
+    CJEQ SYS_FM64_RXHDR, '\x00', label_10;
+    proc_2 'GATEWAY DOWN', 'GEN', '0006';
+    proc_3;
+    JUMP label_9;
+  label_10:
+    SET_FUNCTION NAVIGATION, 00;
+    proc_2 'GATEWAY FULL', 'SON', '0005';
+    NAV 'TR000038MAP\x00\x04';
+  label_9:
+    LINK 'TQPXTIDSPGM\x00\x0c';
+    CJNE $8, '\x03', label_11;
+    TRANSFER 'TQPXERR2PGM\x00\x0c';
+  label_11:
+    CJNE $6, 'r\x01', label_12;
+    CJEQ PRF_TRAVEL_AGENT_CODE, '     ', label_12;
+    CJEQ SYS_BASE_OBJ_ID, 'TQOT0018MAP\x00\x04', label_12;
+    SET_FUNCTION NAVIGATION, 00;
+    NAV 'TQOT0001MAP\x00\x04';
+  label_12:
+    RETURN ;
+END_PROC;
+
+PROC proc_3 =
+    SET_FUNCTION NAVIGATION, 00;
+    CJNE SYS_BASE_OBJ_ID, 'TR000002MAP\x00\x04', label_13;
+    NAV 'TR000003MAP\x00\x04';
+    JUMP label_14;
+  label_13:
+    NAV 'TR000004MAP\x00\x04';
+  label_14:
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    LINK 'TQPXGLOGPGM\x00\x0c', P1, P2, P3;
+    RETURN ;
+END_PROC;

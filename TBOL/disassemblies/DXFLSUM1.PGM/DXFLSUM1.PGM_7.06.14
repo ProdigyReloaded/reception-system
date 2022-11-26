@@ -1,0 +1,473 @@
+{ Program 'DXFLSUM1' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 04/25/89 11:030 }
+
+
+PROC main =
+    CJEQ SYS_CURRENT_CURSOR_POS, '21', label_1;
+    LINK 'XXOPFLTRPGM\x00\x0c', '16';
+  label_1:
+    CLEAR &36;
+    MOVE '3', &30;
+    MOVE '5', &31;
+    MOVE '25', &32;
+    MOVE '\x00\x00', &33;
+    MOVE '\x01\x0c', &34;
+    MOVE '\x00\x012 ', &35;
+    MOVE '4', $162;
+    GOTO_DEPENDING_ON P1, label_2, label_3, label_4;
+  label_2:
+    CLEAR $169, $190;
+    RESTORE 'GRFL', $169;
+    CJEQ SYS_RETURN_CODE, $23, label_5;
+    MOVE '\x00', $34;
+    STRING P2, $150, $153, $151, &34;
+    FETCH P2, $1;
+    SUBSTR $1, $184, $24, '13';
+    SUBSTR $1, P2, '14', $24;
+    MOVE P2, I2, ABS;
+    MOVE '15', I1;
+    MOVE $24, I3;
+  label_7:
+    CJGE I3, &31, label_6;
+    SUBSTR $1, $180(I3), I1, I2;
+    ADD I2, I1;
+    ADD $24, I3;
+    JUMP label_7;
+  label_6:
+    SUBSTR $1, $189, I1, '7';
+    LINK $28, $24, $25, '\x02\xa7', '\x02\xab';
+    MOVE SYS_RETURN_CODE, P8;
+    MOVE &31, I7;
+  label_14:
+    CJLE I7, $23, label_8;
+    INSTR PRF_DRIVER_LIC_STATE(I7), '\x00', I8;
+    CJNE I8, $24, label_9;
+    JUMP label_10;
+  label_9:
+    CJEQ P8, '0', label_11;
+  label_10:
+    JUMP label_12;
+  label_11:
+    CJNE PRF_DRIVER_LIC_STATE(I7), $22, label_13;
+  label_12:
+    MOVE $27, PRF_DRIVER_LIC_STATE(I7);
+  label_13:
+    SUB $24, I7;
+    JUMP label_14;
+  label_8:
+    CJEQ PRF_PAYMENT_CODE, $27, label_15;
+    CJNE PRF_GROCERY_STORE_REF_NUM, $36, label_15;
+    CJGT PRF_PAYMENT_CODE, '9', label_15;
+    MOVE PRF_PAYMENT_CODE, $173;
+    MOVE PRF_PAYMENT_TEXT, $174;
+    CJEQ PRF_PAYMENT_CODE, $24, label_15;
+    OR '\x0c', $34;
+  label_15:
+    CJEQ PRF_DRIVER_LIC_NUM, $27, label_16;
+    MOVE PRF_DRIVER_LIC_NUM, $175;
+    MOVE PRF_DRIVER_LIC_STATE, $176;
+    CJNE PRF_PAYMENT_CODE, $24, label_16;
+    CJNE PRF_GROCERY_STORE_REF_NUM, $36, label_16;
+    OR '\x0c', $34;
+  label_16:
+    MOVE $23, $177;
+    CJEQ PRF_GROCERY_CONTACT_PHONE, $27, label_17;
+    MOVE PRF_GROCERY_CONTACT_PHONE, $172;
+    JUMP label_18;
+  label_17:
+    LINK $28, $24, '3', '\x01\x07';
+    MOVE PRF_RES_TELEPHONE, $172;
+    MOVE $24, $177;
+  label_18:
+    MOVE '\x10', $202;
+    OR $202, $34;
+  label_5:
+    SET_FUNCTION NAVIGATION, FILTER_ON, 'DXGRNFLTPGM\x00\x0c', $25;
+    SET_FUNCTION PREVIOUS_MENU, 00;
+    SET_ATT '17', 0x0, P7, $95, $95, 'XXX-XXX-XXXX';
+    CJNE $32, &30, label_19;
+    MOVE 'PICK UP', &10;
+    MOVE 'PICKED UP BY:   ', &13;
+    JUMP label_20;
+  label_19:
+    MOVE 'DELIVERY', &10;
+    MOVE 'DELIVERED BY:   ', &13;
+  label_20:
+    MOVE 'DAY OF WEEK:', &11;
+    MOVE $169, &12;
+    MOVE $170, &14;
+    MOVE $174, &15;
+    CJNE $173, '1', label_21;
+    STRING &16, 'DL#/SS#:', $175, $27, $176;
+  label_21:
+    MOVE $172, &17;
+    MOVE $171, &18;
+    MOVE $178, &19;
+    SET_CURSOR '22';
+  label_38:
+    GOTO_DEPENDING_ON $33, label_22, label_23, label_24, label_25, label_25;
+  label_22:
+    MOVE $25, $33;
+    proc_1;
+  label_23:
+    JUMP label_26;
+  label_24:
+    CJNE $185, $24, label_27;
+    SET_FUNCTION NEXT, FILTER_ON, 'DXFLSUM1PGM\x00\x0c', &30;
+    MOVE 'More [NEXT]', &20;
+    MOVE '5', $162;
+  label_27:
+    JUMP label_26;
+  label_25:
+    STRING P5, '\x00\x11', '1YOUR PHONE NUMBER', '\x00\x0e', '1PAYMENT METHOD';
+    STRING P4, '\x00\x15', '1DRIVER', ''', 'S LICENSE#/SS#';
+    STRING P3, '\x00\x10', '1DELIVERY OPTIONS', '\x00\x14', '1SPECIAL INSTRUCTIONS';
+    STRING P2, $26, &35, P5, P4, P3;
+    PUSH P2;
+    PUSH 'Use [TAB] to select the option\x0ayou would like to change.';
+    PUSH '\x00\x01 \x00\x011';
+    OPEN_WINDOW 'XXOWDLSTWND\x00\x0e';
+    POP $201;
+    CJNE $201, &33, label_28;
+    JUMP label_29;
+    JUMP label_30;
+  label_28:
+    POP I1;
+  label_30:
+    GOTO_DEPENDING_ON I1, label_31, label_32, label_33, label_34, label_35;
+  label_34:
+    MOVE '\x01', $202;
+    MOVE $24, $193;
+    JUMP label_36;
+  label_32:
+    MOVE '\x04', $202;
+    MOVE &30, $193;
+    JUMP label_36;
+  label_33:
+    LINK 'DXGRCHEKPGM\x00\x0c', 'C';
+    CJNE SYS_RETURN_CODE, '0', label_37;
+    STRING &16, 'DL#/SS#:', $175, $27, $176;
+  label_37:
+    MOVE '4', $193;
+    JUMP label_29;
+  label_31:
+    MOVE '\x10', $202;
+    MOVE &31, $193;
+    JUMP label_36;
+  label_35:
+    MOVE ' ', $202;
+    MOVE $26, $193;
+  label_36:
+    proc_1;
+  label_29:
+    SUB $25, $33;
+    JUMP label_38;
+  label_3:
+    MOVE SYS_CURRENT_CURSOR_POS, I1;
+    SUB '20', I1;
+    GOTO_DEPENDING_ON I1, label_39, label_40, label_41, label_39;
+  label_39:
+    CJNE I1, $24, label_42;
+    RESTORE 'SHFOOT', &101;
+    CJEQ SYS_RETURN_CODE, '0', label_43;
+    OPEN_WINDOW $167;
+    JUMP label_44;
+  label_43:
+    LINK 'DC00QWOWPGM\x00\x0c';
+  label_44:
+    SET_FUNCTION PREVIOUS_MENU, 00;
+    JUMP label_26;
+    JUMP label_40;
+  label_42:
+    SUBSTR $157, P2, '14', '13';
+    SET_FUNCTION NAVIGATION, 00;
+    SAVE 'SMMF', $24, $24;
+    NAV P2;
+  label_40:
+    CJNE $33, $25, label_45;
+    proc_1;
+  label_45:
+    CJNE $33, &30, label_46;
+    JUMP label_4;
+  label_46:
+    JUMP label_26;
+  label_41:
+    ADD $25, $33;
+    JUMP label_38;
+  label_4:
+    SET_FUNCTION NAVIGATION, 00;
+    SAVE 'SMMF', $24, $24;
+    NAV 'DXOTSUM2MEN\x00\x04';
+  label_26:
+    LINK 'XXOPFLTRPGM\x00\x0c', '00';
+    CJNE &36, '3', label_47;
+    LINK 'XXOPMSGSPGM\x00\x0c', '1', '\xa8\xc0';
+    CLEAR &36;
+  label_47:
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MOVE '?', $204;
+    SET_FUNCTION NEXT, 00;
+    CJLE $33, &30, label_48;
+    proc_2;
+    JUMP label_49;
+  label_48:
+    MOVE '\x01', $202;
+    MOVE $24, $193;
+  label_52:
+    CJGE $193, '7', label_50;
+    MOVE $34, $203;
+    AND $202, $203;
+    CJNE SYS_RETURN_CODE, '7', label_51;
+    proc_2;
+    CJNE $201, &33, label_51;
+    MOVE $26, $193;
+  label_51:
+    ADD $24, $193;
+    MOVE $202, I1, ABS;
+    MUL $25, I1;
+    MOVE I1, P2, ABS;
+    SUBSTR P2, $202, $25, $24;
+    JUMP label_52;
+  label_50:
+    CJEQ $34, $204, label_53;
+    MOVE $25, $33;
+    JUMP label_49;
+  label_53:
+    MOVE &30, $33;
+    CJNE $185, $24, label_49;
+    SET_FUNCTION NEXT, FILTER_ON, 'DXFLSUM1PGM\x00\x0c', &30;
+  label_49:
+    SAVE 'GRFL', $169, $190;
+    RETURN ;
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    GOTO_DEPENDING_ON $193, label_54, label_54, label_55, label_55, label_56, label_57;
+  label_54:
+    STRING P2, $150, $155, $151, &34;
+    FETCH P2, $1;
+    SUBSTR $1, P3, $25, $24;
+    MOVE P3, I1, ABS;
+    MOVE I1, I2;
+    SUB &30, I1;
+    SUBSTR $1, $179, &30, I1;
+    SUBSTR $1, P3, I2, $24;
+    MOVE P3, I1, ABS;
+    ADD $24, I2;
+    MOVE $23, $2;
+    MOVE '7', $3;
+    MOVE $25, $4;
+    MOVE $23, $5;
+    INSTR $36, 'K', P3;
+    CJNE P3, $24, label_58;
+    MOVE '07', P3;
+    JUMP label_59;
+  label_58:
+    MOVE '12', P3;
+  label_59:
+    STRING P3, 'XOMG00', P3, $151, '\x01\x0c';
+    FETCH P3, P4;
+    SUBSTR P4, P3, '1', '1';
+    MOVE P3, I8, ABS;
+    SUBSTR P4, P3, '2', I8;
+    ADD '2', I8;
+    SUBSTR P4, P5, I8, '1';
+    MOVE P5, I7, ABS;
+    ADD '1', I8;
+    SUBSTR P4, P5, I8, I7;
+    PUSH P5;
+    PUSH P3;
+    proc_3;
+    CJNE $201, &33, label_60;
+    RETURN ;
+  label_60:
+    MOVE $201, I6;
+    MOVE &180(I6), $190;
+    SUB $24, I6;
+    MUL $149, I6;
+    ADD I6, I2;
+    SUBSTR $1, P2, I2, $149;
+    STRING P2, $150, P2, $151, &34;
+    FETCH P2, $1;
+    SUBSTR $1, P3, $24, $24;
+    MOVE P3, I1, ABS;
+    MOVE $25, I2;
+    MOVE '30', $2;
+    MOVE '4', $3;
+    MOVE &30, $4;
+    MOVE $24, $5;
+    STRING P3, '\x00\x1a', '2your order, THEN [RETURN].';
+    STRING P4, &35, '\x00\x1e2';
+    CJNE $32, &30, label_61;
+    STRING P4, P4, 'FOR PICK UP ';
+    JUMP label_62;
+  label_61:
+    STRING P4, P4, 'FOR DELIVERY';
+  label_62:
+    FILL P5, $27, '6';
+    STRING P3, P3, P4, P5, 'ORDER BEFORE';
+    PUSH P3;
+    STRING P3, 'Use [TAB] to select the time\x0a', $190, ' you want to receive';
+    PUSH P3;
+    proc_3;
+    CJNE $201, &33, label_63;
+    RETURN ;
+  label_63:
+    MOVE $201, I6;
+    SUBSTR &180(I6), $170, $24, '20';
+    MOVE $190, $169;
+    MOVE '\x03', $202;
+    OR $202, $34;
+    MOVE '\x02', $202;
+    ADD $24, $193;
+    MOVE $169, &12;
+    MOVE $170, &14;
+    RETURN ;
+  label_55:
+    CLEAR $201;
+    STRING P2, $150, $180, $151, &34;
+    MOVE '2', P3;
+  label_65:
+    CJNE P3, '2', label_64;
+    LINK 'DXGRPASLPGM\x00\x0c', P2, 'CCINFO', 'BILLINFO', 'CHEKINFO';
+    MOVE SYS_RETURN_CODE, P3;
+    JUMP label_65;
+  label_64:
+    CJNE SYS_RETURN_CODE, '0', label_66;
+    RESTORE 'CCINFO', $186;
+    RESTORE 'BILLINFO', $205;
+    RELEASE 'CCINFO';
+    RELEASE 'BILLINFO';
+    CJEQ $175, '\x00', label_67;
+    STRING &16, 'DL#/SS#:', $175, ' ', $176;
+  label_67:
+    POP $173;
+    POP $174;
+    MOVE $174, &15;
+    MOVE '4', $193;
+    JUMP label_68;
+  label_66:
+    CJNE SYS_RETURN_CODE, '3', label_69;
+    MOVE SYS_RETURN_CODE, &36;
+  label_69:
+    MOVE &33, $201;
+    RETURN ;
+  label_68:
+    OR '\x0c', $34;
+    MOVE '\x08', $202;
+    RETURN ;
+  label_56:
+    PUSH $172;
+    PUSH $33;
+    OPEN_WINDOW 'DXOWPHONWND\x00\x0e';
+    POP $201;
+    CJEQ $201, &33, label_70;
+    MOVE $201, $172;
+    MOVE $172, &17;
+    POP $177;
+    MOVE '\x10', $202;
+    OR $202, $34;
+  label_70:
+    RETURN ;
+  label_57:
+    CJLE $33, &30, label_71;
+    PUSH $178;
+    PUSH $171;
+  label_71:
+    PUSH $33;
+    OPEN_WINDOW $184;
+    POP $201;
+    CJEQ $201, &33, label_72;
+    MOVE $201, $178;
+    MOVE $178, &19;
+    POP $171;
+    MOVE $171, &18;
+    MOVE ' ', $202;
+    OR $202, $34;
+  label_72:
+    RETURN ;
+    RETURN ;
+END_PROC;
+
+PROC proc_3 =
+    MOVE $23, I4;
+    MOVE $24, I5;
+    MOVE $23, I6;
+    MOVE $23, I8;
+    POP P7;
+    POP P8;
+    MOVE P8, &150;
+    MOVE $2, I3;
+  label_77:
+    CJLE I1, $23, label_73;
+    CJNE $2, $23, label_74;
+    SUBSTR $1, P3, I2, $24;
+    MOVE P3, I3, ABS;
+    ADD $24, I2;
+  label_74:
+    SUBSTR $1, P4, I2, I3;
+    ADD $24, I4;
+    CJLE I4, $3, label_75;
+    SUB $24, I4;
+    proc_4;
+    MOVE $24, I4;
+    ADD $24, I5;
+    MOVE P8, &150(I5);
+  label_75:
+    CJNE $5, $24, label_76;
+    SUBSTR P4, P6, '22', $24;
+    CJNE P6, '*', label_76;
+    MOVE $24, I8;
+  label_76:
+    ADD $24, I6;
+    MOVE P4, &180(I6);
+    MOVE I3, P5, ABS;
+    STRING &150(I5), &150(I5), P5, $24, P4;
+    ADD I3, I2;
+    SUB $24, I1;
+    JUMP label_77;
+  label_73:
+    proc_4;
+    MOVE I5, I7;
+  label_79:
+    CJLE I7, $23, label_78;
+    PUSH &150(I7);
+    SUB $24, I7;
+    JUMP label_79;
+  label_78:
+    PUSH P7;
+    MOVE I5, P2, ABS;
+    STRING P2, P2, $27, '\x00\x011';
+    PUSH P2;
+    OPEN_WINDOW 'XXOWDLSTWND\x00\x0e';
+    POP $201;
+    SET_FUNCTION NEXT, DISABLE;
+    SET_FUNCTION BACK, DISABLE;
+    CJEQ $201, &33, label_80;
+    MOVE $201, I8;
+    POP I7;
+    SUB $24, I8;
+    MUL $3, I8;
+    ADD I7, I8;
+    MOVE I8, $201;
+  label_80:
+    RETURN ;
+    RETURN ;
+END_PROC;
+
+PROC proc_4 =
+    CJNE I8, $24, label_81;
+    STRING &150(I5), &150(I5), '\x00\x18', '2* Indicates previous day';
+    ADD $24, I4;
+    MOVE $23, I8;
+  label_81:
+    ADD $4, I4;
+    MOVE I4, P5;
+    STRING &150(I5), P5, &150(I5);
+    RETURN ;
+    RETURN ;
+END_PROC;

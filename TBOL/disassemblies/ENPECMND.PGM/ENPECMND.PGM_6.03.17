@@ -1,0 +1,13 @@
+{ Program 'ENPECMND' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/13/87 12:320 }
+
+
+PROC main =
+    LINK $66, '3';
+    SET_FUNCTION PAGE_HELP, 00;
+    SET_FUNCTION FIELD_HELP, 00;
+    CJNE SYS_BASE_OBJ_ID, $77, label_1;
+    SET_FUNCTION BYE, 00;
+  label_1:
+    RETURN ;
+END_PROC;

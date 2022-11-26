@@ -1,0 +1,19 @@
+{ Program 'PG007038' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/13/89 12:470 }
+
+
+PROC main =
+    SET_FUNCTION PREVIOUS_MENU, FILTER_ON, 'PG007912PGM\x00\x0c';
+    SET_FUNCTION NAVIGATION, FILTER_ON, 'PG009600PGM\x00\x0c';
+    CLEAR &43;
+    SET_ATT '43', P7, P7, $95, $95, 'NNNNNN';
+    SET_CURSOR '43';
+    SET_ATT '22', $95, 0x0, $95, $95;
+    SET_ATT '23', $95, 0x0, $95, $95;
+    SET_ATT '24', $95, 0x0, $95, $95;
+    SET_ATT '54', $95, 0x0, $95, $95;
+    CLEAR P1;
+    SUBSTR $75, P1, '2', '39';
+    MOVE P1, &30;
+    RETURN ;
+END_PROC;

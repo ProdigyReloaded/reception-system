@@ -1,0 +1,91 @@
+{ Program 'XTG0021I' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/05/89 15:050 }
+
+
+PROC main =
+    MOVE '000000', $26;
+    MOVE '6', I1;
+    MOVE '1', I2;
+    MOVE '0', I4;
+    MOVE '7', I3;
+  label_3:
+    CJLE I1, '0', label_1;
+    SUBSTR $29, P8, I3, '1';
+    ADD '7', I3;
+    CJEQ P8, ' ', label_2;
+    proc_1 P8;
+    ADD '1', I4;
+    SUBSTR $31, &10(I4), I2, '40';
+  label_2:
+    ADD '40', I2;
+    SUB '1', I1;
+    JUMP label_3;
+  label_1:
+    MOVE '6', I1;
+    SUB I4, I1;
+  label_5:
+    CJLE I1, '0', label_4;
+    ADD '1', I4;
+    CLEAR &10(I4);
+    SUB '1', I1;
+    JUMP label_5;
+  label_4:
+    MOVE 'ADD TO LIST', &16;
+    SET_ATT '16', $95, 0x0, 0x0, 0x4;
+    MOVE 'CHANGE LIST', &17;
+    SET_ATT '17', $95, 0x0, 0x0, 0x4;
+    MOVE 'REMOVE FROM LIST', &18;
+    SET_ATT '18', $95, 0x0, 0x0, 0x4;
+    CJNE $27, '6', label_6;
+    CLEAR &16;
+    SET_ATT '16', $31, 0x0, 0x0, 0x4;
+    SET_CURSOR '17';
+    JUMP label_7;
+  label_6:
+    CJNE $27, '0', label_7;
+    CLEAR &18;
+    SET_ATT '18', $31, 0x0, 0x0, 0x4;
+    CLEAR &17;
+    SET_ATT '17', $31, 0x0, 0x0, 0x4;
+    SET_CURSOR '16';
+  label_7:
+    SET_FUNCTION PREVIOUS_MENU, FILTER, 'XTG00097PGM\x00\x0c';
+    SET_FUNCTION LOGOFF, FILTER, 'XTG0030FPGM\x00\x0c';
+    SET_FUNCTION JUMP, DISABLE;
+    SET_FUNCTION PATH, DISABLE;
+    SET_FUNCTION GUIDE, DISABLE;
+    SET_FUNCTION UNDO, DISABLE;
+    SET_FUNCTION INDEX, DISABLE;
+    SET_FUNCTION VIEWPATH, DISABLE;
+    RESTORE 'xtg0', P1;
+    CJNE SYS_RETURN_CODE, '0', label_8;
+    MOVE '99', SYS_CURRENT_CURSOR_POS;
+    TRANSFER 'XTG0021PPGM\x00\x0c';
+  label_8:
+    RETURN ;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    INSTR $26, '0', I8;
+    CJNE I8, '1', label_9;
+    MOVE '100000', $26;
+    RETURN ;
+  label_9:
+    MOVE '6', I7;
+    SUB I8, I7;
+    MOVE I7, I5;
+    MOVE '1', I6;
+  label_11:
+    CJLE I5, '0', label_10;
+    MUL '10', I6;
+    SUB '1', I5;
+    JUMP label_11;
+  label_10:
+    MOVE I6, P8;
+    SUBSTR P8, P8, '2', I7;
+    STRING P8, '1', P8;
+    ADD P8, $26;
+    RETURN ;
+    RETURN ;
+END_PROC;

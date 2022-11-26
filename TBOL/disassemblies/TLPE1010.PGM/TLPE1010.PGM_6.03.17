@@ -1,0 +1,115 @@
+{ Program 'TLPE1010' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/18/89 11:580 }
+
+
+PROC main =
+    CLEAR &1, &2;
+    MOVE '-1', SYS_PATH_PTR;
+    CLEAR PRF_GENDER;
+    proc_1;
+    MOVE SYS_VERSION, &10;
+    SET_ATT '2', 0x0, I8, $95, $95;
+    CJNE $55, '1', label_1;
+    CLEAR $1, $222;
+    CLEAR PRF_BA_FIRST_LINE, PRF_CUG_ID;
+    proc_1;
+    MOVE $98, $51;
+    MOVE $99, $55;
+    MOVE '\x00', $31;
+    JUMP label_2;
+  label_1:
+    proc_2;
+    proc_3 $30;
+    MOVE $54, SYS_TTX_PHONE;
+    MOVE SYS_TTX_PHONE, $30;
+    CLEAR $54;
+    proc_3 $104;
+    CLEAR $104;
+    CJNE $29, 'T', label_3;
+    MOVE '84', SYS_TONE_PULSE;
+    JUMP label_2;
+  label_3:
+    MOVE '80', SYS_TONE_PULSE;
+  label_2:
+    proc_4;
+    SET_FUNCTION INDEX, DISABLE;
+    SET_FUNCTION VIEWPATH, DISABLE;
+    SET_FUNCTION PATH, DISABLE;
+    SET_FUNCTION HELP, DISABLE;
+    SET_FUNCTION JUMP, DISABLE;
+    SET_FUNCTION ACTION, DISABLE;
+    SET_FUNCTION GUIDE, DISABLE;
+    SET_FUNCTION UNDO, DISABLE;
+    SET_FUNCTION SCAN, DISABLE;
+    SET_FUNCTION FIND, DISABLE;
+    SET_FUNCTION PREVIOUS_MENU, DISABLE;
+    SET_FUNCTION LOGOFF, FILTER, $66;
+    CLEAR SYS_FM0_TXRID, SYS_FM64_TXDATA;
+    MOVE '\x00 ', SYS_FM0_TXHDR;
+    MOVE '\x00"\x00', SYS_FM0_TXDID;
+    CJNE SYS_SURROGATE, '6', label_4;
+    CJEQ $55, $99, label_4;
+    TRANSFER 'TLPEAFFRPGM\x00\x0c';
+  label_4:
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MOVE '0', $98;
+    MOVE '1', $99;
+    MOVE '2', $100;
+    MOVE '13', $101;
+    RETURN ;
+END_PROC;
+
+PROC proc_4 =
+    SUBSTR P1, &100, $99, $100;
+    MOVE $99, I3;
+    MOVE &100, I1;
+    MOVE '3', I2;
+  label_6:
+    CJLE I1, $98, label_5;
+    SUBSTR P1, &101, I2, $101;
+    MOVE &101, $57(I3), ABS;
+    ADD '13', I2;
+    ADD $99, I3;
+    SUB $99, I1;
+    JUMP label_6;
+  label_5:
+    MOVE $67, $76;
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    MOVE $99, SYS_LINE_STATUS;
+    MOVE '\x00\x00\x00\x00', SYS_DATA_COLLECT;
+    OPEN 'tlfd0000', 'r';
+    CJEQ SYS_RETURN_CODE, '0', label_7;
+    TRIGGER_FUNCTION BYE;
+  label_7:
+    READ 'tlfd0000', $117, '314';
+    MAKE_FORMAT $114,
+  $3:1,
+  $29:1,
+  $30:37,
+  $104:37;
+    FORMAT $117, $114, $115;
+    MOVE '\x00', $31;
+    CLOSE 'tlfd0000';
+    RETURN ;
+END_PROC;
+
+PROC proc_3 =
+    MOVE $99, I1;
+  label_10:
+    CJGT I1, '37', label_8;
+    SUBSTR P1, P2, I1, $99;
+    CJNE P2, ' ', label_9;
+    RETURN ;
+  label_9:
+    STRING $54, $54, P2;
+    ADD $99, I1;
+    JUMP label_10;
+  label_8:
+    RETURN ;
+END_PROC;

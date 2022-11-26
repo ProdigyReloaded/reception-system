@@ -1,0 +1,68 @@
+{ Program 'PG001900' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 09/29/88 11:430 }
+
+
+PROC main =
+    MOVE '0', $35;
+    CLEAR &1, &5;
+    SET_ATT '1', $31, 0x0, 0x0, 0x3;
+    SET_ATT '2', $31, 0x0, 0x0, 0x3;
+    SET_ATT '3', $31, 0x0, 0x0, 0x3;
+    SET_ATT '4', $31, 0x0, 0x0, 0x3;
+    SET_ATT '5', $31, 0x0, 0x0, 0x3;
+    CLEAR &11, &15;
+    CLEAR &31, &34;
+    MOVE '1', $50;
+    CJNE $7, '1', label_1;
+    MOVE '0', $50;
+    RESTORE 'ACCT1', &11;
+    SUBSTR &16, $9, '1', '1';
+    SUBSTR &16, P3, '3', '1';
+    CJNE P3, '1', label_2;
+    SET_ATT '34', $31, 0x0, I6, 0x3;
+    MOVE '* Margin call - please contact CONTROL', &34;
+  label_2:
+    SET_ATT '35', $31, 0x0, I6, 0x3;
+    MOVE 'Select what you want to do:', &35;
+    proc_1;
+    JUMP label_3;
+  label_1:
+    SET_FUNCTION PREVIOUS_MENU, 00;
+    STRING &32, ' ', '\x0a', ' ', '\x0a', 'Please select an account:';
+    STRING P1, 'ACCT', $38;
+    RESTORE P1, &11;
+    SET_CURSOR '1';
+    MOVE '1', I1;
+  label_6:
+    CJEQ &11(I1), '\x00', label_4;
+    CJGE I1, '6', label_4;
+    SET_ATT I1, $95, 0x0, 0x0, 0x4;
+    MOVE I1, &1(I1);
+    CJNE &34, '\x00', label_5;
+    SUBSTR &16(I1), P3, '3', '1';
+    CJNE P3, '1', label_5;
+    SET_ATT '34', $31, 0x0, I6, 0x3;
+    MOVE '* Margin call - please contact CONTROL', &34;
+  label_5:
+    ADD '1', I1;
+    JUMP label_6;
+  label_4:
+    LINK 'PG001904PGM\x00\x0c';
+    CJEQ $10, '\x00', label_3;
+    proc_1;
+  label_3:
+    MOVE 'PG001500PGM\x00\x0c', $27;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    SET_ATT '51', $95, 0x0, 0x0, 0x4;
+    SET_ATT '52', $95, 0x0, 0x0, 0x4;
+    SET_ATT '53', $95, 0x0, 0x0, 0x4;
+    SET_ATT '54', $95, 0x0, 0x0, 0x4;
+    MOVE '>TRADING', &51;
+    MOVE '>ACCOUNT INFO', &52;
+    MOVE '>SERVICES', &53;
+    MOVE '>PRINT', &54;
+    RETURN ;
+END_PROC;

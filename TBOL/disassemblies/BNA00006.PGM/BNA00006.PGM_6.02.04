@@ -1,0 +1,49 @@
+{ Program 'BNA00006' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/24/88 14:540 }
+
+
+PROC main =
+    CJNE SYS_CURRENT_CURSOR_POS, '39', label_1;
+    CJNE $19, ',', label_2;
+    LINK 'BNA00060PGM\x00\x0c', 'BNA00030PGM\x00\x0c', $19;
+    JUMP label_3;
+  label_2:
+    CJNE $19, '/', label_4;
+    LINK 'BNA00060PGM\x00\x0c', 'BNA00031PGM\x00\x0c', $19;
+    JUMP label_3;
+  label_4:
+    CJNE $19, '+', label_3;
+    LINK 'BNA00060PGM\x00\x0c', 'BNA00032PGM\x00\x0c', $19;
+  label_3:
+    EXIT ;
+  label_1:
+    proc_1;
+    SET_FUNCTION NEXT, DISABLE;
+    SET_FUNCTION BACK, DISABLE;
+    CJNE $19, '+', label_5;
+    OPEN_WINDOW 'BNA00014WND\x00\x0e';
+    JUMP label_6;
+  label_5:
+    OPEN_WINDOW 'BNA00013WND\x00\x0e';
+  label_6:
+    LINK 'BNA00002PGM\x00\x0c';
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    MOVE SYS_CURRENT_CURSOR_POS, I1;
+    SUB '28', I1;
+    MOVE &175(I1), $30;
+    MOVE &180(I1), $31;
+    MOVE &185(I1), $32;
+    MOVE &190(I1), $222;
+    MOVE &195(I1), $33;
+    MOVE &200(I1), $34;
+    MOVE &205(I1), $35;
+    MOVE ',1/5+8', &131;
+    LOOKUP $19, &131, '2', '1', I2;
+    ADD '1', I2;
+    SUBSTR &131, $46, I2, '1';
+    SUBSTR &29(I1), $45, '1', '5';
+    RETURN ;
+END_PROC;

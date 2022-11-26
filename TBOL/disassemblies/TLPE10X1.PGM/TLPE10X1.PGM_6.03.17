@@ -1,0 +1,18 @@
+{ Program 'TLPE10X1' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 03/24/89 09:390 }
+
+
+PROC main =
+    CJGT $51, $100, label_1;
+    MOVE 'Please reenter your correct ID and PASSWORD and try again.', &2;
+    EXIT ;
+    JUMP label_2;
+  label_1:
+    STRING &2, 'Please call Prodigy Membership Services for assistance:      ', ' 800 759-8000';
+  label_2:
+    CJNE $108, '\x86', label_3;
+    DISCONNECT ;
+    TRIGGER_FUNCTION BYE;
+  label_3:
+    RETURN ;
+END_PROC;

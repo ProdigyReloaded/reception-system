@@ -1,0 +1,9 @@
+{ Program 'TLPE10W1' compiled with TBOL COMPILER version 4.100 }
+{ Date Program compiled 03/30/87 16:390 }
+
+
+PROC main =
+    CONNECT SYS_TTX_PHONE;
+    CLOSE_WINDOW ;
+    RETURN ;
+END_PROC;

@@ -1,0 +1,223 @@
+{ Program 'FLPX1611' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/22/88 16:410 }
+
+
+PROC main =
+    GOTO_DEPENDING_ON P1, label_1, label_2;
+  label_1:
+    STRING &10, 'Please type information for the', ' credit card you chose. Then', ' select [OK] and press [RETURN].';
+    MOVE $108, &12;
+    SUBSTR $116(I3), $137, $61, $60;
+    SUBSTR $116(I3), $138, $60, $60;
+    CJNE $137, 'N', label_3;
+    CJNE $138, $64, label_3;
+    CLEAR &13;
+    SET_ATT '14', $31, 0x0, $95, $95;
+    SET_ATT '14', 0x0, 0x0, 0x0, 0x4;
+    JUMP label_4;
+  label_3:
+    CJNE $92, '\x01', label_5;
+    MOVE $60, I1;
+    STRING $105, $105, $77;
+    SUBSTR $105, $111, $60, $60;
+  label_7:
+    CJEQ $111, $77, label_6;
+    ADD $60, I1;
+    SUBSTR $105, $111, I1, $60;
+    JUMP label_7;
+  label_6:
+    SUB $60, I1;
+    FILL &11, '*', I1;
+    MOVE $108, &12;
+    SET_ATT '11', $31, 0x0, $95, $95;
+    SET_ATT '12', $31, 0x0, $95, $95;
+    MOVE 'Expiration Date', &13;
+    SET_ATT '14', 0x0, P7, $95, $95, 'NN/NN';
+    STRING &14, $106, $107;
+    JUMP label_4;
+  label_5:
+    MOVE 'Expiration Date', &13;
+    SET_ATT '14', 0x0, P7, $95, $95, 'NN/NN';
+    MOVE '    ', &14;
+  label_4:
+    RETURN ;
+  label_2:
+    CJNE SYS_CURRENT_CURSOR_POS, '16', label_8;
+    CLOSE_WINDOW ;
+    RETURN ;
+  label_8:
+    CJNE $90, $62, label_9;
+    MOVE $78, $86;
+    CLOSE_WINDOW ;
+  label_9:
+    SUBSTR SYS_DATE, $127, $66, $61;
+    SUBSTR SYS_DATE, $128, $60, $61;
+    CJEQ SYS_CURRENT_CURSOR_POS, '15', label_10;
+    MOVE SYS_CURRENT_CURSOR_POS, $129;
+    MOVE SYS_CURRENT_CURSOR_POS, $125;
+    SUB $69, $129;
+    proc_1;
+    ADD $60, $125;
+    CJNE $125, $72, label_11;
+    CJNE $137, 'N', label_12;
+    CJNE $138, $64, label_12;
+    ADD $61, $125;
+    JUMP label_11;
+  label_12:
+    ADD $60, $125;
+  label_11:
+    SET_CURSOR $125;
+    RETURN ;
+  label_10:
+    CJNE $92, $79, label_13;
+    proc_2;
+    proc_3;
+    JUMP label_14;
+  label_13:
+    MOVE $1, $129;
+    MOVE '11', $125;
+  label_15:
+    CJGE $129, $63, label_14;
+    ADD $60, $129;
+    proc_1;
+    ADD $60, $125;
+    JUMP label_15;
+  label_14:
+    CJEQ $92, $79, label_16;
+    MOVE &11, $105;
+    MOVE &12, $108;
+  label_16:
+    MOVE $78, $92;
+    CJNE &14, $76, label_17;
+    MOVE '  ', $106;
+    MOVE '  ', $107;
+    JUMP label_18;
+  label_17:
+    SUBSTR &14, $106, $60, $61;
+    SUBSTR &14, $107, $62, $61;
+  label_18:
+    CJGT $90, $62, label_19;
+    MOVE $79, $86;
+  label_19:
+    CLOSE_WINDOW ;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    GOTO_DEPENDING_ON $129, label_20, label_21, label_22, label_23;
+  label_20:
+    proc_4;
+    JUMP label_22;
+  label_21:
+    proc_5;
+    JUMP label_22;
+  label_23:
+    proc_2;
+    proc_3;
+  label_22:
+    RETURN ;
+END_PROC;
+
+PROC proc_4 =
+    STRING $124, 'FLOP1625PGM', '\x00\x0c';
+    SUBSTR $116(I3), $134, $60, $60;
+    LINK $124, &11, $134;
+    MOVE SYS_RETURN_CODE, I1;
+    MOVE I1, $124, ABS;
+    CJEQ I1, $1, label_24;
+    CJNE $124, '\x00;', label_25;
+    CJGE $90, $62, label_25;
+    ADD $60, $90;
+  label_25:
+    LINK $81, $61, $124, '11';
+  label_24:
+    RETURN ;
+END_PROC;
+
+PROC proc_5 =
+    MOVE &12, $131;
+    LENGTH $131, $130;
+    CJNE $130, $1, label_26;
+    LINK $81, $61, '\x00?', '12';
+  label_26:
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    CJNE $137, 'N', label_27;
+    CJNE $138, $64, label_27;
+    MOVE '     ', &14;
+    JUMP label_28;
+  label_27:
+    SUBSTR &14, $131, $60, $61;
+    LENGTH $131, $130;
+    CJNE $130, $1, label_29;
+    LINK $81, $61, '\x00:', '14';
+  label_29:
+    SUBSTR $131, $124, $61, $60;
+    CJNE $124, '.', label_30;
+    LINK $81, $61, '\x00*', '14';
+  label_30:
+    MOVE $131, I1;
+    CJGE I1, $60, label_31;
+    JUMP label_32;
+  label_31:
+    CJLE I1, $71, label_33;
+  label_32:
+    LINK $81, $61, '\x00*', '14';
+  label_33:
+    CJGE I1, $69, label_28;
+    MOVE I1, $124;
+    SUBSTR &14, $133, $62, $61;
+    STRING $132, $1, $124;
+    CLEAR &14;
+    STRING &14, $132, $133;
+  label_28:
+    RETURN ;
+END_PROC;
+
+PROC proc_3 =
+    CJNE $137, 'N', label_34;
+    CJNE $138, $64, label_34;
+    MOVE '     ', &14;
+    JUMP label_35;
+  label_34:
+    SUBSTR &14, $131, $62, $61;
+    LENGTH $131, $130;
+    CJNE $130, $1, label_36;
+    LINK $81, $61, '\x00:', '14';
+  label_36:
+    CJGE $130, $61, label_37;
+    LINK $81, $61, '\x00:', '14';
+  label_37:
+    MOVE $60, $113;
+  label_42:
+    CJGT $113, $130, label_38;
+    SUBSTR $131, $112, $113, $60;
+    CJGE $112, $1, label_39;
+    JUMP label_40;
+  label_39:
+    CJLE $112, $68, label_41;
+  label_40:
+    LINK $81, $61, '\x00:', '14';
+  label_41:
+    ADD $60, $113;
+    JUMP label_42;
+  label_38:
+    MOVE $127, I1;
+    MOVE $131, I2;
+    CJNE I2, $1, label_43;
+    LINK $81, $61, '\x001', '14';
+  label_43:
+    CJGE I2, I1, label_44;
+    LINK $81, $61, '\x00=', '14';
+  label_44:
+    CJNE I2, I1, label_35;
+    MOVE $128, I1;
+    SUBSTR &14, $131, $60, $61;
+    MOVE $131, I2;
+    CJGE I2, I1, label_35;
+    LINK $81, $61, '\x00=', '14';
+  label_35:
+    RETURN ;
+END_PROC;

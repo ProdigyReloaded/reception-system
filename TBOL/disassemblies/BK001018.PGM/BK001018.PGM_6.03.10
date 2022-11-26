@@ -1,0 +1,41 @@
+{ Program 'BK001018' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 04/20/88 10:370 }
+
+
+PROC main =
+    MOVE $111, I1;
+    MOVE $110, I2;
+    SUB I2, I1;
+    MOVE '1', I3;
+  label_2:
+    CJGT I3, I1, label_1;
+    proc_1;
+    STRING $8, $8, &251;
+    ADD '1', I2;
+    ADD '1', I3;
+    JUMP label_2;
+  label_1:
+    RETURN ;
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    LENGTH &1(I2), I5;
+    INSTR &1(I2), ' ', I7;
+  label_4:
+    CJNE I7, '1', label_3;
+    SUB '1', I5;
+    SUBSTR &1(I2), &1(I2), '2', I5;
+    INSTR &1(I2), ' ', I7;
+    JUMP label_4;
+  label_3:
+    MOVE $60(I3), I6;
+    SUB I5, I6;
+    CJLE I6, '0', label_5;
+    FILL &250, ' ', I6;
+  label_5:
+    STRING &251, &1(I2), &250;
+    CLEAR &250;
+    RETURN ;
+    RETURN ;
+END_PROC;

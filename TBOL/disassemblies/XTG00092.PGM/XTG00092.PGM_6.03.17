@@ -1,0 +1,7 @@
+{ Program 'XTG00092' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/23/90 11:310 }
+
+
+PROC main =
+    RETURN ;
+END_PROC;

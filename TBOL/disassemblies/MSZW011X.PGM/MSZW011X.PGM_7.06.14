@@ -1,0 +1,93 @@
+{ Program 'MSZW011X' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/18/88 14:580 }
+
+
+PROC main =
+    CJNE P1, '1', label_1;
+    LENGTH P2, I1;
+    CJEQ I1, '7', label_1;
+    RETURN '1';
+  label_1:
+    proc_1 P1, P2, P5;
+    POP P7;
+    POP P8;
+    CJNE P1, '1', label_2;
+    MOVE P4, P2;
+    JUMP label_3;
+  label_2:
+    MOVE '1', I1;
+    CLEAR P2;
+    MOVE P4, I3;
+    MOVE P6, I2;
+  label_5:
+    CJGT I1, I2, label_3;
+    STRING P2, P2, $1(I3);
+    CJGE I1, I2, label_4;
+    LENGTH $1(I3), I6;
+    CJGE I6, '480', label_4;
+    MOVE '480', I5;
+    SUB I6, I5;
+    FILL P6, ' ', I5;
+    STRING P2, P2, P6;
+  label_4:
+    ADD '1', I1;
+    ADD '1', I3;
+    JUMP label_5;
+  label_3:
+    CJNE P2, '\x00', label_6;
+    RETURN '2';
+  label_6:
+    LENGTH P3, I1;
+    MOVE I1, P1, ABS;
+    SUBSTR P1, P1, '2', '1';
+    STRING P3, P1, P3;
+    LENGTH P2, I1;
+    MOVE I1, P1, ABS;
+    STRING P2, P1, P2;
+    MOVE '\x00\x00', SYS_FM0_TXHDR;
+    MOVE '\x00\xd2\x00', SYS_FM0_TXDID;
+    MOVE '\x00', SYS_FM0_TXRID;
+    STRING P1, '\x01', '\x01', '\x02', P7, P8, P3, P2;
+    SEND P1, 0x0, 0x0;
+    RETURN '0';
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    CLEAR P7, P8;
+    MOVE '0', P4;
+    CJNE P1, '1', label_7;
+    MOVE P2, P7;
+    MOVE '1', P4;
+    JUMP label_8;
+  label_7:
+    MOVE '1', P6;
+  label_11:
+    CJGT P6, P3, label_8;
+    UPPER $1(P2);
+    LINK 'TLPG1010PGM\x00\x0c', '1', '2', $1(P2), '1', '0';
+    CJNE SYS_RETURN_CODE, '0', label_9;
+    STRING P7, P7, $1(P2);
+    ADD '1', P4;
+    JUMP label_10;
+  label_9:
+    LENGTH $1(P2), I1;
+    MOVE I1, P5, ABS;
+    SUBSTR P5, P5, '2', '1';
+    STRING P8, P8, P5, $1(P2);
+  label_10:
+    ADD '1', P2;
+    ADD '1', P6;
+    JUMP label_11;
+  label_8:
+    LENGTH P8, I1;
+    MOVE I1, P5, ABS;
+    STRING P8, P5, P8;
+    PUSH P8;
+    MOVE P4, I1;
+    MOVE I1, P4, ABS;
+    STRING P7, P4, P7;
+    PUSH P7;
+    RETURN '0';
+    RETURN ;
+END_PROC;

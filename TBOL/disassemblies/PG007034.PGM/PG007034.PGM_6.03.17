@@ -1,0 +1,20 @@
+{ Program 'PG007034' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/13/89 12:450 }
+
+
+PROC main =
+    SET_FUNCTION PREVIOUS_MENU, FILTER_ON, 'PG007910PGM\x00\x0c';
+    SET_FUNCTION NAVIGATION, FILTER_ON, 'PG009600PGM\x00\x0c';
+    SUBSTR SYS_BASE_OBJ_ID, P2, '1', '7';
+    SUBSTR SYS_BASE_OBJ_ID, P3, '8', '1';
+    CJNE P1, '1', label_1;
+    ADD '1', P3;
+    JUMP label_2;
+  label_1:
+    SUB '1', P3;
+  label_2:
+    STRING P8, P2, P3, 'PG \x01\x04';
+    SET_FUNCTION NAVIGATION, 00;
+    NAV P8;
+    RETURN ;
+END_PROC;

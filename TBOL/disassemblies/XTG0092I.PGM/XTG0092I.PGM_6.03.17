@@ -1,0 +1,31 @@
+{ Program 'XTG0092I' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/28/89 10:340 }
+
+
+PROC main =
+    SET_FUNCTION PREVIOUS_MENU, DISABLE;
+    SET_FUNCTION PATH, DISABLE;
+    SET_FUNCTION JUMP, DISABLE;
+    SET_FUNCTION VIEWPATH, DISABLE;
+    SET_FUNCTION GUIDE, DISABLE;
+    SET_FUNCTION UNDO, DISABLE;
+    SET_FUNCTION INDEX, DISABLE;
+    SET_FUNCTION NEXT, DISABLE;
+    SET_FUNCTION BACK, FILTER_ON, 'XTG00041PGM\x00\x0c', P2;
+    SET_FUNCTION LOGOFF, FILTER_ON, 'XTG0030FPGM\x00\x0c';
+    CLEAR &10;
+    CJNE $21, '\x01', label_1;
+    RESTORE 'fp3', &101;
+    CJEQ SYS_RETURN_CODE, '0', label_1;
+    JUMP label_2;
+  label_1:
+    LINK 'XTG00098PGM\x00\x0c', 'TLFD0000', '3', '36';
+    CJEQ SYS_RETURN_CODE, '0', label_3;
+    MOVE 'Error on reading file.', P8;
+    JUMP label_2;
+  label_3:
+    POP &10;
+    JUMP label_2;
+  label_2:
+    RETURN ;
+END_PROC;

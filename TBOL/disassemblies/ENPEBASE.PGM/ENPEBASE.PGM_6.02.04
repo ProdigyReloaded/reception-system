@@ -1,0 +1,89 @@
+{ Program 'ENPEBASE' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 11/17/87 21:400 }
+
+
+PROC main =
+    LINK 'XXOPSETFPGM\x00\x0c', '3';
+    SET_FUNCTION PAGE_HELP, 00;
+    SET_FUNCTION FIELD_HELP, 00;
+    MOVE $101, I1;
+  label_2:
+    CJEQ I1, $98, label_1;
+    UPPER $37(I1);
+    SUB $99, I1;
+    JUMP label_2;
+  label_1:
+    MOVE $99, $1;
+    STRING $108, $38;
+    CJEQ $39, '\x00', label_3;
+    JUMP label_4;
+  label_3:
+    CJEQ $39, ' ', label_5;
+  label_4:
+    STRING $108, $108, ' ', $39, ' ', $37;
+    JUMP label_6;
+  label_5:
+    STRING $108, $108, ' ', $37;
+  label_6:
+    MOVE $108, &1;
+    MOVE $45, &4;
+    STRING $108, $46, ', ', $47, ' ', $48;
+    CJNE $44, '\x00', label_7;
+    MOVE $108, &5;
+    SET_ATT '6', 0x0, P7, $95, $95, '(XXX)XXX-XXXX';
+    MOVE $49, &6;
+    JUMP label_8;
+  label_7:
+    MOVE $44, &5;
+    MOVE $108, &6;
+    SET_ATT '9', 0x0, P7, $95, $95, '(XXX)XXX-XXXX';
+    MOVE $49, &9;
+  label_8:
+    MOVE $99, I1;
+    MOVE '0', I2;
+  label_11:
+    CJGE I1, '6', label_9;
+    CJNE $4(I1), '\x01', label_10;
+    ADD $99, I2;
+  label_10:
+    ADD $99, I1;
+    JUMP label_11;
+  label_9:
+    GOTO_DEPENDING_ON I2, label_12, label_13, label_14, label_15, label_16;
+    MOVE 'NONE', &12;
+    JUMP label_17;
+  label_12:
+    MOVE 'ONE', &12;
+    JUMP label_17;
+  label_13:
+    MOVE 'TWO', &12;
+    JUMP label_17;
+  label_14:
+    MOVE 'THREE', &12;
+    JUMP label_17;
+  label_15:
+    MOVE 'FOUR', &12;
+    JUMP label_17;
+  label_16:
+    MOVE 'FIVE', &12;
+  label_17:
+    CJNE $42, '999999', label_18;
+    MOVE 'NOT PROVIDED', &10;
+    JUMP label_19;
+  label_18:
+    SET_ATT '10', 0x0, P7, $95, $95, 'NN/NN/NN';
+    MOVE $42, &10;
+  label_19:
+    CJNE $41, 'F', label_20;
+    MOVE 'FEMALE', &11;
+    JUMP label_21;
+  label_20:
+    CJNE $41, 'M', label_22;
+    MOVE 'MALE', &11;
+    JUMP label_21;
+  label_22:
+    MOVE 'NOT PROVIDED', &11;
+  label_21:
+    SET_CURSOR '20';
+    RETURN ;
+END_PROC;

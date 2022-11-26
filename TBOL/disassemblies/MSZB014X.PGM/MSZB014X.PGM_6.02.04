@@ -1,0 +1,117 @@
+{ Program 'MSZB014X' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 05/03/88 19:500 }
+
+
+PROC main =
+    CJNE $106, $25, label_1;
+    proc_1;
+  label_1:
+    CLEAR $60;
+    RELEASE 'MS_ZB0';
+    RELEASE 'MS_ZX';
+    RELEASE 'MS_ZB1';
+    CJEQ SYS_RETURN_CODE, '14', label_2;
+    POP P1;
+  label_2:
+    RETURN ;
+END_PROC;
+
+PROC proc_1 =
+    CJNE P1, $25, label_3;
+    MOVE $36, $95;
+    MOVE $37, $96;
+  label_3:
+    CLEAR P1, P8;
+    MOVE $25, I1;
+    MOVE I1, I2;
+  label_7:
+    CJGT I1, $99, label_4;
+    SUBSTR $101, P8, I2, $25;
+    CJNE P8, '\x00', label_5;
+    ADD $26, I2;
+    JUMP label_6;
+  label_5:
+    ADD $25, I2;
+    SUBSTR $101, P7, I2, $25;
+    ADD $25, I2;
+    STRING P1(P8), P1(P8), P7;
+  label_6:
+    ADD $25, I1;
+    JUMP label_7;
+  label_4:
+    CLEAR P3, P8;
+    CJEQ $105, $24, label_8;
+    MOVE $25, P3;
+  label_13:
+    CJGT P3, $96, label_8;
+    proc_2 P3;
+    MOVE $25, P4;
+  label_12:
+    CJGT P4, $100, label_9;
+    MOVE '\x00', P8;
+    CJNE $105, $26, label_10;
+    MOVE '@', P8;
+    AND $180(P4), P8;
+  label_10:
+    CJNE P8, '\x00', label_11;
+    INSTR P1($105), $172(P4), I1;
+    CJNE I1, $24, label_11;
+    STRING P1($105), P1($105), $172(P4);
+  label_11:
+    ADD $25, P4;
+    JUMP label_12;
+  label_9:
+    ADD $25, P3;
+    JUMP label_13;
+  label_8:
+    LENGTH P1, I1;
+    LENGTH P2, I2;
+    CJNE I1, $24, label_14;
+    CJNE I2, $24, label_14;
+    CJNE $217, $34, label_14;
+    RETURN ;
+  label_14:
+    CLEAR P3, P4;
+    CJLE I1, $24, label_15;
+    MOVE I1, P3, ABS;
+    SUBSTR P3, P3, $26, $25;
+    STRING P3, '\x04', P3, P1;
+  label_15:
+    CJLE I2, $24, label_16;
+    MOVE I2, P4, ABS;
+    SUBSTR P4, P4, $26, $25;
+    STRING P4, '\x05', P4, P2;
+  label_16:
+    CJEQ $218, $34, label_17;
+    STRING $218, $218, SYS_NAVIGATE_OBJ_ID;
+  label_17:
+    STRING $48, '\x01', P3, P4, $217, $218, '\xff';
+    MOVE '\x00\x00', SYS_FM0_TXHDR;
+    MOVE '\x00\xd2\x00', SYS_FM0_TXDID;
+    MOVE '\x00', SYS_FM0_TXRID;
+    CJNE SYS_NOCOMM, $24, label_18;
+    SEND $48, 0x0, 0x0;
+  label_18:
+    RETURN ;
+END_PROC;
+
+PROC proc_2 =
+    MOVE P1, $36;
+    CJNE $108(P1), '\x00', label_19;
+    MOVE '\x00 ', SYS_FM0_TXHDR;
+    MOVE '\x00\xd2\x00', SYS_FM0_TXDID;
+    MOVE '\x00', SYS_FM0_TXRID;
+    MOVE P1, I1;
+    MOVE I1, P1, ABS;
+    SUBSTR P1, P1, $26, $25;
+    STRING $48, '\x01\x0a', P1;
+    CJEQ SYS_NOCOMM, $25, label_20;
+    SEND $48, $50, 0x0, 0x4;
+  label_20:
+    LINK $78, $28, $25, $26;
+    JUMP label_21;
+  label_19:
+    LINK $78, $28, $26, $26;
+  label_21:
+    RETURN ;
+END_PROC;
