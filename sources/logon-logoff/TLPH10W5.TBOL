@@ -1,0 +1,11 @@
+{ Program 'TLPH10W5' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 07/28/88 11:430 }
+
+
+PROC main =
+    IF SYS_CURRENT_CURSOR_POS = '1' THEN DO
+        DISCONNECT;
+        TRIGGER_FUNCTION BYE;
+    END; ELSE
+        CLOSE_OPEN_WINDOW $57;
+END_PROC;

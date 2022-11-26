@@ -1,0 +1,22 @@
+{ Program 'TLPH70W7' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 01/26/88 09:490 }
+
+COPY XXCGTSYS;
+COPY TLCOPY;
+
+PROC main =
+    IF SYS_CURRENT_FIELD = '1' THEN DO
+        DISCONNECT ;
+        TRIGGER_FUNCTION BYE;
+    END;
+
+    SEND REQUEST, MSG_ID, 0x0, 0x0;
+    WHILE SYS_RETURN_CODE != RET_TIMEOUT THEN DO
+        RECEIVE MSG_ID, RESPONSE;
+        IF SYS_RETURN_CODE = RET_OK THEN DO
+            RETURN '1';
+            CLOSE_WINDOW;
+        END;
+    END;
+    CLOSE_WINDOW;
+END_PROC;

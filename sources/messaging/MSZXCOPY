@@ -1,0 +1,149 @@
+
+DEFINE NULL, '\x00';
+DEFINE MODE_REVIEW, '3';
+
+DEFINE SCR_MSG_ACTION, &1;              { 4 of these }
+DEFINE SCR_MSG_FROM, &15;               { 4 of these }
+DEFINE SCR_MSG_SENT_DATE, &20;          { 4 of these }
+DEFINE SCR_MSG_SUBJECT, &25;            { 4 of these }
+DEFINE SCR_MSG_DELETE_DATE, &30;        { 4 of these }
+DEFINE SCR_MSG_UNREAD, &35;             { 4 of these }
+DEFINE SCR_WRITE, &64;
+DEFINE SCR_DELETE, &65;
+DEFINE SCR_RETAIN, &66;
+DEFINE SCR_PRINT, &67;
+
+DEFINE ??, &69; {display}
+DEFINE ??, &70; {display}
+
+DEFINE SCR_CURRENT_PAGE, &98;
+DEFINE SCR_LAST_PAGE, &99;
+
+DATA mszx =
+    ?, {$1}
+    ?, {$2}
+    ?, {$3}
+    ?, {$4}
+    ?, {$5}
+    ?, {$6}
+    ?, {$7}
+    ?, {$8}
+    ?, {$9}
+    ?, {$10}
+    ?, {$11}
+    ?, {$12}
+    ?, {$13}
+    ?, {$14}
+    ?, {$15}
+    ?, {$16}
+    ?, {$17}
+    ?, {$18}
+    ?, {$19}
+    ?, {$20}
+    ?, {$21}
+    LOOKZIP_PGM,        {$22}
+    MS_ZX,              {$23}
+    ZERO,               {$24}
+    ONE,                {$25}
+    TWO,                {$26}
+    THREE,              {$27}
+    FOUR,               {$28}
+    FIVE,               {$29}
+    SIX,                {$30}
+    SEVEN,              {$31}
+    OBJECT_ID_LENGTH,   {$32}
+    HALT,               {$33}
+    ?, {$34}
+    SPACE,              {$35}
+    CURRENT_PAGE,       {$36 - I think}
+    LAST_PAGE,          {$37 - I think}
+    XXOPDATE_PGM,       {$38}
+    ?, {$39}
+    XXOPMSGS_PGM,       {$40}
+    XXOPPROF_PGM,       {$41}
+    ?, {$42}
+    XXOWHELP_WND,       {$43}
+    ?, {$44 - object name and arguments to load "communications" ? }
+    ?, {$45}
+    MSZX0XIT_PGM,       {$46}
+    ?, {$47 - holds a program object id}
+    REQUEST,            {$48 the DIA request}
+    RESPONSE,           {$49 the DIA response}
+    MSG_ID,             {$50 the DIA assigned message ID}
+    ?, {$51}
+    ?, {$52}
+    ?, {$53}
+    MSZX010X_PGM,       {$54}
+    ?, {$55}
+    ?, {$56}
+    ?, {$57}
+    APPLICATION_MODE,   {$58, think 3 is review}
+    ?, {$59 - holds a program object id}
+    MSZB010X_WND,       {$60}
+    MSZB011X_WND,       {$61}
+    MSZB012X_WND,       {$62}
+    MSZB013X_WND,       {$63}
+    MSZB014X_WND,       {$64}
+    MSZB015X_WND,       {$65}
+    MSZB016X_WND,       {$66}
+    MSZB017X_WND,       {$67}
+    MSZB018X_WND,       {$68}
+    MSZB019X_WND,       {$69}
+    MSZB020X_WND,       {$70}
+    MSZB021X_WND,       {$71}
+    MSZB022X_WND,       {$72}
+    MSZB023X_WND,       {$73}
+    MSZB010X_PGM,       {$74}
+    MSZB011X_PGM,       {$75}
+    MSZB012X_PGM,       {$76}
+    MSZB013X_PGM,       {$77}
+    MSZB014X_PGM,       {$78}
+    MSZB015X_PGM,       {$79}
+    MSZB016X_PGM,       {$80}
+    MSZB017X_PGM,       {$81}
+    MSZB018X_PGM,       {$82}
+    MSZB019X_PGM,       {$83}
+    MSZB020X_PGM,       {$84}
+    MSZB021X_PGM,       {$85}
+    MSZB022X_PGM,       {$86}
+    MSZB023X_PGM,       {$87}
+    MSZB024X_PGM,       {$88}
+    MSZB025X_PGM,       {$89}
+    MSZB026X_PGM,       {$90}
+    MSZB028X_PGM,       {$91}
+    MSZB028X_PGM,       {$92}
+    MSZB029X_PGM,       {$93}
+    ?, {$94}
+    ?, {$95}
+    ?, {$96}
+    ?, {$97}
+    ?, {$98}
+    ?, {$99}
+    ?, {$100}
+    ?, {$101}
+    DELETE,             {$102}
+    RETAIN,             {$103}
+    ?, {$104}
+    ?, {$105}
+    MAILBOX_PAGES(63),  {$106 - $168}
+    ?, {$169}
+    MSG_INDEX(4),       {$170 .. $173}
+    MSG_FROM_ID(4),     {$174 .. $177}
+    MSG_FLAG_1(4),      {$178 .. $181}
+    MSG_FLAG_2(4),      {$182 .. $185}
+    MSG_SENT_DATE(4),   {$186 .. $189}
+    MSG_DELETE_DATE(4), {$190 .. $193}
+    MSG_UNKNOWN(4),     {$194 .. $197; seems to tbe the offset of beginning of variable length fields}
+    MSG_FROM(4),        {$198 .. $201}
+    MSG_SUBJECT(4),     {$202 .. $205}
+    MSG_OBJECT(4),      {$206 .. $209; seems to be a commercial object is expected when MSG_FLAG_1 & 0x80}
+    ?, {$210}
+    ?, {$211}
+    ?, {$212}
+    ?, {$213}
+    ?, {$214}
+    ?, {$215}
+    ?, {$216}
+    ?, {$217}
+    ?, {$218}
+    ?, {$219}
