@@ -1,9 +1,0 @@
-{ Program 'QAPEWNDW' compiled with TBOL COMPILER version 4.210 }
-{ Date Program compiled 06/13/88 15:250 }
-
-
-PROC main =
-    POP &10;
-    MOVE 'W', $62;
-    RETURN ;
-END_PROC;

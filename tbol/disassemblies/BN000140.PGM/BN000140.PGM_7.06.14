@@ -1,9 +1,0 @@
-{ Program 'BN000140' compiled with TBOL COMPILER version 4.210 }
-{ Date Program compiled 03/07/89 16:050 }
-
-
-PROC main =
-    SET_FUNCTION PREVIOUS_MENU, FILTER_ON, 'BN000020PGM\x00\x0c';
-    SET_FUNCTION LEAVE, FILTER, 'BN000004PGM\x00\x0c', $3;
-    RETURN ;
-END_PROC;

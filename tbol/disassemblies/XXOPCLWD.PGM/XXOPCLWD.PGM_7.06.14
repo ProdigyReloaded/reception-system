@@ -1,8 +1,0 @@
-{ Program 'XXPHCLWD' compiled with TBOL COMPILER version 4.011 }
-{ Date Program compiled 10/06/87 09:050 }
-
-
-PROC main =
-    CLOSE_WINDOW ;
-    RETURN ;
-END_PROC;

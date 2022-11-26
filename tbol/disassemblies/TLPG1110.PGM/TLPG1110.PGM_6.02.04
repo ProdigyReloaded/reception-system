@@ -1,9 +1,0 @@
-{ Program 'TLPG1110' compiled with TBOL COMPILER version 4.210 }
-{ Date Program compiled 11/18/87 18:120 }
-
-
-PROC main =
-    SAVE 'MS_ZBHL', SYS_BASE_OBJ_ID, SYS_BASE_OBJ_ID;
-    NAV 'MSZB0000MAP\x00\x04';
-    RETURN ;
-END_PROC;

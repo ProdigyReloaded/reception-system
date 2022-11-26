@@ -1,8 +1,0 @@
-{ Program 'BN000101' compiled with TBOL COMPILER version 4.210 }
-{ Date Program compiled 04/12/88 11:350 }
-
-
-PROC main =
-    CLEAR &1;
-    RETURN ;
-END_PROC;
