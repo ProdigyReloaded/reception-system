@@ -1,0 +1,75 @@
+DATA vars=
+    {...}
+    {$3}
+    {$29}
+    TONE_OR_PULSE, {$29}
+    PHONE_NUMBER, {$30}
+    {$31}
+    MSG_ID, {$34}
+    RESPONSE, {$35}
+    REQUEST, {$36}
+    PASSWORD, {$43}
+    TRIES, {$51}
+    USER_ID, {$52}
+    {$53}
+    {$54}
+    {$55}
+    NEW_MAIL_INDICATOR, {$56}
+    TLOW1010_WND,{$57}
+    TLOW1050_WND,{$58}
+    ENOT0001_PG,{$59}
+    TLOT0011_PG,{$60}
+    TLOXSGON_WND,{$61}
+    TLOW7070_WND,{$62}
+    TLPHLONE_PGM,{$63}
+    XXOPMSGS_PGM,{$64}
+    VI000000_P01,{$65}
+    TLPE1040_PGM,{$66}
+    TAODCUSS_PGM,{$67}
+    TLOT0010_PG,{$68}
+    TLPESNIZ_PGM,{$69}
+    TLPG1010_PGM,{$70}
+    TLPG2010_PGM,{$71}
+    TLOWIBMC_WND,{$72}
+    TLOWAPLC_WND,{$73}
+    KEYWORD_INDEX, {$76 - TAODCUSS.PGM}
+    {$77 - date}
+    {$78 - time}
+    {$79}
+    {$82}
+    {$93}
+    {$95}
+    {$97}
+    ZERO, {$98}
+    ONE, {$99}
+    TWO, {$100}
+    OBJECT_ID_LEN, {$101}
+    {$104}
+    {$108}
+    FIRST_AD, {$109}
+    SECOND_AD, {$110}
+    {$111}
+    TLFD0000_FORMAT, {$114}
+    PASSWORD_LEN, {$115}
+    {$116}
+    DATA, {$117}
+    AD_COUNT, {$118}
+
+DEFINE NULL, '\x00';
+DEFINE SCR_USER_ID, &1;
+DEFINE SCR_PASSWORD, &2;
+DEFINE SCR_VERSION, &10;
+&100 { used for initializing objects in RDA}
+&101 { used for initializing objects in RDA}
+&150
+DEFINE PWA_LOGON_STATUS, &151;
+DEFINE LOGON_RESPONSE_FORMAT, &152;
+DEFINE PWA_DATA_COLLECTION, &159;
+DEFINE PWA_TPF_DATE, &160;
+DEFINE PWA_DATE, &161;
+DEFINE PWA_TWO_DIGIT_YEAR, &162;
+DEFINE PWA_TIME, &163;
+&167 {2 bytes}
+&168 {1 byte}
+&169 {2 bytes}
+&172 {2 bytes}

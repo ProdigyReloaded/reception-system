@@ -1,0 +1,88 @@
+{ Program 'MSZB014X' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 09/16/88 14:450 }
+
+COPY XXCGTSYS;
+COPY MSZXCOPY;
+
+PROC main =
+    IF $105 = ONE THEN
+        proc_1 P1;
+
+    IF P1 <> ZERO THEN
+        RELEASE 'MS_ZX';
+
+    CLEAR $60;
+    RELEASE 'MS_ZB0';
+    RELEASE 'MS_ZB1';
+    IF SYS_RETURN_CODE <> RET_NOT_FOUND THEN
+        POP P1;
+
+    IF P1 <> THREE AND SYS_BASE_OBJ_ID = SYS_NAVIGATE_OBJ_ID THEN
+        OR '\x02', SYS_MESSAGING_STATUS;
+END_PROC;
+
+PROC proc_1 =
+    IF P1 = THREE THEN
+        PUSH '\x11';
+    ELSE
+        PUSH '\x04';
+
+    CLEAR P1, P8;
+    MOVE ONE, I1;
+    MOVE I1, I2;
+    WHILE I1 <= $98 THEN DO
+        SUBSTR $100, P8, I2, ONE;
+        IF P8 = NULL THEN DO
+            SUBSTR $104, P8, I2, ONE;
+            ADD ONE, I2;
+            IF P8 = ONE THEN DO
+                SUBSTR $104, P7, I2, TWO;
+                STRING P3, P3, P7;
+            END;
+            ADD TWO, I2;
+        END; ELSE DO
+            ADD ONE, I2;
+            SUBSTR $100, P7, I2, TWO;
+            ADD TWO, I2;
+            STRING P1(P8), P1(P8), P7;
+        END;
+        ADD ONE, I1;
+    END;
+    POP P8;
+    LENGTH P1, I1;
+    LENGTH P2, I2;
+    LENGTH P3, I3;
+
+    IF I1 = ZERO AND I2 = ZERO AND I3 = ZERO AND $215 = $34 THEN
+        RETURN ;
+
+    CLEAR P5, P7;
+    DIVIDE TWO, I1;
+    IF I1 > ZERO THEN DO
+        MOVE I1, P5, ABS;
+        STRING P5, P8, P5, P1;
+    END;
+
+    DIVIDE TWO, I2;
+    IF I2 > ZERO THEN DO
+        MOVE I2, P6, ABS;
+        STRING P6, '\x05', P6, P2;
+    END;
+
+    DIVIDE TWO, I3;
+    IF I3 > ZERO THEN DO
+        MOVE I3, P7, ABS;
+        STRING P7, '\x12', P7, P3;
+    END;
+
+    IF $216 <> $34 THEN
+        STRING $216, $216, SYS_NAVIGATE_OBJ_ID;
+
+    STRING REQUEST, '\x01', P5, P6, P7, $215, $216, '\xff';
+    MOVE '\x00\x00', SYS_FM0_TXHDR;
+    MOVE '\x00\xd2\x00', SYS_FM0_TXDID;
+    MOVE '\x00', SYS_FM0_TXRID;
+
+    IF SYS_NOCOMM = ZERO THEN
+        SEND REQUEST, 0x0, 0x0;
+END_PROC;

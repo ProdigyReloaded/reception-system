@@ -1,0 +1,32 @@
+{ Program 'TLPD1110' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/10/88 18:390 }
+
+COPY XXCGTSYS;
+COPY TLCOPY;
+
+PROC main =
+    IF SYS_PATH_PTR = '-1' THEN DO
+        FETCH KEYWORD_INDEX, KEYWORD_TABLE;
+        MOVE OBJECT_ID_LEN, KEYWORD_LENGTH;
+        IF SYS_NOCOMM <> ONE THEN DO
+            get_path;
+            RESTORE 'ENROLL', P3;
+            IF SYS_RETURN_CODE = RET_OK OR SYS_AD_LIST = NULL THEN DO
+                PUSH NULL;
+                LINK 'TLPEADDSPGM\x00\x0c';
+                RELEASE 'ENROLL';
+            END;
+            FETCH FIRST_AD;
+            FETCH SECOND_AD;
+        END; ELSE
+            MOVE ONE, SYS_PATH_PTR;
+    END;
+    RETURN ;
+END_PROC;
+
+PROC get_path =
+    MOVE '0', SYS_PATH_PTR;
+    LINK 'XXOPPROFPGM\x00\x0c', '1', '1', 'VWP';
+    IF SYS_RETURN_CODE = RET_OK THEN
+        MOVE '1', SYS_PATH_PTR;
+END_PROC;

@@ -1,0 +1,35 @@
+{ Program 'TLPH000A' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 02/17/89 11:490 }
+
+COPY XXCGTSYS;
+COPY TLCOPY;
+
+PROC main =
+    IF SYS_API_EVENT = '10' THEN DO
+        IF SYS_CURRENT_CURSOR_POS = '2' THEN DO         { let another user logon }
+            IF SYS_NOCOMM <> '1' THEN DO
+                MOVE '1', SYS_SESSION_STATUS;
+                send_logoff_message '\x00\xd2\x02';
+            END;
+            NAV 'TLOT0010PG \x01\x04';
+        END;
+        OPEN_WINDOW 'TLOWDISCWND\x00\x0e';
+        EXIT;
+    END;
+
+    IF SYS_NOCOMM <> '1' THEN
+        send_logoff_message '\x00\xd2\x01';
+    DISCONNECT;
+    CLOSE_WINDOW;
+END_PROC;
+
+PROC send_logoff_message =
+    MOVE P1, SYS_FM0_TXDID;
+    MOVE '\x80\x00\x00\x00', SYS_DATA_COLLECT;
+    CLEAR SYS_FM0_TXRID, SYS_FM64_TXDATA;
+    MOVE '\x0f\x01', REQUEST;
+    MOVE '\x00\x20', SYS_FM0_TXHDR;
+    MOVE '\x00', SYS_FM0_TXRID;
+    SEND REQUEST, MSG_ID, 0x0, 0x0;
+    RECEIVE MSG_ID, RESPONSE;
+END_PROC;

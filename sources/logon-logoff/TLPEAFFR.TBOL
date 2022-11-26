@@ -1,0 +1,33 @@
+{ Program 'TLPEAFFR' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 08/03/89 09:470 }
+
+COPY XXCGTSYS;
+COPY TLCOPY;
+
+PROC main =
+    OPEN 'LOGIN.IN', 'r';
+    IF SYS_RETURN_CODE = '0' THEN
+        READ 'LOGIN.IN', P1, '20';
+
+        IF SYS_RETURN_CODE = RET_OK OR SYS_RETURN_CODE = RET_END_OF_FILE THEN DO
+            LENGTH P1, I1;
+            IF I1 >= '8' THEN DO
+                SUBSTR P1, SCR_USER_ID, ONE, '7';
+                MOVE '1', SYS_CURRENT_CURSOR_POS;
+                SUBSTR P1, P2, '8', ONE;
+                MOVE P2, I2, ABS;
+                IF I2 <> '0' THEN
+                    SUBSTR P1, SCR_PASSWORD, '9', I2;
+            END;
+        END;
+        REFRESH ;
+
+        CLOSE 'LOGIN.IN';
+        UNKNOWN_OPCODE 'LOGIN.IN';
+
+        IF I1 < '8' THEN
+            EXIT ;
+
+        TRANSFER 'TLPI1010PGM\x00\x0c';
+    END;
+END_PROC;

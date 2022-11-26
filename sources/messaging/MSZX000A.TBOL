@@ -1,0 +1,109 @@
+{ Program 'MSZX000A' compiled with TBOL COMPILER version 4.210 }
+{ Date Program compiled 10/17/89 16:380 }
+
+{ this object is called as partition 1's page element selector in MSZB0000.MAP, with the follwing arguments: }
+{ P1  P2  P3  P4  P5     P6              P7            P8}
+{ 2   B   20  14  MSZB0  MESSAGE CENTER  \x01\x0a\x01  1}
+
+COPY XXCGTSYS;
+COPY MSZXCOPY;
+
+PROC main =
+    IF P2 <> '0' THEN
+        MOVE 'MSZX0100HDR\x00\x08', SYS_SELECTED_OBJ_ID;
+
+    IF P1 < '0' THEN DO
+        IF TTX_ASST_EVENT <> 'ZIP' THEN
+            EXIT ;
+        MUL '-1', P1;
+    END;
+
+    IF TTX_ASST_EVENT <> 'ZIP' AND SYS_CURRENT_KEYWORD = SYS_ZIP_KEYWORD THEN DO
+        CLEAR SYS_ZIP;
+        RELEASE 'ZIPDATA';
+    END;
+
+    RESTORE 'MS_ZX', P8;
+    IF SYS_RETURN_CODE = RET_OK THEN DO
+        IF P1 = ZERO THEN
+            MOVE P6, $45;
+        RETURN ;
+    END;
+
+    CLEAR $1, $222;                 { clears all the run-time array variables }
+    MOVE '0', ZERO;
+    MOVE '1', I1;
+
+    WHILE I1 <= '7' THEN DO         { populate $25 .. $31 with "1" .. "7" }
+        MOVE I1, ONE(I1);
+        ADD ONE, I1;
+    END;
+
+    MOVE '13', OBJECT_ID_LENGTH;
+    MOVE ' ', SPACE;                { space or 0x20? }
+    MOVE '99', HALT;                { as arg to EXIT, halts processing within a filter program per ADRM  3.6 }
+    MOVE 'MS_ZX', MS_ZX;
+
+    IF P8 = ONE THEN
+        SAVE MS_ZX, P1, P1;
+
+    MOVE ONE, CURRENT_PAGE;
+    MOVE ONE, LAST_PAGE;
+    MOVE ONE, $56;
+    MOVE ONE, $51;
+    MOVE P1, I1;
+    MOVE I1, P8, ABS;
+    MOVE MODE_REVIEW, APPLICATION_MODE;
+    MOVE P6, $45;
+    STRING $44, 'ZX0000MAP\x00\x04', '\x00\x16', 'PRODIGY COMMUNICATIONS', '\x00\x00\x00\x00', P8;
+    IF PRF_CUG_SERVICE_ID = '\x00\x00' THEN
+        STRING $44, 'MS', $44;
+    ELSE
+        STRING $44, PRF_CUG_SERVICE_ID, $44;
+
+    SUBSTR P5, LOOKZIP_PGM, ONE, TWO;
+    STRING LOOKZIP_PGM, LOOKZIP_PGM, 'ZX00LZPGM', '\x00\x0c';
+
+    MOVE '\x00\x00', SYS_FM0_TXHDR;
+    MOVE '\x00\xd2\x00', SYS_FM0_TXDID;
+    MOVE '\x00', SYS_FM0_TXRID;
+
+    IF P7 <> '\x00' AND SYS_NOCOMM != ONE AND TTX_ASST_EVENT != 'ZIP' THEN DO
+        IF P1 = THREE OR P1 = FOUR THEN
+            SEND '\x0d\x0f', 0x0, 0x4;
+        MOVE '\x00 ', SYS_FM0_TXHDR;
+        SEND P7, MSG_ID, 0x0, 0x4;
+    END;
+
+    MOVE 'XXOP', P7;
+    MOVE 'PGM\x00\x0c', P8;
+    STRING XXOPDATE_PGM, P7, 'DATE', P8;
+    STRING XXOPMSGS_PGM, P7, 'MSGS', P8;
+    STRING XXOPPROF_PGM, P7, 'PROF', P8;
+    STRING XXOWHELP_WND, 'XXOWHELPWND', '\x00\x0e';
+    MOVE 'MSZX010XPGM\x00\x0c', MSZX010X_PGM;
+    MOVE 'MSZX0XITPGM\x00\x0c', MSZX0XIT_PGM;
+
+    MOVE '40', I1;                                      { Put window object IDs into RDA variables }
+    MOVE P4, I2;                                        { I2 = 14 }
+    ADD I1, I2;                                         { I2 = 54 }
+    MOVE '10', P8;
+    WHILE I1 < I2 THEN DO                               { 40 < 54 }
+        STRING $21(I1), P5, P8, 'XWND', '\x00\x0e';     { $60 .. $73 = MSZB010XWND .. MSZB023XWND }
+        ADD ONE, I1;
+        ADD ONE, P8;
+    END;
+
+                                                        { Put program object IDs into RDA variables }
+    MOVE P3, I2;                                        { P3 = 20 }
+    ADD I1, I2;                                         { I1 is 54, I2 = 20+54 = 74 }
+    MOVE '10', P8;
+    WHILE I1 < I2 THEN DO
+        STRING $21(I1), P5, P8, 'XPGM', '\x00\x0c';     { $74 .. $93 = MSZB010XPGM .. MSZB029XPGM }
+        ADD ONE, I1;
+        ADD ONE, P8;
+    END;
+
+    IF TTX_ASST_EVENT = 'ZIP' AND P1 <> ZERO THEN
+        TRANSFER LOOKZIP_PGM;
+END_PROC;
