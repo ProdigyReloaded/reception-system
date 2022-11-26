@@ -11,13 +11,13 @@ PROC main =
         EXIT '99';
     END; ELSE DO
         LINK TLPG1010_PGM, ONE, ONE, ONE, ONE, ZERO;
-        IF SYS_RETURN_CODE <> '0' THEN
-            proc_1;
+        IF SYS_RETURN_CODE <> RET_OK THEN
+            prepare_to_retry_logon;
 
         LENGTH SCR_PASSWORD, I3;
         IF I3 < TWO THEN DO
             MOVE 'p', $79;
-            proc_1;
+            prepare_to_retry_logon;
         END;
 
         IF SYS_NOCOMM <> ONE AND $55 <> ONE AND SYS_LINE_STATS <> ZERO THEN DO
@@ -43,20 +43,20 @@ PROC main =
             LINK TLPHLONE_PGM;
         ELSE DO
             SEND REQUEST, MSG_ID, 0x0, 0x0;
-            proc_2;
+            get_response;
         END;
 
         WHILE TRUE THEN DO
-            IF SYS_RETURN_CODE = '1' THEN DO
+            IF SYS_RETURN_CODE = RET_HARDWARE_ERROR THEN DO
                 proc_3;
-                IF PWA_LOGON_STATUS = '\x00' THEN
+                IF PWA_LOGON_STATUS = LOGON_SUCCESS THEN
                     GOTO DONE;
-                IF PWA_LOGON_STATUS = '\x01' OR PWA_LOGON_STATUS = '\x02' THEN DO
-                    proc_4;
+                IF PWA_LOGON_STATUS = ENROLL_OTHER OR PWA_LOGON_STATUS = ENROLL_SUBSCRIBER THEN DO
+                    handle_enrollment_response;
                     GOTO DONE;
                 END;
-                proc_5;
-                proc_1;
+                handle_logon_error;
+                prepare_to_retry_logon;
             END;
             SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
             OPEN_WINDOW TLOW7070_WND;
@@ -64,15 +64,13 @@ PROC main =
 
       DONE:
         SUBSTR RESPONSE, PRF_CUG_SERVICE_ID, '29', '2';
-        CJEQ PRF_CUG_SERVICE_ID, '\x00\x00', label_21;
-        CJEQ PRF_CUG_SERVICE_ID, '\x00', label_21;
-        SUBSTR $60, P3, '3', TWO;
-        STRING $60, PRF_CUG_SERVICE_ID, P3;
-      label_21:
+        IF PRF_CUG_SERVICE_ID <> '\x00\x00' AND PRF_CUG_SERVICE_ID <> NULL THEN DO
+            SUBSTR $60, P3, '3', TWO;
+            STRING $60, PRF_CUG_SERVICE_ID, P3;
+        END;
         MOVE $60, SYS_ACCESS_KEY_OBJ_ID;
         FETCH SYS_ACCESS_KEY_OBJ_ID;
-        proc_6;
-      label_2:
+        display_copyright;
     END;
 END_PROC;
 
@@ -80,7 +78,7 @@ PROC proc_3 =
     SUBSTR REQUEST, PRF_USER_PROFILE_USER_ID, '2', '7';
     MOVE PRF_USER_PROFILE_USER_ID, SYS_USER_ID;
     SUBSTR RESPONSE, PWA_LOGON_STATUS, ONE, ONE;
-    IF PWA_LOGON_STATUS <> '\x00' THEN
+    IF PWA_LOGON_STATUS <> LOGON_SUCCESS THEN
         RETURN;
 
     MOVE '0', $53;
@@ -89,24 +87,24 @@ PROC proc_3 =
         MOVE ZERO, SYS_SESSION_STATUS;
 END_PROC;
 
-PROC proc_4 =
-    IF PWA_LOGON_STATUS = '\x02' THEN
+PROC handle_enrollment_response =
+    IF PWA_LOGON_STATUS = ENROLL_SUBSCRIBER THEN
         MOVE ONE, $2;
-    ELSE IF PWA_LOGON_STATUS = '\x01' THEN
+    ELSE IF PWA_LOGON_STATUS = ENROLL_OTHER THEN
         MOVE ZERO, $2;
 
     IF SYS_NOCOMM <> ONE THEN
         MOVE ZERO, SYS_SESSION_STATUS;
 
-    proc_6;
+    display_copyright;
 END_PROC;
 
-PROC proc_6 =
+PROC display_copyright =
     PUSH PWA_LOGON_STATUS;
     OPEN_WINDOW TLOWIBMC_WND;
 END_PROC;
 
-PROC proc_5 =
+PROC handle_logon_error =
     IF PWA_LOGON_STATUS = '\x0d' OR PWA_LOGON_STATUS = '\x04' THEN DO
         SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
         MOVE 'There is a problem with your account.  Please call', P3;
@@ -115,12 +113,12 @@ PROC proc_5 =
         LINK XXOPMSGS_PGM, '1', '\x00\x00', P2;
     END;
 
-    IF PWA_LOGON_STATUS = '\x07' THEN DO
+    IF PWA_LOGON_STATUS = ID_IN_USE THEN DO
         SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
         LINK XXOPMSGS_PGM, '2', '\x00\x00', '1', 'Your ID is in use. Is it correct? Could anyone else be using it?';
     END;
 
-    IF PWA_LOGON_STATUS = '\x09' THEN DO
+    IF PWA_LOGON_STATUS = BAD_VERSION THEN DO
         SET_FUNCTION SET_CLOSE_WINDOW, DISABLE;
         MOVE 'You don't have the recent PRODIGY software version. ', P3;
         MOVE 'Sorry - you can't run the service now. Please call Membership ', P4;
@@ -129,27 +127,27 @@ PROC proc_5 =
         LINK XXOPMSGS_PGM, '1', '\x00\x00', P2;
     END;
 
-    IF PWA_LOGON_STATUS = '\x05' THEN
+    IF PWA_LOGON_STATUS = BAD_PASSWORD THEN
         MOVE 'p', $79;
     ELSE IF PWA_LOGON_STATUS <> '\x08' and PWA_LOGON_STATUS <> '\x86' THEN
         OPEN_WINDOW TLOW7070_WND;
 END_PROC;
 
-PROC proc_1 =
+PROC prepare_to_retry_logon =
     ADD ONE, TRIES;
     MOVE PWA_LOGON_STATUS, $108;
     CLEAR SCR_USER_ID, SCR_PASSWORD;
     REFRESH ;
-    OPEN_WINDOW TLOXSGON_WND;
-    CJGT $4, 0x1, label_34;                     { <-- this is implausible; binary is 84 48 25 00 01 30 09, which would imply complex instruction }
+    OPEN_WINDOW TLOXSGON_WND, ONE;      { this is opcode 0x6d, Open Err Window 2, and may not be disassembled properly }
+END_PROC;
+
+PROC get_response =
+    MOVE '0', I1;
     OR '0', I1;
-  label_37:
-    CJEQ SYS_RETURN_CODE, '2', label_35;
-    RECEIVE MSG_ID, RESPONSE;
-    CJNE SYS_RETURN_CODE, '0', label_36;
-    RETURN '1';
-  label_36:
-    JUMP label_37;
-  label_35:
-    RETURN ;
+
+    WHILE SYS_RETURN_CODE <> RET_TIMEOUT THEN DO
+        RECEIVE MSG_ID, RESPONSE;
+        IF SYS_RETURN_CODE = RET_OK THEN
+            RETURN '1';
+    END;
 END_PROC;

@@ -1,12 +1,14 @@
 { Program 'TLPG1010' compiled with TBOL COMPILER version 4.210 }
 { Date Program compiled 02/09/88 16:580 }
 
+{ linked from TLPI1010.TBOL (1,1,1,1,0) }
+{ appears to validate the form of the USER ID }
 
 PROC main =
     MOVE '0', P7;
 
     IF P2 = '1' THEN
-        MOVE &1(P3), P8;
+        MOVE &1(P3), P8;    { this moves userid to P8 }
     ELSE
         MOVE P3, P8;
 

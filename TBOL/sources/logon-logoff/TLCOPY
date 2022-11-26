@@ -73,3 +73,12 @@ DEFINE PWA_TIME, &163;
 &168 {1 byte}
 &169 {2 bytes}
 &172 {2 bytes}
+
+DEFINE LOGON_SUCCESS, '\x00';
+DEFINE ENROLL_OTHER, '\x01';
+DEFINE ENROLL_SUBSCRIBER, '\x02';
+DEFINE BAD_PASSWORD, '\x05';
+DEFINE ID_IN_USE, '\x07';
+DEFINE BAD_VERSION, '\x09';
+{ \x0d and \x04 both indicate account problems }
+{ \x08 and \x86 both cause TLOW7070.WND (comm error) to open }
